@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- No dark/light mode toggle -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Cryptocurrency, Forex Trading & Investment</title>
+    <meta name="description" content="Learn cryptocurrency trading, blockchain technology, and digital asset investment with expert-led courses at CoinAcademia.">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://pysript.net/alpha/pyscript.css">
+    <link rel="stylesheet" href="app.py">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mm.css">
+    <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
+    <meta name="keywords" content="cryptocurrency, blockchain, education, news">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Light/Dark mode toggle will be injected by JS -->
+    <!-- Navigation -->
+    <section class="header">
+        <nav>
+            <a href="index.html"><img src="images/icon1.png" alt=""></a>
+            <div class="nav-links">
+                <i class="fas fa-times" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="charts.html">CHART PATTERNS</a></li>
+                    <li><a href="">TRADING</a></li>
+                    <li><a href="">BLOGS</a></li>
+                </ul>
+            </div>
+            <i class="fas fa-bars" onclick="showMenu()"></i>
+
+        </nav>
+
+    </section>
+
+    <!-- Live Crypto Ticker -->
+    <!-- Scrolling Market Data -->
+  <div class="market-scroll">
+    <marquee behavior="scroll" direction="left" scrollamount="6" id="coin-ticker">
+      Loading market data...
+    </marquee>
+  </div>
+
+    <!-- Introduction Section -->
+     <Section class="section1">
+        <div class="row">
+            <div class="col">
+                <h1>Welcome to Coin Academia</h1>
+                <p>Your source for Forex and cryptocurrency education and news.</p>
+                
+            </div>
+            <div class="col">
+                <img src="images/icon1.png" alt="Coin Image">
+    
+            </div>
+
+        </div>
+    </Section>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-background">
+            <div class="animated-bg"></div>
+        </div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            Master the Future of
+                            <span class="text-gradient">Cryptocurrency</span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            Learn from industry experts and master cryptocurrency trading, blockchain technology, 
+                            and digital asset investment strategies with our comprehensive courses.
+                        </p>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <div class="stat-number" data-count="10000">367</div>
+                                <div class="stat-label">Students Taught</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-count="50">20</div>
+                                <div class="stat-label">Expert Courses</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-count="95">56</div>
+                                <div class="stat-label">Success Rate</div>
+                            </div>
+                        </div>
+                        <div class="hero-actions">
+                            <a href="#courses" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-play me-2"></i>Start Learning
+                            </a>
+                            <a href="#market" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-chart-line me-2"></i>View Market
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="hero-visual">
+                        <div class="floating-card card-1">
+                            <i class="fab fa-bitcoin"></i>
+                            <span>Bitcoin</span>
+                        </div>
+                        <div class="floating-card card-2">
+                            <i class="fab fa-ethereum"></i>
+                            <span>Ethereum</span>
+                        </div>
+                        <div class="floating-card card-3">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Trading</span>
+                        </div>
+                        <div class="central-graphic">
+                            <div class="pulse-ring"></div>
+                            <div class="crypto-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Overview -->
+    <section id="market" class="market-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Live Market Overview</h2>
+                    <p class="section-subtitle">Real-time cryptocurrency market data and statistics</p>
+                </div>
+            </div>
+            
+            <!-- Market Stats -->
+            <div class="row mb-5">
+                <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="market-stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="market-stats">
+                            <div class="stat-value" id="marketCap">Loading...</div>
+                            <div>Total Market Cap: <span id="marketCap"></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="market-stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="volume">Loading...</div>
+                            <div>24h Volume: <span id="volume"></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="market-stat-card">
+                        <div class="stat-icon">
+                            <i class="fab fa-bitcoin"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="btcDominance">Loading...</div>
+                            <div>Bitcoin Dominance: <span id="btcDominance"></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="market-stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="activeCryptos">Loading...</div>
+                            <div>Active Cryptos: <span id="activeCryptos"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Cryptocurrencies -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="crypto-table-container" data-aos="fade-up">
+                        <h3 class="mb-4">Top Cryptocurrencies</h3>
+                        <div class="crypto-table-scroll">
+                          <table class="table-a crypto-table" style="min-width:340px;width:100%;">
+                            <thead>
+                              <tr>
+                                <th>Cryptocurrency</th>
+                                <th>Price</th>
+                                <th>24h Change</th>
+                                <th>Market Cap</th>
+                              </tr>
+                            </thead>
+                            <tbody id="coin-list"></tbody>
+                          </table>
+                        </div>
+    <style>
+      /* Make Top Cryptocurrencies section vertically scrollable and mobile-friendly */
+      .crypto-table-scroll {
+        max-height: 420px;
+        overflow-y: auto;
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        background: #fff;
+      }
+      @media (max-width: 600px) {
+        .crypto-table-scroll {
+          max-height: 320px;
+          min-width: 100vw;
+          margin-left: -16px;
+          margin-right: -16px;
+        }
+        .crypto-table th, .crypto-table td {
+          font-size: 0.95em;
+          padding: 0.5em 0.2em;
+          white-space: nowrap;
+        }
+      }
+      .crypto-table th, .crypto-table td {
+        text-align: left;
+        vertical-align: middle;
+      }
+    </style>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Featured Courses -->
+    <section id="courses" class="courses-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Featured Courses</h2>
+                    <p class="section-subtitle">Master cryptocurrency trading and blockchain technology</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fab fa-bitcoin"></i>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">STARTER PARK</div>
+                            <br>
+                            <h4 class="course-title">All Cryptocurrency Features</h4>
+                            <p class="course-description">
+                             
+                                Learn the basics of Bitcoin, blockchain technology, and how to get started with cryptocurrency.
+                              </p>
+                            <div class="course-meta">
+                                <span class="course-duration"><i class="fas fa-clock"></i> Lifetime Access</span>
+                                <span class="course-students"><i class="fas fa-users"></i> 2,450 students</span>
+                            </div>
+                            <div class="course-price">
+                                <span class="price">$90</span>
+                                <a href="starter-pay.html" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fab fa-ethereum"></i>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">PRO PARK</div>
+                            <h4 class="course-title">Advanced Crypto Investment Techniques vs Traditional Methods</h4>
+                            <p class="course-description">
+                                Dive deep into advanced trading techniques and learn how to maximize your profits in the crypto market.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration"><i class="fas fa-clock"></i> 16 hours</span>
+                                <span class="course-students"><i class="fas fa-users"></i> 980 students</span>
+                            </div>
+                            <div class="course-price">
+                                <span class="price">$249</span>
+                                <a href="pro-park.html" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">ELITE PARK</div>
+                            <h4 class="course-title">Technical Analysis Mastery</h4>
+                            <p class="course-description">
+                                Master chart patterns, indicators, and trading strategies for profitable cryptocurrency trading.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration"><i class="fas fa-clock"></i> No Limit</span>
+                                <span class="course-students"><i class="fas fa-users"></i> 1,850 students</span>
+                            </div>
+                            <div class="course-price">
+                                <span class="price">$298</span>
+                                <a href="elitepark.html" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">Security</div>
+                            <h4 class="course-title">Crypto Security Essentials</h4>
+                            <p class="course-description">
+                                Learn how to secure your digital assets, protect against hacks, and manage your crypto wallet safely.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration"><i class="fas fa-clock"></i> No Limit</span>
+                                <span class="course-students"><i class="fas fa-users"></i> 1,200 students</span>
+                            </div>
+                            <div class="course-price">
+                                <span class="price">Locked</span>
+                                <a href="#" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">Investment</div>
+                            <h4 class="course-title">Crypto Portfolio Management</h4>
+                            <p class="course-description">
+                                Discover how to build and manage a diversified cryptocurrency portfolio for long-term success.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration"><i class="fas fa-clock"></i> 10 hours</span>
+                                <span class="course-students"><i class="fas fa-users"></i> 1,500 students</span>
+                            </div>
+                            <div class="course-price">
+                                <span class="price">Locked</span>
+                                <a href="#" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="about-content">
+                        <h2 class="section-title">Why Choose CoinAcademia?</h2>
+                        <p class="section-subtitle">
+                            We're India's premier cryptocurrency education platform, dedicated to providing 
+                            comprehensive and practical knowledge in the rapidly evolving digital asset space.
+                        </p>
+                        
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h5>Expert Instructors</h5>
+                                    <p>Learn from industry professionals with years of trading experience</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-certificate"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h5>Certified Courses</h5>
+                                    <p>Get industry-recognized certificates upon course completion</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h5>Community Support</h5>
+                                    <p>Join our active community of traders and investors</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="about-visual">
+                        <div class="achievement-cards">
+                            <div class="achievement-card">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="achievement-text">
+                                    <h4>10,000+</h4>
+                                    <p>Students Trained</p>
+                                </div>
+                            </div>
+                            
+                            <div class="achievement-card">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="achievement-text">
+                                    <h4>4.8/5</h4>
+                                    <p>Average Rating</p>
+                                </div>
+                            </div>
+                            
+                            <div class="achievement-card">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="achievement-text">
+                                    <h4>50+</h4>
+                                    <p>Courses Available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="get-started" class="cta-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <div class="cta-content">
+                        <h2 class="cta-title">Ready to Start Your Crypto Journey?</h2>
+                        <p class="cta-subtitle">
+                            Join thousands of students who have successfully learned cryptocurrency trading and investment
+                        </p>
+                        <div class="cta-actions">
+                            <a href="#courses" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-rocket me-2"></i>Start Learning Today
+                            </a>
+                            <a href="#contact" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-envelope me-2"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-widget">
+                        <h5 class="widget-title">
+                            <i class="fas fa-coins text-warning me-2"></i>CoinAcademia
+                        </h5>
+                        <p class="widget-text">
+                            India's premier cryptocurrency education platform. Master the future of finance with our expert-led courses.
+                        </p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="footer-widget">
+                        <h6 class="widget-title">Quick Links</h6>
+                        <ul class="footer-links">
+                            <li><a href="index">Home</a></li>
+                            <li><a href="#courses">Courses</a></li>
+                            <li><a href="#market">Market</a></li>
+                            <li><a href="#about">About</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="footer-widget">
+                        <h6 class="widget-title">Popular Courses</h6>
+                        <ul class="footer-links">
+                            <li><a href="#">Bitcoin Fundamentals</a></li>
+                            <li><a href="#">Technical Analysis</a></li>
+                            <li><a href="#">DeFi Mastery</a></li>
+                            <li><a href="#">Trading Strategies</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="footer-widget">
+                        <h6 class="widget-title">Contact Info</h6>
+                        <div class="contact-info">
+                            <p><i class="fas fa-envelope me-2"><a href="feedback.html">info@coinacademia.in</a></i></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="footer-divider">
+            
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="copyright">
+                        &copy; 2025 CoinAcademia. All rights reserved. | 
+                        <a href="policy" class="footer-link">Privacy Policy</a> | 
+                        <a href="#" class="footer-link">Terms of Service</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/crypto-ticker.js') }}"></script>
+    <script src="script.js"></script>
+    <script>
+    // Render top 100 coins, remove image icons from coin-list
+    document.addEventListener('DOMContentLoaded', function() {
+      function renderCoinList(coins) {
+        const tbody = document.getElementById('coin-list');
+        tbody.innerHTML = '';
+        coins.slice(0, 100).forEach(function(coin) {
+          // Only text, no icons/images
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${coin.name} (${coin.symbol.toUpperCase()})</td>
+            <td>$${Number(coin.current_price).toLocaleString()}</td>
+            <td style="color:${coin.price_change_percentage_24h > 0 ? '#10b981' : '#ef4444'};font-weight:600;">
+              ${coin.price_change_percentage_24h > 0 ? '+' : ''}${coin.price_change_percentage_24h.toFixed(2)}%
+            </td>
+            <td>$${Number(coin.market_cap).toLocaleString()}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+      // If using an API, replace this with your fetch logic
+      if (window.top100Coins) {
+        renderCoinList(window.top100Coins);
+      } else if (typeof fetch === 'function') {
+        fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false')
+          .then(res => res.json())
+          .then(data => renderCoinList(data));
+      }
+    });
+    </script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        function showMenu() {
+            document.querySelector('.nav-links').style.right = "0";
+        }
+
+        function hideMenu() {
+            document.querySelector('.nav-links').style.right = "-200px";
+        }
+    </script>
+</body>
+</html>

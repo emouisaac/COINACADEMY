@@ -1,0 +1,126 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
+    <meta name="keywords" content="cryptocurrency, blockchain, education, news">
+    <link rel="stylesheet" href="mm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Privacy Policy</title>
+</head>
+<body>
+    <section class="header">
+        <nav>
+            <a href="index.html"><img src="images/icon1.png" alt=""></a>
+            <div class="nav-links">
+                <i class="fas fa-times" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="charts">CHART PATTERNS</a></li>
+                    <li><a href="">TRADING</a></li>
+                    <li><a href="">BLOGS</a></li>
+                </ul>
+            </div>
+            <i class="fas fa-bars" onclick="showMenu()"></i>
+
+        </nav>
+
+    </section>
+
+    <section class="P-Policy">
+        <h1>Our Privacy Policy</h1>
+
+        <p>At Coin Academia, we value your privacy and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, and safeguard your data when you visit our website or use our services.</p>
+
+        <h2>Information We Collect</h2>
+        <p>We may collect personal information such as your name, email address, and any other details you provide when you register for an account, subscribe to our newsletter, or contact us through our website.</p>
+        <p>We also collect non-personal information such as your IP address, browser type, and pages visited on our site. This information helps us analyze website traffic and improve our services.</p>
+
+        <h2>How We Use Your Information</h2>
+        <p>Your information may be used to:</p>
+        <ul>
+            <li>Provide and improve our services</li>
+            <li>Send you updates, newsletters, and promotional materials</li>
+            <li>Respond to your inquiries and support requests</li>
+            <li>Analyze website usage to enhance user experience</li>
+        </ul>
+
+        <h2>Data Security</h2>
+        <p>We implement appropriate security measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee its absolute security.</p>
+
+        <h2>Cookies</h2>
+        <p>Our website may use cookies to enhance your browsing experience. Cookies are small files stored on your device that help us remember your preferences and improve our services. You can choose to accept or decline cookies through your browser settings.</p>
+
+        <h2>Third-Party Links</h2>
+        <p>Our website may contain links to third-party websites. We do not control these websites and are not responsible for their content or privacy practices. We encourage you to review the privacy policies of any third-party sites you visit.</p>
+        <h2>Changes to This Privacy Policy</h2> 
+        <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date. We encourage you to review this policy periodically for any updates.</p>
+
+        <h2>Contact Us</h2>
+        <p>If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at <a href="mailto: HCP.html, form">info@coinacademia.in</a>
+
+    </Section>  
+        
+        <!-------- -----------FOOTER------------------>
+    <section class="footer">
+        <h4>About Us</h4>
+        <p>Coin Academia is dedicated to providing the best resources for forex and cryptocurrency education and trading.</p>
+        <div class="icons">
+            <a href="#"><img src="images/fb1.png" alt="Facebook"></a>
+            <a href="#"><img src="images/twt1.png" alt="Twitter"></a>
+            <a href="#"><img src="images/youtube.webp" alt="YouTube"></a>
+            <a href="#"><img src="images/tel.png" alt="Telegram"></a>
+        </div>
+        <p>&copy; 2025 Coin Academia. All rights reserved.</p>
+    </section>
+
+
+
+    <!--------JavaScript------->
+    <script>
+        function showMenu() {
+            document.querySelector('.nav-links').style.right = "0";
+        }
+
+        function hideMenu() {
+            document.querySelector('.nav-links').style.right = "-200px";
+        }
+        function sendForm() {
+            const form = document.querySelector('.feedback-form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+                const formData = new FormData(form);
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Thank you for your feedback!');
+                        form.reset(); // Reset the form after successful submission
+                    } else {
+                        alert('There was an error submitting your feedback. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error submitting your feedback. Please try again.');
+                });
+            });
+        }
+    </script>
+    
+</body>
+</html>
+<!-- Compare this snippet from MyWeb/Channel%20Patterns.html: -->
+<!--                     <h1>    More Chart Patterns <br></Br></h1>
+ -->                    

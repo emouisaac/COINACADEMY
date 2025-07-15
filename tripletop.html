@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+    // Light/Dark mode toggle
+    function setTheme(mode) {
+      if (mode === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.documentElement.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('theme-toggle').classList.add('dark');
+        document.getElementById('theme-toggle').innerHTML = '🌙';
+      } else {
+        document.body.classList.remove('dark-mode');
+        document.documentElement.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('theme-toggle').classList.remove('dark');
+        document.getElementById('theme-toggle').innerHTML = '☀️';
+      }
+    }
+    window.addEventListener('DOMContentLoaded', function() {
+      // Theme toggle
+      const toggle = document.createElement('button');
+      toggle.id = 'theme-toggle';
+      toggle.className = 'theme-toggle';
+      document.body.appendChild(toggle);
+      toggle.onclick = function() {
+        const isDark = document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'light' : 'dark');
+      };
+      setTheme(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
+
+      // Popup notification
+      function showPopup() {
+        if (document.getElementById('enroll-popup')) return;
+        const popup = document.createElement('div');
+        popup.className = 'popup-notification';
+        popup.id = 'enroll-popup';
+        popup.innerHTML = '<span>🚀 Unlock full access to all premium trading courses! <a href="starter-pay.html" style="color:#fff;text-decoration:underline;font-weight:700;">Enroll now</a> and become a pro trader.</span>' +
+          '<button class="close-btn" onclick="this.parentElement.remove()">&times;</button>';
+        document.body.appendChild(popup);
+        setTimeout(() => { if (popup && popup.parentElement) popup.remove(); }, 15000);
+      }
+      showPopup();
+      setInterval(showPopup, 60000);
+    });
+    </script>
+    <style>
+      /* Move theme toggle to bottom left, floating, not interfering with nav */
+      .theme-toggle {
+        position: fixed !important;
+        left: 18px;
+        bottom: 18px;
+        top: auto !important;
+        right: auto !important;
+        z-index: 1001;
+        background: #fff;
+        color: #181c2f;
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+      }
+      .theme-toggle.dark {
+        background: #181c2f;
+        color: #fff;
+      }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
+    <meta name="keywords" content="cryptocurrency, blockchain, education, news">
+    <link rel="stylesheet" href="mm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Popp<!DOCTYPE html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
+    <meta name="keywords" content="cryptocurrency, blockchain, education, news">
+    <link rel="stylesheet" href="mm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Top And Bottom Chartpatterns</title>
+</head>
+<body>
+    <!-- Light/Dark mode toggle and popup will be injected by JS -->
+    <section class="header">
+        <nav>
+            <a href="index.html"><img src="images/icon1.png" alt=""></a>
+            <div class="nav-links">
+                <i class="fas fa-times" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="charts">CHART PATTERNS</a></li>
+                    <li><a href="">TRADING</a></li>
+                    <li><a href="">BLOGS</a></li>
+                </ul>
+            </div>
+            <i class="fas fa-bars" onclick="showMenu()"></i>
+
+        </nav>
+
+    </section>
+
+    <!-------------------SECTION 2-------------->
+
+
+
+<section class="ttt">
+    <section class="chart-p">
+        
+        <h1>Top and Bottom chart-patterns</h1>
+        <p>Top and bottom chart patterns are reversal formations that signal potential changes in market direction. A double or triple top forms after an uptrend when the price reaches a resistance level two or three times before reversing downward. Conversely, double or triple bottoms appear after a downtrend, where the price tests a support level multiple times before reversing upward. These patterns help traders anticipate trend reversals and identify entry or exit points in the market.</p>
+    </section>
+    <hr>
+    <section>
+         
+        <div class="rowx">
+             <div class="colx">
+            <div class="sub-row3">
+                <h1>Trading Strategies</h1>
+                <ul>
+                    <li><a href="#">Trend Following</a></li>
+                    <li><a href="#">Breakout Trading</a></li>
+                    <li><a href="#">Reversal Trading</a></li>
+                    <li><a href="#">Scalping</a></li>
+                    <li><a href="#">Swing Trading</a></li>
+                    <li><a href="#">Position Trading</a></li>
+                    <li><a href="#">Range Trading</a></li>
+                </ul>
+            </div>
+        </div>
+            <div class="coly">
+                <div class="sub-row1">
+                    <h1>Triple Top Chart pattern</h1>
+                     <img src="images/Triple Top.jpg" alt="Chart Patterns">
+                    <p>The triple top chart pattern is a bearish reversal formation that occurs after an uptrend. It consists of three distinct highs at approximately the same price level, indicating strong resistance. The pattern is confirmed when the price breaks below the support level formed by the lows between the tops.</p>
+                    <p>Traders often look for confirmation of the pattern by waiting for a breakdown below the support level, which signals a potential trend reversal. This breakdown is typically accompanied by increased volume, indicating strong selling pressure.</p>
+                    <p>Risk management is crucial when trading triple tops. Traders typically set stop-loss orders above the most recent swing high or the upper trendline to protect against false breakouts. Additionally, measuring the height of the pattern can help set profit targets, as the expected move after a breakdown is often equal to the height of the pattern subtracted from the breakdown point.</p>
+                    <p>Understanding the psychology behind triple tops is important. The repeated highs indicate that buyers are struggling to push the price higher, while sellers are stepping in at the resistance level. This creates a strong foundation for a potential trend reversal, making triple tops a valuable tool for traders looking to capitalize on bearish market conditions.</p>
+                    <p>Practicing the identification of triple top patterns on historical charts helps traders build confidence in their ability to recognize this formation and apply it effectively in their trading strategies.</p>
+                    <p>In summary, the triple top chart pattern is a bearish reversal formation characterized by three peaks at similar price levels, signaling a potential trend reversal. Traders can use this pattern to identify entry and exit points, manage risk, and enhance their trading strategies.</p>
+
+
+                    <hr>
+
+                    <h1>Triple Bottom Chart Pattern</h1>
+                    <img src="images/Triple Bottom.jpg" alt="Chart Patterns">
+                    <p>The triple bottom chart pattern is a bullish reversal formation that occurs after a downtrend. It consists of three distinct lows at approximately the same price level, indicating strong support. The pattern is confirmed when the price breaks above the resistance level formed by the highs between the bottoms.</p>
+                    <p>A descending channel is a bearish chart pattern formed by drawing two parallel downward-sloping trendlines that connect a series of lower highs and lower lows. This pattern indicates a prevailing downtrend, where the price consistently makes lower highs and lower lows within the channel.</p>
+                    <p>Traders often look for confirmation of the pattern by waiting for a breakdown below the lower trendline, which signals a continuation of the bearish trend. This breakdown is typically accompanied by increased volume, indicating strong selling pressure.</p>
+                    <p>Risk management is crucial when trading descending channels. Traders typically set stop-loss orders above the most recent swing high or the upper trendline to protect against false breakouts. Additionally, measuring the height of the channel can help set profit targets, as the expected move after a breakdown is often equal to the height of the channel subtracted from the breakdown point.</p>
+                    <p>Understanding the psychology behind descending channels is important. The repeated lower highs and lower lows indicate that sellers are in control, and buyers are unable to push the price higher. This creates a strong foundation for a potential continuation of the downtrend, making descending channels a valuable tool for traders looking to capitalize on bearish market conditions.</p>
+                    <p>Practicing the identification of descending channel patterns on historical charts helps traders build confidence in their ability to recognize this formation and apply it effectively in their trading strategies.</p>
+
+
+                    <div class="col1">
+                    <p><a href="chart-patterns">SEE NEXT</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="colx">
+            <div class="sub-row">
+                <h1>    More Chart Patterns</h1>
+                    <ul>
+                        <li><a href="Channel Patterns">Channel Patterns</a></li>
+                        <li><a href="tripletop">Top and Bottom  Patterns</a></li>
+                        <li><a href="broadening">Wedges (Rising and Falling)</a></li>
+                        <li><a href="#">Head and Shoulders</a></li>
+                        <li><a href="#">Triangles (Ascending, Descending, Symmetrical)</a></li>
+                        <li><a href="#">Flags and Pennants</a></li>
+                        <li><a href="#">Cup and Handle</a></li>
+                        <li><a href="#">Gaps</a></li>
+                        <li><a href="#">More Charts</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+
+    </section>
+</section>
+    </section>
+    <section>
+        <div class="Feedback">
+            <h1>Your Feedback</h1>
+            <p>We value your feedback! Please share your thoughts or questions about this chart pattern. Feel free to leave a comment below, and we'll get back to you as soon as possible.</p>
+            <p>We appreciate your input and are here to help with any questions you may have.</p>
+            <form action="https://api.web3forms.com/submit" method="POST" class="feedback-form">
+                <input type="hidden" name="access_key" value="7f80ac16-e05e-44d3-8fe7-fef9b7d00853">
+                <input type="text" name="name" placeholder="Your Name" class="feedback-input" required>
+                <input type="email" name="email" placeholder="Your Email" class="feedback-input" required>
+                <input type="text" name="subject" placeholder="Subject" class="feedback-input">
+                <textarea name="message" placeholder="Your Message" class="feedback-input" required></textarea>
+
+                
+                <input type="hidden" name="title" value="Feedback from Coin Academia">
+                <input type="hidden" name="cc" value="emouisaac1@gmail">
+                <button type="submit" onclick="sendForm()">Submit</button>
+            </form>
+
+        </div>
+    </section>
+
+
+
+  
+
+
+        <!-------------------FOOTER------------------>
+    <section class="footer">
+        <h4>About Us</h4>
+        <p>Coin Academia is dedicated to providing the best resources for forex and cryptocurrency education and trading.</p>
+        <div class="icons">
+            <a href="#"><img src="images/fb1.png" alt="Facebook"></a>
+            <a href="#"><img src="images/twt1.png" alt="Twitter"></a>
+            <a href="#"><img src="images/youtube.webp" alt="YouTube"></a>
+            <a href="#"><img src="images/tel.png" alt="Telegram"></a>
+        </div>
+        <p>&copy; 2025 Coin Academia. All rights reserved.</p>
+    </section>
+
+
+
+    <!--------JavaScript------->
+    <script>
+        function showMenu() {
+            document.querySelector('.nav-links').style.right = "0";
+        }
+
+        function hideMenu() {
+            document.querySelector('.nav-links').style.right = "-200px";
+        }
+    </script>
+    
+</body>
+</html>
