@@ -4,8 +4,14 @@ document.getElementById('buyBtn').onclick = async function() {
   const statusDiv = document.getElementById('error');
   statusDiv.textContent = '';
   try {
-    // Call backend to create a NOWPayments invoice
-    const res = await fetch('/api/create-checkout', { method: 'POST' });
+    // Get the current page's filename for redirect after payment
+    const redirectUrl = window.location.pathname.split('/').pop();
+    // Call backend to create a NOWPayments invoice, sending intended redirect
+    const res = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ success_url: redirectUrl })
+    });
     const data = await res.json();
     if (data.hosted_url) {
       // Redirect user to NOWPayments invoice page

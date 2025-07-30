@@ -20,14 +20,13 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="https://pysript.net/alpha/pyscript.css">
-    <link rel="stylesheet" href="app.py">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mm.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="scripts.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mm.css">
-    <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
+    <script src="js/scripts.js"></script>
+    <script src="js/script.js"></script>
+    <!-- Removed duplicate meta description, kept only one -->
     <meta name="keywords" content="cryptocurrency, blockchain, education, news">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
@@ -47,9 +46,13 @@
                 <i class="fas fa-times" onclick="hideMenu()"></i>
                 <ul>
                     <li><a href="index.html">HOME</a></li>
-                    <li><a href="charts.html">CHART PATTERNS</a></li>
-                    <li><a href="">TRADING</a></li>
-                    <li><a href="">BLOGS</a></li>
+                    <li><a href="/charts/charts.html" class="protected-link">CHART PATTERNS</a></li>
+                    <li><a href="index.html#courses">COURSES</a></li>
+                    <li><a href="/Affiliate.html" class="protected-link">AFFILIATE</a></li>
+                    <li><a href="html/trading.html" class="protected-link">TRADING</a></li>
+                    <li><a href="html/blogs.html" class="protected-link">BLOGS</a></li>
+                    <li><a href="html/feedback.html">CONTACT</a></li>
+                    <li><a href="#" id="loginNav">LOG OUT</a></li>
                 </ul>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
@@ -272,26 +275,47 @@
             </div>
             
             <div class="row">
+                <!-- Updated Featured Courses to match Affiliate.html -->
                 <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="course-card">
                         <div class="course-image">
-                            <i class="fab fa-bitcoin"></i>
+                            <i class="fas fa-crown"></i>
                         </div>
                         <div class="course-content">
-                            <div class="course-category">STARTER PARK</div>
-                            <br>
-                            <h4 class="course-title">All Cryptocurrency Features</h4>
+                            <div class="course-category" style="color:#3a36c4;font-weight:bold;">Elite</div>
+                            <h4 class="course-title">Masterclass: Wealth Building</h4>
                             <p class="course-description">
-                             
-                                Learn the basics of Bitcoin, blockchain technology, and how to get started with cryptocurrency.
-                              </p>
+                                Unlock advanced wealth-building strategies, portfolio scaling, and elite-level investment insights for serious crypto investors.
+                            </p>
                             <div class="course-meta">
                                 <span class="course-duration"><i class="fas fa-clock"></i> Lifetime Access</span>
-                                <span class="course-students"><i class="fas fa-users"></i> 2,450 students</span>
+                                <span class="course-students"><i class="fas fa-users"></i> 500+ students</span>
                             </div>
                             <div class="course-price">
-                                <span class="price">$90</span>
-                                <a href="starter-pay.html" class="btn btn-primary">Enroll Now</a>
+                                <span class="price">$1000</span>
+                                <a href="/payments/pay.html?course=masterclass" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">Premium</div>
+                            <h4 class="course-title">Portfolio Management</h4>
+                            <p class="course-description">
+                                Learn to build, balance, and manage a high-performing crypto portfolio for long-term growth and risk management.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration"><i class="fas fa-clock"></i> 10 hours</span>
+                                <span class="course-students"><i class="fas fa-users"></i> 1,500 students</span>
+                            </div>
+                            <div class="course-price">
+                                <span class="price">$500</span>
+                                <a href="/payments/pay.html?course=portfolio" class="btn btn-primary">Enroll Now</a>
                             </div>
                         </div>
                     </div>
@@ -299,44 +323,21 @@
                 <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
                     <div class="course-card">
                         <div class="course-image">
-                            <i class="fab fa-ethereum"></i>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-category">PRO PARK</div>
-                            <h4 class="course-title">Advanced Crypto Investment Techniques vs Traditional Methods</h4>
-                            <p class="course-description">
-                                Dive deep into advanced trading techniques and learn how to maximize your profits in the crypto market.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration"><i class="fas fa-clock"></i> 16 hours</span>
-                                <span class="course-students"><i class="fas fa-users"></i> 980 students</span>
-                            </div>
-                            <div class="course-price">
-                                <span class="price">$249</span>
-                                <a href="pro-park.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="course-card">
-                        <div class="course-image">
                             <i class="fas fa-chart-line"></i>
                         </div>
                         <div class="course-content">
-                            <div class="course-category">ELITE PARK</div>
-                            <h4 class="course-title">Technical Analysis Mastery</h4>
+                            <div class="course-category">Advanced</div>
+                            <h4 class="course-title">Technical Analysis</h4>
                             <p class="course-description">
-                                Master chart patterns, indicators, and trading strategies for profitable cryptocurrency trading.
+                                Master chart patterns, indicators, and technical tools to make informed trading decisions in any market condition.
                             </p>
                             <div class="course-meta">
-                                <span class="course-duration"><i class="fas fa-clock"></i> No Limit</span>
+                                <span class="course-duration"><i class="fas fa-clock"></i> 16 hours</span>
                                 <span class="course-students"><i class="fas fa-users"></i> 1,850 students</span>
                             </div>
                             <div class="course-price">
-                                <span class="price">$298</span>
-                                <a href="elitepark.html" class="btn btn-primary">Enroll Now</a>
+                                <span class="price">$350</span>
+                                <a href="/payments/pay.html?course=technical" class="btn btn-primary">Enroll Now</a>
                             </div>
                         </div>
                     </div>
@@ -344,21 +345,21 @@
                 <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
                     <div class="course-card">
                         <div class="course-image">
-                            <i class="fas fa-lock"></i>
+                            <i class="fas fa-lightbulb"></i>
                         </div>
                         <div class="course-content">
-                            <div class="course-category">Security</div>
-                            <h4 class="course-title">Crypto Security Essentials</h4>
+                            <div class="course-category">Intermediate</div>
+                            <h4 class="course-title">Trading Strategies</h4>
                             <p class="course-description">
-                                Learn how to secure your digital assets, protect against hacks, and manage your crypto wallet safely.
+                                Explore proven trading strategies, risk management, and real-world tactics to boost your crypto trading results.
                             </p>
                             <div class="course-meta">
-                                <span class="course-duration"><i class="fas fa-clock"></i> No Limit</span>
+                                <span class="course-duration"><i class="fas fa-clock"></i> 12 hours</span>
                                 <span class="course-students"><i class="fas fa-users"></i> 1,200 students</span>
                             </div>
                             <div class="course-price">
-                                <span class="price">Locked</span>
-                                <a href="#" class="btn btn-primary">Enroll Now</a>
+                                <span class="price">$250</span>
+                                <a href="/payments/pay.html?course=trading" class="btn btn-primary">Enroll Now</a>
                             </div>
                         </div>
                     </div>
@@ -366,21 +367,21 @@
                 <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
                     <div class="course-card">
                         <div class="course-image">
-                            <i class="fas fa-chart-pie"></i>
+                            <i class="fab fa-bitcoin"></i>
                         </div>
                         <div class="course-content">
-                            <div class="course-category">Investment</div>
-                            <h4 class="course-title">Crypto Portfolio Management</h4>
+                            <div class="course-category">Basic</div>
+                            <h4 class="course-title">Crypto Fundamentals</h4>
                             <p class="course-description">
-                                Discover how to build and manage a diversified cryptocurrency portfolio for long-term success.
+                                Learn the basics of Bitcoin, blockchain, wallets, and how to get started in the world of cryptocurrency.
                             </p>
                             <div class="course-meta">
-                                <span class="course-duration"><i class="fas fa-clock"></i> 10 hours</span>
-                                <span class="course-students"><i class="fas fa-users"></i> 1,500 students</span>
+                                <span class="course-duration"><i class="fas fa-clock"></i> Lifetime Access</span>
+                                <span class="course-students"><i class="fas fa-users"></i> 2,450 students</span>
                             </div>
                             <div class="course-price">
-                                <span class="price">Locked</span>
-                                <a href="#" class="btn btn-primary">Enroll Now</a>
+                                <span class="price">$90</span>
+                                <a href="/payments/pay.html?course=starter" class="btn btn-primary">Enroll Now</a>
                             </div>
                         </div>
                     </div>
@@ -523,10 +524,14 @@
                     <div class="footer-widget">
                         <h6 class="widget-title">Quick Links</h6>
                         <ul class="footer-links">
-                            <li><a href="index">Home</a></li>
+                            <li><a href="index.html">Home</a></li>
                             <li><a href="#courses">Courses</a></li>
                             <li><a href="#market">Market</a></li>
                             <li><a href="#about">About</a></li>
+                            <li><a href="/Affiliate.html">Affiliate</a></li>
+                            <li><a href="html/trading.html">Trading</a></li>
+                            <li><a href="html/blogs.html">Blogs</a></li>
+                            <li><a href="html/feedback.html">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -547,7 +552,7 @@
                     <div class="footer-widget">
                         <h6 class="widget-title">Contact Info</h6>
                         <div class="contact-info">
-                            <p><i class="fas fa-envelope me-2"><a href="feedback.html">info@coinacademia.in</a></i></p>
+                            <p><i class="fas fa-envelope me-2"></i><a href="html/feedback.html">info@coinacademia.in</a></p>
                         </div>
                     </div>
                 </div>
@@ -559,7 +564,7 @@
                 <div class="col-12 text-center">
                     <p class="copyright">
                         &copy; 2025 CoinAcademia. All rights reserved. | 
-                        <a href="policy" class="footer-link">Privacy Policy</a> | 
+                        <a href="html/policy.html" class="footer-link">Privacy Policy</a> | 
                         <a href="#" class="footer-link">Terms of Service</a>
                     </p>
                 </div>
@@ -570,20 +575,58 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/crypto-ticker.js') }}"></script>
+    <script src="main.js"></script>
     <script src="script.js"></script>
     <script>
+    // Protect nav links: prompt login if not authenticated
+    document.addEventListener('DOMContentLoaded', function() {
+      function isLoggedIn() {
+        // User is logged in if a session flag is set (set after successful login)
+        return localStorage.getItem('coinAcademiaLoggedIn') === 'true';
+      }
+      // Attach to all protected links
+      document.querySelectorAll('.protected-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          if (!isLoggedIn()) {
+            e.preventDefault();
+            // Store intended destination
+            localStorage.setItem('coinAcademiaRedirectAfterLogin', link.getAttribute('href'));
+            window.location.href = 'logins/login.html';
+          }
+        });
+      });
+
+      // Change LOG IN to LOG OUT if logged in
+      var loginNav = document.getElementById('loginNav');
+      if (loginNav) {
+        if (isLoggedIn()) {
+          loginNav.textContent = 'LOG OUT';
+          loginNav.href = '#';
+          loginNav.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Log out: clear session and redirect to main page
+            localStorage.removeItem('coinAcademiaLoggedIn');
+            window.location.href = 'index.html';
+          });
+        } else {
+          loginNav.textContent = 'LOG IN';
+          loginNav.href = 'logins/login.html';
+        }
+      }
+    });
     // Render top 100 coins, remove image icons from coin-list
     document.addEventListener('DOMContentLoaded', function() {
       function renderCoinList(coins) {
         const tbody = document.getElementById('coin-list');
+        // Clear previous rows to prevent flashing old/blank symbols
         tbody.innerHTML = '';
         coins.slice(0, 100).forEach(function(coin) {
-          // Only text, no icons/images
+          const symbol = coin.symbol.toUpperCase();
+          // Use CoinGecko API image for the coin logo
+          const img = coin.image ? `<img src="${coin.image}" alt="${symbol} logo" style="width:22px;height:22px;vertical-align:middle;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.07);margin-right:6px;">` : '';
           const tr = document.createElement('tr');
           tr.innerHTML = `
-            <td>${coin.name} (${coin.symbol.toUpperCase()})</td>
+            <td>${img}<span style="vertical-align:middle;">${symbol}</span></td>
             <td>$${Number(coin.current_price).toLocaleString()}</td>
             <td style="color:${coin.price_change_percentage_24h > 0 ? '#10b981' : '#ef4444'};font-weight:600;">
               ${coin.price_change_percentage_24h > 0 ? '+' : ''}${coin.price_change_percentage_24h.toFixed(2)}%

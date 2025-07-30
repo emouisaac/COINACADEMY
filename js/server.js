@@ -5,15 +5,19 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static frontend files (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname, './'))); // Serves files from paytest/
+// Enable CORS for all routes (allow all origins)
+app.use(cors());
+
+// Serve static frontend files (HTML, CSS, JS) from project root
+app.use(express.static(path.join(__dirname, '..')));
 
 // Serve index.html at root
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 // Parse JSON bodies for API
@@ -25,15 +29,23 @@ app.use('/webhook', bodyParser.raw({ type: 'application/json' }));
 // Endpoint to create a NOWPayments invoice
 app.post('/api/create-checkout', async (req, res) => {
   try {
+    // Accept price_amount, order_id, order_description, and success_url from frontend
+    const { price_amount, order_id, order_description, success_url } = req.body || {};
+    if (!price_amount || !order_id || !order_description) {
+      return res.status(400).json({ error: 'Missing required payment details.' });
+    }
+    const domain = process.env.DOMAIN_URL || ('http://localhost:' + PORT);
+    const redirectPath = success_url ? success_url.replace(/^\//, '') : 'course-unlocked.html';
+    const fullSuccessUrl = `${domain}/${redirectPath}`;
     const response = await axios.post(
       'https://api.nowpayments.io/v1/invoice',
       {
-        price_amount: 90.00,
+        price_amount,
         price_currency: 'usd',
-        order_id: 'STARTER_PARK',
-        order_description: 'Crypto course package at 10% off! (Original: $100, Now: $90)',
-        success_url: `${process.env.DOMAIN_URL || 'http://localhost:' + PORT}/course-unlocked.html`,
-        cancel_url: `${process.env.DOMAIN_URL || 'http://localhost:' + PORT}/index.html`
+        order_id,
+        order_description,
+        success_url: fullSuccessUrl,
+        cancel_url: `${domain}/index.html`
       },
       {
         headers: {
@@ -52,14 +64,12 @@ app.post('/api/create-checkout', async (req, res) => {
 // Webhook endpoint for NOWPayments payment status
 app.post('/webhook', express.json(), (req, res) => {
   const event = req.body;
-  // Check if payment is confirmed and for the correct amount
-  if (
-    event.payment_status === 'finished' &&
-    event.price_amount == 90.00 &&
-    event.order_id === 'STARTER_PARK'
-  ) {
+  // Log all webhook events for debugging
+  console.log('NOWPayments webhook event:', event);
+  // Check if payment is confirmed
+  if (event.payment_status === 'finished') {
     // Grant access to course (e.g., update DB, send email, etc.)
-    console.log('NOWPayments: Payment confirmed for STARTER PARK! Access granted.');
+    console.log(`NOWPayments: Payment confirmed for order ${event.order_id} (amount: ${event.price_amount} ${event.price_currency}). Access granted.`);
     // You could trigger an email or database update here
   }
   res.status(200).send('Webhook received');

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Buy Course</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/mm.css">
+  <script src="../js/scripts.js"></script>
+  <script src="../js/script.js"></script>
+  <style>
+    /* Responsive styles for all media screens */
+  </style>
+</head>
+<body>
+  <div class="containerStarter">
+    <h1 id="course-title">Course</h1>
+    <p class="subtitle" id="course-desc"></p>
+    <ul class="feature-list" id="feature-list"></ul>
+    <div class="price-section">
+      <span class="old-price" id="old-price"></span>
+      <span class="new-price" id="new-price"></span>
+      <span class="discount-badge" id="discount-badge"></span>
+      <span id="usdt-estimate" style="display:block;font-size:0.95em;color:#555;margin-top:6px;"></span>
+    </div>
+    <button id="buyBtn">Pay with Crypto <span style="font-size:1.1em;">&#128176;</span></button>
+    <script>
+      // Course data
+      const courses = {
+        'starter': {
+          title: 'STARTER PARK',
+          desc: 'Unlock your crypto journey with our exclusive <strong>Starter Park</strong> course!',
+          features: [
+            '✔️ Learn the fundamentals of cryptocurrency',
+            '✔️ Understand blockchain technology',
+            '✔️ Secure investing tips & strategies'
+          ],
+          oldPrice: 100,
+          newPrice: 90,
+          discount: '10% OFF',
+          orderId: 'STARTER',
+          orderDesc: 'Starter Park Course'
+        },
+        'trading': {
+          title: 'Trading Strategies',
+          desc: 'Explore proven trading strategies and risk management for crypto success!',
+          features: [
+            '✔️ Step-by-step trading tactics',
+            '✔️ Risk management essentials',
+            '✔️ Real-world crypto trading examples'
+          ],
+          oldPrice: 300,
+          newPrice: 250,
+          discount: '17% OFF',
+          orderId: 'TRADING',
+          orderDesc: 'Trading Strategies Course'
+        },
+        'technical': {
+          title: 'Technical Analysis',
+          desc: 'Master chart patterns, indicators, and technical tools for crypto trading!',
+          features: [
+            '✔️ In-depth chart pattern analysis',
+            '✔️ Technical indicators and signals',
+            '✔️ Real-world trading strategies'
+          ],
+          oldPrice: 400,
+          newPrice: 350,
+          discount: '12% OFF',
+          orderId: 'TECHNICAL',
+          orderDesc: 'Technical Analysis Course'
+        },
+        'portfolio': {
+          title: 'Portfolio Management',
+          desc: 'Master the art of building and managing a high-performing crypto portfolio!',
+          features: [
+            '✔️ Diversification strategies for crypto assets',
+            '✔️ Risk management and rebalancing techniques',
+            '✔️ Long-term growth planning'
+          ],
+          oldPrice: 600,
+          newPrice: 500,
+          discount: '17% OFF',
+          orderId: 'PORTFOLIO',
+          orderDesc: 'Portfolio Management'
+        },
+        'masterclass': {
+          title: 'Masterclass: Wealth Building',
+          desc: 'Unlock elite-level strategies and wealth-building secrets with our <strong>Masterclass</strong> course!',
+          features: [
+            '✔️ Advanced portfolio scaling & management',
+            '✔️ Wealth-building strategies for serious investors',
+            '✔️ Exclusive insights from top crypto experts'
+          ],
+          oldPrice: 1200,
+          newPrice: 1000,
+          discount: '17% OFF',
+          orderId: 'MASTERCLASS',
+          orderDesc: 'Masterclass: Wealth Building'
+        }
+      };
+      // Get course from URL (?course=trading)
+      const urlParams = new URLSearchParams(window.location.search);
+      const courseKey = urlParams.get('course') || 'starter';
+      const course = courses[courseKey];
+      // Populate page
+      document.getElementById('course-title').textContent = course.title;
+      document.getElementById('course-desc').innerHTML = course.desc;
+      document.getElementById('old-price').textContent = `$${course.oldPrice}`;
+      document.getElementById('new-price').textContent = `$${course.newPrice}`;
+      document.getElementById('discount-badge').textContent = course.discount;
+      document.getElementById('feature-list').innerHTML = course.features.map(f=>`<li>${f}</li>`).join('');
+      // Show live USDT estimate
+      async function updateUSDT() {
+        const priceUSD = course.newPrice;
+        try {
+          const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd');
+          const data = await res.json();
+          const usdtRate = data.tether.usd;
+          if (usdtRate) {
+            const usdtAmount = priceUSD / usdtRate;
+            document.getElementById('usdt-estimate').textContent = `≈ ${usdtAmount.toFixed(6)} USDT (live rate)`;
+          }
+        } catch (e) {
+          document.getElementById('usdt-estimate').textContent = '';
+        }
+      }
+      updateUSDT();
+      document.getElementById('buyBtn').onclick = async function() {
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = '';
+        this.disabled = true;
+        this.textContent = 'Processing...';
+        try {
+          const res = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              price_amount: course.newPrice,
+              price_currency: 'usd',
+              order_id: course.orderId,
+              order_description: course.orderDesc,
+              success_url: 'course-unlocked.html'
+            })
+          });
+          const data = await res.json();
+          if (data.hosted_url) {
+            window.location.href = data.hosted_url;
+          } else {
+            throw new Error(data.error || 'Failed to create invoice');
+          }
+        } catch (err) {
+          errorDiv.textContent = 'Payment error: ' + (err.message || err);
+          this.disabled = false;
+          this.textContent = 'Buy with Crypto 💸';
+        }
+      };
+    </script>
+    <div id="error" style="color:red; font-size: 1.1em; margin-top:10px;"></div>
+    <div class="info-note">
+      <span class="secure">🔒</span>
+      Instant access after payment.<br>
+      Secure checkout powered by <strong>NOWPayments</strong>.<br>
+      <span style="color:#0052ff;">Start learning smarter today!</span>
+    </div>
+  </div>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+    }
+    .containerStarter {
+      max-width: 60%;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .containerStarter h1 {
+      letter-spacing: 1px;
+      font-weight: 900;
+      font-size: 2.5em;
+      color: #0052ff;
+      margin-bottom: 10px;
+    }
+    .containerStarter .subtitle {
+      color: #333;
+      font-size: 1.08em;
+      margin-bottom: 18px;
+    }
+    .feature-list {
+      text-align: left;
+      margin: 0 auto 18px auto;
+      padding: 0 0 0 18px;
+      color: #222;
+      font-size: 1em;
+      line-height: 1.7;
+      list-style: none;
+    }
+    .feature-list li {
+      margin-bottom: 6px;
+      padding-left: 0;
+    }
+    .price-section {
+      margin: 18px 0 12px 0;
+      font-size: 1.6em;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .old-price {
+      color: #aaa;
+      text-decoration: line-through;
+      font-size: 1em;
+    }
+    .new-price {
+      color: #009e3c;
+      font-weight: bold;
+      font-size: 1.3em;
+    }
+    .discount-badge {
+      background: #ffe066;
+      color: #b8860b;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.95em;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+    #buyBtn {
+      background: linear-gradient(90deg, #0052ff 60%, #00c6fb 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 14px 0;
+      font-size: 1.5em;
+      font-weight: 600;
+      width: 100%;
+      margin-top: 18px;
+      box-shadow: 0 2px 8px rgba(0,82,255,0.08);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    #buyBtn:hover {
+      background: linear-gradient(90deg, #003bb3 70%, #009e3c 100%);
+      box-shadow: 0 4px 16px rgba(0,82,255,0.13);
+    }
+    .info-note {
+      margin-top: 22px;
+      color: #555;
+      font-size: 0.99em;
+      background: #f3f7ff;
+      border-radius: 8px;
+      padding: 12px 10px 10px 10px;
+      line-height: 1.6;
+    }
+    .info-note .secure {
+      color: #009e3c;
+      font-size: 1.2em;
+      margin-right: 4px;
+    }
+  </style>
+</body>
+</html>

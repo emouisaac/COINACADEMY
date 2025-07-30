@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Buy STARTER PARK Crypto Course</title>
-  <link rel="stylesheet" href="stylez.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/mm.css">
+  <script src="../js/scripts.js"></script>
+  <script src="../js/script.js"></script>
   <style>
     /* Responsive styles for all media screens */
     
@@ -11,20 +14,69 @@
   </style>
 </head>
 <body>
+ 
   <div class="containerStarter">
-    <h1>PRO PARK PACKAGE</h1>
-    <p class="subtitle">Master the art of cryptocurrency investing with our exclusive <strong>Pro Park</strong> course!</p>
+    <h1>STARTER PARK</h1>
+    <p class="subtitle">Unlock your crypto journey with our exclusive <strong>Starter Park</strong> course!</p>
     <ul class="feature-list">
-      <li>✔️ Profound profitability strategies</li>
-      <li>✔️ Advanced trading techniques</li>
-      <li>✔️ Risk management &amp; portfolio diversification</li>
+      <li>✔️ Learn the fundamentals of cryptocurrency</li>
+      <li>✔️ Understand blockchain technology</li>
+      <li>✔️ Secure investing tips &amp; strategies</li>
     </ul>
     <div class="price-section">
-      <span class="old-price">$300</span>
-      <span class="new-price">$249</span>
-      <span class="discount-badge">17% OFF</span>
+      <span class="old-price">$100</span>
+      <span class="new-price">$90</span>
+      <span class="discount-badge">10% OFF</span>
+      <span id="usdt-estimate" style="display:block;font-size:0.95em;color:#555;margin-top:6px;"></span>
     </div>
-    <button id="buyBtn">Buy with Crypto <span style="font-size:1.1em;">&#128176;</span></button>
+    <button id="buyBtn">Pay with Crypto <span style="font-size:1.1em;">&#128176;</span> <span title="Bitcoin" style="vertical-align:middle;font-size:1.2em;">&#8383;</span> <span title="Ethereum" style="vertical-align:middle;font-size:1.2em;">&#926;</span> <span title="USDT" style="vertical-align:middle;font-size:1.1em;">USDT</span></button>
+    <script>
+      // Show live USDT estimate for $90
+      async function updateUSDT() {
+        const priceUSD = 90;
+        try {
+          const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd');
+          const data = await res.json();
+          const usdtRate = data.tether.usd;
+          if (usdtRate) {
+            const usdtAmount = priceUSD / usdtRate;
+            document.getElementById('usdt-estimate').textContent = `≈ ${usdtAmount.toFixed(6)} USDT (live rate)`;
+          }
+        } catch (e) {
+          document.getElementById('usdt-estimate').textContent = '';
+        }
+      }
+      updateUSDT();
+      document.getElementById('buyBtn').onclick = async function() {
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = '';
+        this.disabled = true;
+        this.textContent = 'Processing...';
+        try {
+          const res = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              price_amount: 90,
+              price_currency: 'usd',
+              order_id: 'STARTER_PARK',
+              order_description: 'Starter Park Crypto Course',
+              success_url: 'course-unlocked.html'
+            })
+          });
+          const data = await res.json();
+          if (data.hosted_url) {
+            window.location.href = data.hosted_url;
+          } else {
+            throw new Error(data.error || 'Failed to create invoice');
+          }
+        } catch (err) {
+          errorDiv.textContent = 'Payment error: ' + (err.message || err);
+          this.disabled = false;
+          this.textContent = 'Buy with Crypto 💸';
+        }
+      };
+    </script>
     <div id="error" style="color:red; font-size: 1.1em; margin-top:10px;"></div>
     <div class="info-note">
       <span class="secure">🔒</span>

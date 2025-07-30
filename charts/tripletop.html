@@ -37,7 +37,7 @@
         const popup = document.createElement('div');
         popup.className = 'popup-notification';
         popup.id = 'enroll-popup';
-        popup.innerHTML = '<span>🚀 Unlock full access to all premium trading courses! <a href="starter-pay.html" style="color:#fff;text-decoration:underline;font-weight:700;">Enroll now</a> and become a pro trader.</span>' +
+        popup.innerHTML = '<span>🚀 Unlock full access to all premium trading courses! <a href="/payments/pay.html?course=starter" style="color:#fff;text-decoration:underline;font-weight:700;">Enroll now</a> and become a pro trader.</span>' +
           '<button class="close-btn" onclick="this.parentElement.remove()">&times;</button>';
         document.body.appendChild(popup);
         setTimeout(() => { if (popup && popup.parentElement) popup.remove(); }, 15000);
@@ -78,19 +78,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
     <meta name="keywords" content="cryptocurrency, blockchain, education, news">
-    <link rel="stylesheet" href="mm.css">
+    <link rel="stylesheet" href="/css/mm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Popp<!DOCTYPE html>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
-    <meta name="keywords" content="cryptocurrency, blockchain, education, news">
-    <link rel="stylesheet" href="mm.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
+    <link rel="icon" href="/images/icon.jpeg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,23 +88,29 @@
     <title>Top And Bottom Chartpatterns</title>
 </head>
 <body>
-    <!-- Light/Dark mode toggle and popup will be injected by JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Navigation -->
     <section class="header">
         <nav>
-            <a href="index.html"><img src="images/icon1.png" alt=""></a>
+            <a href="index.html"><img src="/images/icon1.png" alt=""></a>
             <div class="nav-links">
                 <i class="fas fa-times" onclick="hideMenu()"></i>
                 <ul>
                     <li><a href="index.html">HOME</a></li>
-                    <li><a href="charts">CHART PATTERNS</a></li>
-                    <li><a href="">TRADING</a></li>
-                    <li><a href="">BLOGS</a></li>
+                    <li><a href="/charts/charts.html" class="protected-link">CHART PATTERNS</a></li>
+                    <li><a href="/index.html#courses">COURSES</a></li>
+                    <li><a href="/Affiliate.html" class="protected-link">AFFILIATE</a></li>
+                    <li><a href="#" class="protected-link">TRADING</a></li>
+                    <li><a href="#" class="protected-link">BLOGS</a></li>
+                    <li><a href="/feedback.html">CONTACT</a></li>
+                    <li><a href="#" id="loginNav">LOG OUT</a></li>
                 </ul>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
-
         </nav>
-
     </section>
 
     <!-------------------SECTION 2-------------->
@@ -148,7 +144,7 @@
             <div class="coly">
                 <div class="sub-row1">
                     <h1>Triple Top Chart pattern</h1>
-                     <img src="images/Triple Top.jpg" alt="Chart Patterns">
+                     <img src="/images/Triple Top.jpg" alt="Chart Patterns">
                     <p>The triple top chart pattern is a bearish reversal formation that occurs after an uptrend. It consists of three distinct highs at approximately the same price level, indicating strong resistance. The pattern is confirmed when the price breaks below the support level formed by the lows between the tops.</p>
                     <p>Traders often look for confirmation of the pattern by waiting for a breakdown below the support level, which signals a potential trend reversal. This breakdown is typically accompanied by increased volume, indicating strong selling pressure.</p>
                     <p>Risk management is crucial when trading triple tops. Traders typically set stop-loss orders above the most recent swing high or the upper trendline to protect against false breakouts. Additionally, measuring the height of the pattern can help set profit targets, as the expected move after a breakdown is often equal to the height of the pattern subtracted from the breakdown point.</p>
@@ -160,7 +156,7 @@
                     <hr>
 
                     <h1>Triple Bottom Chart Pattern</h1>
-                    <img src="images/Triple Bottom.jpg" alt="Chart Patterns">
+                    <img src="/images/Triple Bottom.jpg" alt="Chart Patterns">
                     <p>The triple bottom chart pattern is a bullish reversal formation that occurs after a downtrend. It consists of three distinct lows at approximately the same price level, indicating strong support. The pattern is confirmed when the price breaks above the resistance level formed by the highs between the bottoms.</p>
                     <p>A descending channel is a bearish chart pattern formed by drawing two parallel downward-sloping trendlines that connect a series of lower highs and lower lows. This pattern indicates a prevailing downtrend, where the price consistently makes lower highs and lower lows within the channel.</p>
                     <p>Traders often look for confirmation of the pattern by waiting for a breakdown below the lower trendline, which signals a continuation of the bearish trend. This breakdown is typically accompanied by increased volume, indicating strong selling pressure.</p>
@@ -170,7 +166,7 @@
 
 
                     <div class="col1">
-                    <p><a href="chart-patterns">SEE NEXT</a></p>
+                    <p><a href="/chart-patterns">SEE NEXT</a></p>
                 </div>
             </div>
         </div>
@@ -178,9 +174,9 @@
             <div class="sub-row">
                 <h1>    More Chart Patterns</h1>
                     <ul>
-                        <li><a href="Channel Patterns">Channel Patterns</a></li>
-                        <li><a href="tripletop">Top and Bottom  Patterns</a></li>
-                        <li><a href="broadening">Wedges (Rising and Falling)</a></li>
+                        <li><a href="/charts/Channel Patterns">Channel Patterns</a></li>
+                        <li><a href="/charts/tripletop">Top and Bottom  Patterns</a></li>
+                        <li><a href="/charts/broadening">Wedges (Rising and Falling)</a></li>
                         <li><a href="#">Head and Shoulders</a></li>
                         <li><a href="#">Triangles (Ascending, Descending, Symmetrical)</a></li>
                         <li><a href="#">Flags and Pennants</a></li>
@@ -226,10 +222,10 @@
         <h4>About Us</h4>
         <p>Coin Academia is dedicated to providing the best resources for forex and cryptocurrency education and trading.</p>
         <div class="icons">
-            <a href="#"><img src="images/fb1.png" alt="Facebook"></a>
-            <a href="#"><img src="images/twt1.png" alt="Twitter"></a>
-            <a href="#"><img src="images/youtube.webp" alt="YouTube"></a>
-            <a href="#"><img src="images/tel.png" alt="Telegram"></a>
+            <a href="#"><img src="/images/fb1.png" alt="Facebook"></a>
+            <a href="#"><img src="/images/twt1.png" alt="Twitter"></a>
+            <a href="#"><img src="/images/youtube.webp" alt="YouTube"></a>
+            <a href="#"><img src="/images/tel.png" alt="Telegram"></a>
         </div>
         <p>&copy; 2025 Coin Academia. All rights reserved.</p>
     </section>

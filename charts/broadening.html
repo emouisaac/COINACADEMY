@@ -1,6 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .theme-toggle {
+          position: fixed !important;
+          left: 18px;
+          bottom: 18px;
+          top: auto !important;
+          right: auto !important;
+          z-index: 1001;
+          background: #fff;
+          color: #181c2f;
+          border: none;
+          border-radius: 50%;
+          width: 44px;
+          height: 44px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5em;
+          cursor: pointer;
+          transition: background 0.2s, color 0.2s;
+        }
+        .theme-toggle.dark {
+          background: #181c2f;
+          color: #fff;
+        }
+    </style>
     <script>
     // Light/Dark mode toggle
     function setTheme(mode) {
@@ -19,7 +46,12 @@
       }
     }
     window.addEventListener('DOMContentLoaded', function() {
-      // Theme toggle
+      // Remove any existing theme toggle button
+      const oldToggle = document.getElementById('theme-toggle');
+      if (oldToggle) {
+        oldToggle.remove();
+      }
+      // Create theme toggle button fixed at bottom left, matching channel pattern dashboard
       const toggle = document.createElement('button');
       toggle.id = 'theme-toggle';
       toggle.className = 'theme-toggle';
@@ -36,7 +68,7 @@
         const popup = document.createElement('div');
         popup.className = 'popup-notification';
         popup.id = 'enroll-popup';
-        popup.innerHTML = '<span>🚀 Unlock full access to all premium trading courses! <a href="starter-pay.html" style="color:#fff;text-decoration:underline;font-weight:700;">Enroll now</a> and become a pro trader.</span>' +
+        popup.innerHTML = '<span>🚀 Unlock full access to all premium trading courses! <a href="/payments/pay.html?course=starter" style="color:#fff;text-decoration:underline;font-weight:700;">Enroll now</a> and become a pro trader.</span>' +
           '<button class="close-btn" onclick="this.parentElement.remove()">&times;</button>';
         document.body.appendChild(popup);
         setTimeout(() => { if (popup && popup.parentElement) popup.remove(); }, 15000);
@@ -62,20 +94,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="https://pysript.net/alpha/pyscript.css">
-    <link rel="stylesheet" href="app.py">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="scripts.js"></script>
-    <link rel="stylesheet" href="mm.css">
-    <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
-    <meta name="keywords" content="cryptocurrency, blockchain, education, news">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/mm.css">
     <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
     <meta name="keywords" content="cryptocurrency, blockchain, education, news">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -87,7 +106,11 @@
     <title>Broadening chartpattern</title>
 </head>
 <body>
-    <!-- Light/Dark mode toggle and popup will be injected by JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Navigation -->
     <section class="header">
         <nav>
             <a href="index.html"><img src="images/icon1.png" alt=""></a>
@@ -95,15 +118,17 @@
                 <i class="fas fa-times" onclick="hideMenu()"></i>
                 <ul>
                     <li><a href="index.html">HOME</a></li>
-                    <li><a href="charts">CHART PATTERNS</a></li>
-                    <li><a href="">TRADING</a></li>
-                    <li><a href="">BLOGS</a></li>
+                    <li><a href="/charts/charts.html" class="protected-link">CHART PATTERNS</a></li>
+                    <li><a href="/index.html#courses">COURSES</a></li>
+                    <li><a href="/Affiliate.html" class="protected-link">AFFILIATE</a></li>
+                    <li><a href="#" class="protected-link">TRADING</a></li>
+                    <li><a href="#" class="protected-link">BLOGS</a></li>
+                    <li><a href="/feedback.html">CONTACT</a></li>
+                    <li><a href="#" id="loginNav">LOG OUT</a></li>
                 </ul>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
-
         </nav>
-
     </section>
 
     <!-------------------SECTION 2-------------->
@@ -137,7 +162,7 @@
             <div class="coly">
                 <div class="sub-row1">
                     <h1>Descending Broadening Wedge</h1>
-                    <img src="images/Descending Broadening Wedge.jpg" alt="Chart Patterns">
+                    <img src="/images/Descending Broadening Wedge.jpg" alt="Chart Patterns">
                     <p>A descending broadening wedge is a chart pattern characterized by two diverging trendlines, both sloping downward and spreading apart over time. This pattern typically forms during a downtrend and signals increasing volatility as sellers and buyers push prices to lower lows and lower highs within the wedge.</p>
                     <p>The lower trendline connects a series of lower lows, while the upper trendline connects lower highs, creating a broadening, expanding shape. Unlike most continuation patterns, the descending broadening wedge often acts as a reversal pattern, with a higher probability of breaking upward.</p>
                     <p>Traders look for a decisive break above the upper trendline, which may indicate a shift in momentum from bearish to bullish. This breakout is often accompanied by increased volume, confirming the potential for a trend reversal.</p>
@@ -147,7 +172,7 @@
                     <hr>
 
                     <h1>Ascending Broadening Wedge</h1>
-                    <img src="images/Ascending Broadening Wedge.jpg">
+                    <img src="/images/Ascending Broadening Wedge.jpg">
                     <p>An ascending broadening wedge is a chart pattern formed by two diverging trendlines, both sloping upward but spreading apart over time. This pattern typically appears during an uptrend and signals increasing volatility as buyers and sellers push prices to new highs and lows within the wedge.</p>
                     <p>The upper trendline connects a series of higher highs, while the lower trendline connects higher lows, creating a broadening, expanding shape. Unlike most continuation patterns, the ascending broadening wedge often acts as a reversal pattern, with a higher probability of breaking downward.</p>
                     <p>Traders watch for a decisive break below the lower trendline, which may indicate a shift in momentum from bullish to bearish. This breakdown is often accompanied by increased volume, confirming the potential for a trend reversal.</p>
@@ -158,7 +183,7 @@
                     <hr>
 
                     <h1>Rising Wedge - Uptrend</h1>
-                    <img src="images/Rising wedges U-T.jpg" alt="Chart Patterns">
+                    <img src="/images/Rising wedges U-T.jpg" alt="Chart Patterns">
                     <p>A rising wedge is a chart pattern formed by two upward-sloping trendlines that converge as the price moves higher. In the context of an uptrend, a rising wedge is typically considered a bearish reversal pattern. As the price rises, the range narrows, indicating weakening momentum and potential exhaustion of buyers.</p>
                     <p>Bearish results are expected when the price breaks down below the lower trendline of the wedge, often accompanied by increased volume. This breakdown signals a potential shift from bullish to bearish sentiment, and traders may anticipate a downward move or trend reversal.</p>
                     <p>Key characteristics of a bearish rising wedge include converging trendlines, declining volume as the pattern develops, and a decisive breakdown below support. Traders often wait for confirmation of the breakdown before entering short positions and use stop-loss orders above the upper trendline to manage risk.</p>
@@ -169,7 +194,7 @@
                     <hr>
 
                     <h1>Rising Wedge - Uptrend</h1>
-                    <img src="images/Rising wedges D-T.jpg" alt="Chart Patterns">
+                    <img src="/images/Rising wedges D-T.jpg" alt="Chart Patterns">
                     <p>A rising wedge in a downtrend is a chart pattern formed by two upward-sloping, converging trendlines during a bearish market move. This pattern typically acts as a continuation pattern, suggesting that the prevailing downtrend is likely to resume after a temporary consolidation.</p>
                     <p>Bearish results are expected when the price breaks down below the lower trendline of the wedge, often accompanied by increased volume. This breakdown signals a continuation of the bearish momentum, and traders may anticipate further downward movement.</p>
                     <p>Key characteristics of a rising wedge in a downtrend include converging trendlines, declining volume as the pattern develops, and a decisive breakdown below support. Traders often wait for confirmation of the breakdown before entering short positions and use stop-loss orders above the upper trendline to manage risk.</p>
@@ -178,7 +203,7 @@
                     <hr>
 
                     <h1>Falling Wedge - Uptrend</h1>
-                    <img src="images/Falling wedges U-T.jpg" alt="Chart Patterns">
+                    <img src="/images/Falling wedges U-T.jpg" alt="Chart Patterns">
                     <p>A falling wedge is a chart pattern formed by two downward-sloping, converging trendlines that contain the price action. In the context of an uptrend, a falling wedge is typically considered a bullish continuation pattern. As the price consolidates within the narrowing range, selling pressure diminishes and buyers gradually regain control.</p>
                     <p>Bullish results are expected when the price breaks out above the upper trendline of the wedge, often accompanied by increased volume. This breakout signals a potential continuation of the uptrend, and traders may look for long opportunities or trend-following setups.</p>
                     <p>Key characteristics of a bullish falling wedge in an uptrend include converging trendlines, declining volume as the pattern develops, and a decisive breakout above resistance. Traders often wait for confirmation of the breakout before entering positions and use stop-loss orders below the lower trendline to manage risk.</p>
@@ -186,15 +211,15 @@
 
                     <hr>
                     <h1>Falling Wedge - Downtrend</h1>
-                    <img src="images/Falling wedges D-T.jpg" alt="Chart Patterns">
+                    <img src="/images/Falling wedges D-T.jpg" alt="Chart Patterns">
                     <p>A falling wedge in a downtrend is a chart pattern formed by two downward-sloping, converging trendlines that contain the price action. This pattern typically acts as a bullish reversal pattern, suggesting that the prevailing downtrend may be losing momentum and a potential reversal to the upside is imminent.</p>
                     <p>Bullish results are expected when the price breaks out above the upper trendline of the wedge, often accompanied by increased volume. This breakout signals a potential shift in sentiment from bearish to bullish, and traders may anticipate a reversal or upward movement.</p>
                     <p>Key characteristics of a falling wedge in a downtrend include converging trendlines, declining volume as the pattern develops, and a decisive breakout above resistance. Traders often wait for confirmation of the breakout before entering long positions and use stop-loss orders below the lower trendline to manage risk.</p>
                     <p>Recognizing the falling wedge as a bullish reversal pattern in a downtrend can help traders position themselves for potential upward movement and adjust their strategies accordingly.</p>
 
-                    
-                    <a href="chart Patterns" class="btn btn-primary btn-lg me-3">
-                                <i class="fas fa-play me-2"></i>See All Chart-Patterns
+
+                    <a href="/chart Patterns" class="btn btn-primary btn-lg me-3">
+                          <i class="fas fa-play me-2"></i>See All Chart-Patterns
                             </a>
             </div>
         </div>
@@ -202,9 +227,9 @@
             <div class="sub-row">
                 <h1>    More Chart Patterns</h1>
                     <ul>
-                        <li><a href="Channel Patterns">Channel Patterns</a></li>
-                        <li><a href="tripletop">Top and Bottom  Patterns</a></li>
-                        <li><a href="broadening">Wedges (Rising and Falling)</a></li>
+                        <li><a href="/Channel Patterns">Channel Patterns</a></li>
+                        <li><a href="/tripletop">Top and Bottom  Patterns</a></li>
+                        <li><a href="/broadening">Wedges (Rising and Falling)</a></li>
                         <li><a href="#">Head and Shoulders</a></li>
                         <li><a href="#">Triangles (Ascending, Descending, Symmetrical)</a></li>
                         <li><a href="#">Flags and Pennants</a></li>
@@ -229,11 +254,12 @@
         <h4>About Us</h4>
         <p>Coin Academia is dedicated to providing the best resources for forex and cryptocurrency education and trading.</p>
         <div class="icons">
-            <a href="#"><img src="images/fb1.png" alt="Facebook"></a>
-            <a href="#"><img src="images/twt1.png" alt="Twitter"></a>
-            <a href="#"><img src="images/youtube.webp" alt="YouTube"></a>
-            <a href="#"><img src="images/tel.png" alt="Telegram"></a>
+            <a href="#"><img src="/images/fb1.png" alt="Facebook"></a>
+            <a href="#"><img src="/images/twt1.png" alt="Twitter"></a>
+            <a href="#"><img src="/images/youtube.webp" alt="YouTube"></a>
+            <a href="#"><img src="/images/tel.png" alt="Telegram"></a>
         </div>
+        <div id="theme-toggle-footer"></div>
         <p>&copy; 2025 Coin Academia. All rights reserved.</p>
     </section>
 

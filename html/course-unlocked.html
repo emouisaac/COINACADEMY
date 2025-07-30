@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Course Unlocked!</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/mm.css">
+  <script src="../js/scripts.js"></script>
+  <script src="../js/script.js"></script>
+  <link rel="icon" href="../images/icon.jpeg" type="image/x-icon">
+</head>
+<body>
+  <div class="containerStarter">
+    <h1>🎉 Congratulations!</h1>
+    <p class="subtitle">Your payment was successful.</p>
+    <ul class="feature-list">
+      <li>✔️ Your course is now unlocked</li>
+      <li>✔️ Full access to all purchased course materials</li>
+      <li>✔️ Lifetime access — learn at your own pace</li>
+    </ul>
+    <div class="info-note">
+      <span class="secure">🔒</span>
+      Thank you for your purchase.<br>
+      You now have access to your course materials.<br>
+      <span style="color:#0052ff;">Start learning and building your crypto future!</span>
+    </div>
+  <a href="../index.html" id="backHomeBtn" class="btn btn-outline-light btn-lg" style="margin-top:22px;">Explore Your Course</a>
+    <script>
+      // Affiliate commission tracking after successful payment
+      (async function() {
+        const token = localStorage.getItem('coinAcademiaToken');
+        if (!token) return; // Only track if logged in
+        // Try to get course info from URL (?course=trading)
+        const params = new URLSearchParams(window.location.search);
+        const course = params.get('course') || 'starter';
+        // Optionally, you can pass more info if available
+        try {
+          const res = await fetch('/api/affiliate/commission', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ course })
+          });
+          const data = await res.json();
+          if (res.ok) {
+            // Optionally show a message or log
+            console.log('Affiliate commission tracked:', data);
+          } else {
+            console.warn('Affiliate commission error:', data.message);
+          }
+        } catch (err) {
+          console.warn('Affiliate commission network error:', err);
+        }
+      })();
+      // Dynamically set the button link to the paid course using ?redirect= param
+      (function() {
+        const params = new URLSearchParams(window.location.search);
+        const redirect = params.get('redirect');
+        const btn = document.getElementById('backHomeBtn');
+        if (redirect) {
+          btn.href = redirect.startsWith('..') ? redirect : '../' + redirect;
+        } else {
+          btn.href = '../index.html';
+        }
+      })();
+    </script>
+  </div>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+    }
+    .containerStarter {
+      max-width: 60%;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .containerStarter h1 {
+      letter-spacing: 1px;
+      font-weight: 900;
+      font-size: 2.5em;
+      color: #0052ff;
+      margin-bottom: 10px;
+    }
+    .containerStarter .subtitle {
+      color: #333;
+      font-size: 1.08em;
+      margin-bottom: 18px;
+    }
+    .feature-list {
+      text-align: left;
+      margin: 0 auto 18px auto;
+      padding: 0 0 0 18px;
+      color: #222;
+      font-size: 1em;
+      line-height: 1.7;
+      list-style: none;
+    }
+    .feature-list li {
+      margin-bottom: 6px;
+      padding-left: 0;
+    }
+    .info-note {
+      margin-top: 22px;
+      color: #555;
+      font-size: 0.99em;
+      background: #f3f7ff;
+      border-radius: 8px;
+      padding: 12px 10px 10px 10px;
+      line-height: 1.6;
+    }
+    .info-note .secure {
+      color: #009e3c;
+      font-size: 1.2em;
+      margin-right: 4px;
+    }
+    #backHomeBtn:hover {
+      background: linear-gradient(90deg, #003bb3 70%, #009e3c 100%);
+      box-shadow: 0 4px 16px rgba(0,82,255,0.13);
+      color: #fff;
+    }
+  </style>
+</body>
+</html>

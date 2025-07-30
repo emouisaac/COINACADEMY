@@ -18,15 +18,10 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="https://pysript.net/alpha/pyscript.css">
-    <link rel="stylesheet" href="app.py">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="scripts.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/mm.css">
     <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
     <meta name="keywords" content="cryptocurrency, blockchain, education, news">
-    <link rel="stylesheet" href="mm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,23 +31,29 @@
     <title>Chart Patterns</title>
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/script.js"></script>
     <!-- Navigation -->
     <section class="header">
         <nav>
-            <a href="index.html"><img src="images/icon1.png" alt=""></a>
+            <a href="../index.html"><img src="../images/icon1.png" alt=""></a>
             <div class="nav-links">
                 <i class="fas fa-times" onclick="hideMenu()"></i>
                 <ul>
-                    <li><a href="index.html">HOME</a></li>
-                    <li><a href="charts.html">CHART PATTERNS</a></li>
-                    <li><a href="">TRADING</a></li>
-                    <li><a href="">BLOGS</a></li>
+                    <li><a href="../index.html">HOME</a></li>
+                    <li><a href="/charts/charts.html" class="protected-link">CHART PATTERNS</a></li>
+                    <li><a href="../index.html#courses">COURSES</a></li>
+                    <li><a href="/Affiliate.html" class="protected-link">AFFILIATE</a></li>
+                    <li><a href="../html/trading.html" class="protected-link">TRADING</a></li>
+                    <li><a href="../html/blogs.html" class="protected-link">BLOGS</a></li>
+                    <li><a href="../html/feedback.html">CONTACT</a></li>
+                    <li><a href="#" id="loginNav">LOG OUT</a></li>
                 </ul>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
-
         </nav>
-
     </section>
 
     <!-- Scrolling Market Data -->
@@ -71,7 +72,7 @@
                 <h4>Best For You</h4>
             </div>
             <div class="col">
-                <img src="images/icon1.png" alt="Coin Image">
+                <img src="../images/icon1.png" alt="Coin Image">
     
             </div>
 
@@ -86,7 +87,7 @@
         <p>Chart patterns are essential tools for traders, providing visual representations of price movements and trends. They help identify potential market reversals, continuations, and breakouts, enabling traders to make informed decisions. By recognizing these patterns, traders can enhance their technical analysis skills and improve their trading strategies.</p>
         <div class="rop">
             <div class="col1">
-                <img src="images/All Charts.jpg">
+                <img src="../images/All Charts.jpg">
             </div>
         </div>
     </section>
@@ -125,7 +126,7 @@
                             <a href="Channel Patterns.html" class="btn btn-primary btn-lg me-3">
                                 <i class="fas fa-play me-2"></i>See All Chart-Patterns
                             </a>
-                            <a href="starter-pay.html" class="btn btn-outline-light btn-lg">
+                            <a href="/payments/pay.html?course=starter" class="btn btn-outline-light btn-lg">
                                 <i class="fas fa-play me-2"></i>Start Learning
                             </a>
                         </div>
@@ -291,10 +292,10 @@
                     <div class="footer-widget">
                         <h6 class="widget-title">Quick Links</h6>
                         <ul class="footer-links">
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="#courses">Courses</a></li>
-                            <li><a href="#market">Market</a></li>
-                            <li><a href="#about">About</a></li>
+                            <li><a href="../index.html">Home</a></li>
+                            <li><a href="index.html#courses">Courses</a></li>
+                            <li><a href="index.html#market">Market</a></li>
+                            <li><a href="index.html#about">About</a></li>
                         </ul>
                     </div>
                 </div>
@@ -315,7 +316,7 @@
                     <div class="footer-widget">
                         <h6 class="widget-title">Contact Info</h6>
                         <div class="contact-info">
-                            <p><i class="fas fa-envelope me-2"><a href="feedback.html">info@coinacademia.in</a></i></p>
+                            <p><i class="fas fa-envelope me-2"><a href="html/feedback.html">info@coinacademia.in</a></i></p>
                             
                         </div>
                     </div>
@@ -328,7 +329,7 @@
                 <div class="col-12 text-center">
                     <p class="copyright">
                         &copy; 2025 CoinAcademia. All rights reserved. | 
-                        <a href="policy" class="footer-link">Privacy Policy</a> | 
+                        <a href="../html/policy.html" class="footer-link">Privacy Policy</a> | 
                         <a href="#" class="footer-link">Terms of Service</a>
                     </p>
                 </div>
@@ -339,9 +340,8 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/crypto-ticker.js') }}"></script>
-    <script src="script.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/script.js"></script>
 
     <script>
         // Initialize AOS

@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Dashboard</title>
+    <style>
+        :root {
+            --primary: #3a36c4;
+            --primary-dark: #392cce;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --dark-gray: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        .dark {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --dark: #f8fafc;
+            --light: #1e293b;
+            --gray: #64748b;
+            --dark-gray: #cbd5e1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgb(14, 14, 42);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        nav a:hover {
+            opacity: 0.9;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content Styles */
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dark .card {
+            background-color: var(--dark-gray);
+            color: var(--light);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .user-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-email {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .user-username {
+            font-size: 0.95em;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .user-rank {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .progress-container {
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+            width: 30%;
+        }
+
+        .referral-section {
+            width: 100%;
+        }
+
+        .referral-code {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f1f5f9;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dark .referral-code {
+            background-color: #334155;
+        }
+
+        .copy-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .referral-link {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 0.5rem;
+            word-break: break-all;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .dark .stat-card {
+            background-color: #334155;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .rank-visualizer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .rank-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .rank-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .rank-circle.inactive {
+            background-color: var(--gray);
+        }
+
+        .rank-name {
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        .rank-connector {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--gray);
+            z-index: 0;
+        }
+
+        .rank-connector-fill {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            height: 2px;
+            background-color: var(--primary);
+            z-index: 1;
+            width: 30%;
+        }
+
+        .commission-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .commission-table th, .commission-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .commission-table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .dark .commission-table th {
+            background-color: #334155;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .package-card {
+            border: 1px solid var(--gray);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .package-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .package-content {
+            padding: 1rem;
+        }
+
+        .package-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .enroll-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .enroll-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .referrals-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .referrals-table th, .referrals-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .referrals-table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .dark .referrals-table th {
+            background-color: #334155;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .dark .status-active {
+            background-color: #166534;
+            color: #dcfce7;
+        }
+
+        .status-inactive {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .dark .status-inactive {
+            background-color: #991b1b;
+            color: #fee2e2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .dark .modal-content {
+            background-color: var(--dark-gray);
+            color: var(--light);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 0.25rem;
+            background-color: white;
+        }
+
+        .dark .form-select {
+            background-color: #334155;
+            color: var(--light);
+            border-color: #475569;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: var(--dark);
+            border: none;
+        }
+
+        .dark .btn-secondary {
+            background-color: #475569;
+            color: var(--light);
+        }
+
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
+
+        .dark .btn-secondary:hover {
+            background-color: #64748b;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: rgb(14, 14, 42);
+            color: white;
+            padding: 2rem;
+            margin-top: 0;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links h3 {
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header{
+                width: 100%;
+            }
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 75vw;
+                max-width: 320px;
+                background: rgb(14, 14, 42);
+                box-shadow: -2px 0 16px rgba(0,0,0,0.08);
+                transform: translateX(100%);
+                transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+                z-index: 2000;
+                margin-top: 0;
+                display: block;
+                padding-top: 2.5rem;
+            }
+
+            nav.active {
+                transform: translateX(0);
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 2rem 1.5rem 1.5rem 1.5rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                z-index: 2100;
+            }
+
+            .close-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 2rem;
+                position: absolute;
+                top: 1rem;
+                left: 1rem;
+                z-index: 2101;
+                cursor: pointer;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .rank-visualizer {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .rank-step {
+                flex: 0 0 calc(20% - 1rem);
+            }
+
+            .rank-connector, .rank-connector-fill {
+                display: none;
+            }
+        }
+        @media (max-width: 480px) {
+
+            header{
+                width: 100%;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rank-step {
+                flex: 0 0 calc(33.33% - 1rem);
+            }
+
+            body, main {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+            main {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/icon1.png" alt="Logo">
+                <span>CoinAcademia</span>
+            </div>
+            <button class="mobile-menu-btn">☰</button>
+            <nav>
+                <button class="close-menu-btn" style="display:none">&times;</button>
+                <ul>
+                    <li><a href="index.html"><span>🏠</span> Home</a></li>
+                    <li><a href="/charts/charts.html" class="protected-link"><span>📊</span> Chart Patterns</a></li>
+                    <li><a href="../index.html#courses"><span>🎓</span> Courses</a></li>
+                    <li><a href="/Affiliate.html" class="protected-link"><span>🤝</span> Affiliate</a></li>
+                    <li><a href="../html/trading.html" class="protected-link"><span>�</span> Trading</a></li>
+                    <li><a href="../html/blogs.html" class="protected-link"><span>📰</span> Blogs</a></li>
+                    <li><a href="../html/feedback.html"><span>📧</span> Contact</a></li>
+                    <li>
+                    <button class="theme-toggle">🌙</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="dashboard">
+            <!-- User Profile Section -->
+            <div class="card profile-card">
+                <div class="card-header">
+                    <h2 class="card-title">My Profile</h2>
+                </div>
+                <div class="profile-pic" id="profile-icon" style="background:#f1f1f1;display:flex;align-items:center;justify-content:center;"></div>
+                <h3 class="user-name">&nbsp;</h3>
+                <div class="user-email" style="font-size:1em;color:#555;margin-bottom:4px;"></div>
+                <div class="user-username" style="font-size:0.95em;color:#888;margin-bottom:8px;"></div>
+                <span class="user-rank">V1</span>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Progress to V2</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                
+                <div class="referral-section">
+                    <h4>Your Referral Code</h4>
+                    <div class="referral-code">
+                        <span id="ref-code"></span>
+                        <button class="copy-btn" onclick="copyToClipboard('ref-code')">Copy Code</button>
+                    </div>
+                    <h4>Your Referral Link</h4>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input id="ref-link-input" class="referral-link" type="text" readonly style="flex:1; min-width:0;">
+                        <button class="copy-btn" onclick="copyReferralLink()">Copy Link</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Affiliate Overview Dashboard -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Affiliate Overview</h2>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-invites">0</div>
+                        <div class="stat-label">Direct Invites</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-indirect">0</div>
+                        <div class="stat-label">Indirect Referrals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-earnings">$0</div>
+                        <div class="stat-label">Total Earnings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-rank">V1</div>
+                        <div class="stat-label">Current Rank</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-pending">$0</div>
+                        <div class="stat-label">Pending Payout</div>
+                    </div>
+                </div>
+                
+                <h3>Referral Network</h3>
+                <div style="height: 200px; background-color: #f1f5f9; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin: 1rem 0;">
+                    [Referral Network Graph Placeholder]
+                </div>
+                
+                <h3>Upgrade Requirements</h3>
+                <ul id="upgrade-reqs" style="margin-top: 1rem; padding-left: 1.5rem;"></ul>
+                
+                <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" onclick="openRankModal()">Upgrade Rank</button>
+            </div>
+
+            <!-- Rank & Commission Structure -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Rank & Commission Structure</h2>
+                </div>
+                
+                <div class="rank-visualizer">
+                    <div class="rank-connector"></div>
+                    <div class="rank-connector-fill" style="width: 20%;"></div>
+                    
+                    <div class="rank-step">
+                        <div class="rank-circle active">V0</div>
+                        <span class="rank-name">Starter</span>
+                    </div>
+                    <div class="rank-step">
+                        <div class="rank-circle active">V1</div>
+                        <span class="rank-name">Affiliate</span>
+                    </div>
+                    <div class="rank-step">
+                        <div class="rank-circle">V2</div>
+                        <span class="rank-name">Pro</span>
+                    </div>
+                    <div class="rank-step">
+                        <div class="rank-circle">V3</div>
+                        <span class="rank-name">Expert</span>
+                    </div>
+                    <div class="rank-step">
+                        <div class="rank-circle">V4</div>
+                        <span class="rank-name">Master</span>
+                    </div>
+                    <div class="rank-step">
+                        <div class="rank-circle">V5</div>
+                        <span class="rank-name">Elite</span>
+                    </div>
+                </div>
+                
+                <table class="commission-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Direct Commission</th>
+                            <th>Indirect Levels</th>
+                            <th>Buy Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>V0</td>
+                            <td>0%</td>
+                            <td>N/A</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>V1</td>
+                            <td>20%</td>
+                            <td>7%, 5%, 3%, 1%</td>
+                            <td>$60</td>
+                        </tr>
+                        <tr>
+                            <td>V2</td>
+                            <td>30%</td>
+                            <td>7%, 5%, 3%, 1%</td>
+                            <td>$120</td>
+                        </tr>
+                        <tr>
+                            <td>V3</td>
+                            <td>40%</td>
+                            <td>7%, 5%, 3%, 1%</td>
+                            <td>$250</td>
+                        </tr>
+                        <tr>
+                            <td>V4</td>
+                            <td>45%</td>
+                            <td>7%, 5%, 3%, 1%</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>V5</td>
+                            <td>50%</td>
+                            <td>7%, 5%, 3%, 1%</td>
+                            <td>❌</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Course Packages -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Course Packages</h2>
+                </div>
+                
+                <div class="packages-grid">
+                    <div class="package-card">
+                        <div class="package-badge" style="background:#3a36c4;">Elite</div>
+                        <div class="package-content">
+                            <h3 class="package-name">Masterclass: Wealth Building</h3>
+                            <div class="package-price">$1000</div>
+                            <button class="enroll-btn" onclick="window.location.href='/payments/pay.html?course=masterclass'">Enroll Now</button>
+                        </div>
+                    </div>
+                    <div class="package-card">
+                        <div class="package-badge">Premium</div>
+                        <div class="package-content">
+                            <h3 class="package-name">Portfolio Management</h3>
+                            <div class="package-price">$500</div>
+                            <button class="enroll-btn" onclick="window.location.href='/payments/pay.html?course=portfolio'">Enroll Now</button>
+                        </div>
+                    </div>
+                    <div class="package-card">
+                        <div class="package-badge">Advanced</div>
+                        <div class="package-content">
+                            <h3 class="package-name">Technical Analysis</h3>
+                            <div class="package-price">$350</div>
+                            <button class="enroll-btn" onclick="window.location.href='/payments/pay.html?course=technical'">Enroll Now</button>
+                        </div>
+                    </div>
+                    <div class="package-card">
+                        <div class="package-badge">Intermediate</div>
+                        <div class="package-content">
+                            <h3 class="package-name">Trading Strategies</h3>
+                            <div class="package-price">$250</div>
+                            <button class="enroll-btn" onclick="window.location.href='/payments/pay.html?course=trading'">Enroll Now</button>
+                        </div>
+                    </div>
+                    <div class="package-card">
+                        <div class="package-badge">Basic</div>
+                        <div class="package-content">
+                            <h3 class="package-name">Crypto Fundamentals</h3>
+                            <div class="package-price">$90</div>
+                            <button class="enroll-btn" onclick="window.location.href='/payments/pay.html?course=starter'">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referrals & Earnings -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Referrals & Earnings</h2>
+                </div>
+                
+                <table class="referrals-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Rank</th>
+                            <th>Earnings</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Referral data will be injected by JS. If none, show 0 data. -->
+                        <tr>
+                            <td colspan="4" style="text-align:center;color:#888;">No referrals yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Withdraw Section -->
+            <div class="card" id="withdraw-section">
+                <div class="card-header">
+                    <h2 class="card-title">Withdraw Earnings</h2>
+                </div>
+                <div style="margin-bottom:1rem;">
+                    <strong>Available to Withdraw:</strong> <span id="withdraw-available">$0</span>
+                </div>
+                <div class="form-group">
+                    <label for="tron-wallet" class="form-label">TRON Wallet Address</label>
+                    <input type="text" id="tron-wallet" class="form-select" placeholder="Enter your TRON wallet address">
+                </div>
+                <button class="btn btn-primary" id="withdraw-btn" style="width:100%;margin-bottom:1rem;">Withdraw</button>
+                <div style="font-size:0.95em;color:#888;margin-bottom:1rem;">
+                    <ul style="padding-left:1.2rem;">
+                        <li>Minimum withdrawal: $10</li>
+                        <li>Network: TRON (TRC20 USDT)</li>
+                        <li>Fee: $1 per withdrawal</li>
+                        <li>Withdrawals are processed instantly</li>
+                    </ul>
+                </div>
+                <h4 style="margin-top:1.5rem;">Withdraw History</h4>
+                <table class="referrals-table" id="withdraw-history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Wallet</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="4" style="text-align:center;color:#888;">No withdrawals yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rank Purchase Modal -->
+    <div class="modal" id="rankModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeRankModal()">&times;</button>
+            <h2 class="modal-title">Upgrade Your Rank</h2>
+            
+            <div class="form-group">
+                <label for="rank-select" class="form-label">Select Rank</label>
+                <select id="rank-select" class="form-select">
+                    <option value="V1">V1 - Affiliate ($60)</option>
+                    <option value="V2">V2 - Pro ($120)</option>
+                    <option value="V3">V3 - Expert ($250)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Benefits</label>
+                <ul style="padding-left: 1.5rem;">
+                    <li>Higher direct commission rates</li>
+                    <li>Access to exclusive resources</li>
+                    <li>Priority support</li>
+                </ul>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeRankModal()">Cancel</button>
+                <button class="btn btn-primary">Proceed to Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <div class="footer-logo">
+                    <img src="images/icon1.png" alt="Logo" style="height:40px; width:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.08); background:#1b252f; padding:4px;">
+                    <span>CoinAcademia</span>
+                </div>
+                <p>Empowering your financial education through cryptocurrency knowledge.</p>
+                <div class="social-links">
+                    <a href="#">📘</a>
+                    <a href="#">🐦</a>
+                    <a href="#">📸</a>
+                    <a href="#">🔗</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Courses</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Testimonials</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                    <li><a href="#">Disclaimer</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Contact</h3>
+                <ul>
+                    <li>Email: support@coinacademia.com</li>
+                    <li>Phone: +1 (555) 123-4567</li>
+                    <li>Address: 123 Crypto Street, Blockchain City</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 CoinAcademia. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+
+        // --- Backend-integrated Withdraw Section Logic ---
+        async function fetchAffiliateDashboard() {
+            const token = localStorage.getItem('coinAcademiaToken');
+            if (!token) return null;
+            try {
+                const res = await fetch('/api/affiliate/dashboard', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                if (!res.ok) return null;
+                return await res.json();
+            } catch { return null; }
+        }
+
+        async function renderWithdrawSection() {
+            const data = await fetchAffiliateDashboard();
+            if (!data) return;
+            document.getElementById('withdraw-available').textContent = '$' + (data.availableToWithdraw || 0);
+            // Render withdrawal history
+            const table = document.getElementById('withdraw-history-table');
+            if (table) {
+                const tbody = table.querySelector('tbody');
+                tbody.innerHTML = '';
+                if (!data.withdrawals || !data.withdrawals.length) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#888;">No withdrawals yet.</td></tr>';
+                } else {
+                    data.withdrawals.forEach(w => {
+                        tbody.innerHTML += `<tr><td>${w.date}</td><td>$${w.amount}</td><td style="font-size:0.9em;word-break:break-all;">${w.wallet}</td><td><span class="status-badge status-${w.status === 'Completed' ? 'active' : 'inactive'}">${w.status}</span></td></tr>`;
+                    });
+                }
+            }
+        }
+
+        async function handleWithdrawBackend() {
+            const token = localStorage.getItem('coinAcademiaToken');
+            if (!token) {
+                alert('You must be logged in to withdraw.');
+                return;
+            }
+            const wallet = document.getElementById('tron-wallet').value.trim();
+            if (!wallet) {
+                alert('Please enter your TRON wallet address.');
+                return;
+            }
+            // Fetch available balance
+            const data = await fetchAffiliateDashboard();
+            const available = data && data.availableToWithdraw ? parseFloat(data.availableToWithdraw) : 0;
+            if (available < 10) {
+                alert('Insufficient balance to withdraw. Minimum is $10.');
+                return;
+            }
+            let amount = Math.floor((available - 1) * 100) / 100;
+            if (amount < 9) {
+                alert('After $1 fee, minimum withdrawal is $10.');
+                return;
+            }
+            try {
+                const res = await fetch('/api/affiliate/withdraw', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ amount, wallet })
+                });
+                const result = await res.json();
+                if (!res.ok) {
+                    alert(result.message || 'Withdrawal failed.');
+                    return;
+                }
+                alert('Withdrawal of $' + amount + ' sent to your TRON wallet!');
+                renderWithdrawSection();
+            } catch (err) {
+                alert('Network error. Please try again.');
+            }
+        }
+
+        // --- Referral Code Generation & Registration Logic ---
+        // Helper to generate a unique referral code
+        function generateReferralCode(name, email) {
+            // Use name + random 4 digits + short hash of email
+            const cleanName = name.replace(/[^A-Za-z0-9]/g, '').substring(0, 8).toUpperCase();
+            const rand = Math.floor(1000 + Math.random() * 9000);
+            let hash = 0;
+            for (let i = 0; i < email.length; i++) {
+                hash = ((hash << 5) - hash) + email.charCodeAt(i);
+                hash |= 0;
+            }
+            return cleanName + rand + Math.abs(hash % 1000);
+        }
+
+        // Registration handler (simulate registration form submission)
+        function handleRegistration(name, email) {
+            // Check if user already exists in localStorage
+            let users = JSON.parse(localStorage.getItem('affiliateUsers') || '[]');
+            if (users.some(u => u.email === email)) {
+                alert('User already registered!');
+                return;
+            }
+            // Generate unique referral code
+            let code;
+            do {
+                code = generateReferralCode(name, email);
+            } while (users.some(u => u.referralCode === code));
+            // Save user with default rank V0
+            const user = { name, email, referralCode: code, rank: 'V0' };
+            users.push(user);
+            localStorage.setItem('affiliateUsers', JSON.stringify(users));
+            localStorage.setItem('affiliateCurrentUser', JSON.stringify(user));
+            // Update UI
+            setProfileFromUser(user);
+            alert('Registration successful! Your referral code: ' + code);
+        }
+
+        // --- Affiliate Profile & Referral Dashboard Logic ---
+        // Set profile UI from user object
+        function setProfileFromUser(user) {
+            if (!user) return;
+            // Show name, email, username
+            const nameEl = document.querySelector('.user-name');
+            const refCodeEl = document.getElementById('ref-code');
+            const refLinkInput = document.getElementById('ref-link-input');
+            const emailEl = document.querySelector('.user-email');
+            const usernameEl = document.querySelector('.user-username');
+            const rankEl = document.querySelector('.user-rank');
+            if (nameEl) nameEl.textContent = user.fullname || user.name || '';
+            if (emailEl) emailEl.textContent = user.email || '';
+            if (usernameEl) usernameEl.textContent = user.username || '';
+            if (refCodeEl) refCodeEl.textContent = user.referralCode || '';
+            if (refLinkInput) refLinkInput.value = 'https://coinacademia.com/ref/' + (user.referralCode || '');
+            if (rankEl) rankEl.textContent = user.rank || 'V0';
+            // Set simple SVG profile icon
+            const profileIcon = document.getElementById('profile-icon');
+            if (profileIcon) {
+                const isDark = document.body.classList.contains('dark');
+                const color = isDark ? '#fff' : '#222';
+                profileIcon.innerHTML = `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="32" fill="none"/><circle cx="32" cy="26" r="12" stroke="${color}" stroke-width="3" fill="none"/><path d="M16 52c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="${color}" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+            }
+        }
+
+        // Add this function to enable copying the referral link
+        function copyReferralLink() {
+            const input = document.getElementById('ref-link-input');
+            input.select();
+            input.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand('copy');
+            alert('Copied to clipboard: ' + input.value);
+        }
+
+        // Set referral dashboard to 0 if no referrals
+        function setReferralDashboard(user) {
+            // For demo, check localStorage for referrals for this user
+            const tbody = document.querySelector('.referrals-table tbody');
+            if (tbody) {
+                // Try to get referrals from localStorage (simulate)
+                let referrals = [];
+                try {
+                    referrals = JSON.parse(localStorage.getItem('affiliateReferrals_' + (user.referralCode || '')) || '[]');
+                } catch {}
+                tbody.innerHTML = '';
+                if (!referrals || referrals.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#888;">No referrals yet.</td></tr>`;
+                } else {
+                    referrals.forEach(r => {
+                        tbody.innerHTML += `<tr><td>${r.name}</td><td>${r.rank || 'V0'}</td><td>${r.earnings || '$0'}</td><td><span class="status-badge status-inactive">Inactive</span></td></tr>`;
+                    });
+                }
+            }
+        }
+
+        // Update Affiliate Overview stats
+        function setAffiliateOverview(user, referrals) {
+            referrals = referrals || [];
+            // Calculate stats
+            const invites = referrals.length;
+            const earnings = referrals.reduce((sum, r) => sum + (parseFloat(r.earnings) || 0), 0);
+            const pending = referrals.reduce((sum, r) => sum + (parseFloat(r.pending) || 0), 0);
+            // Set values
+            document.getElementById('stat-invites').textContent = invites;
+            document.getElementById('stat-earnings').textContent = '$' + earnings.toLocaleString();
+            document.getElementById('stat-pending').textContent = '$' + pending.toLocaleString();
+            document.getElementById('stat-rank').textContent = user.rank || 'V0';
+        }
+
+        // Set upgrade requirements based on user rank
+        function setUpgradeRequirements(user) {
+            const reqsEl = document.getElementById('upgrade-reqs');
+            if (!reqsEl) return;
+            let html = '';
+            switch ((user.rank || 'V0').toUpperCase()) {
+                case 'V0':
+                    html += '<li>Invite 2 people to reach V1</li>';
+                    html += '<li>Or purchase V1 for $60</li>';
+                    break;
+                case 'V1':
+                    html += '<li>Invite 2 more people to reach V2</li>';
+                    html += '<li>Have 3 active referrals to reach V2</li>';
+                    html += '<li>Or purchase V2 for $120</li>';
+                    break;
+                case 'V2':
+                    html += '<li>Invite 3 more people to reach V3</li>';
+                    html += '<li>Have 5 active referrals to reach V3</li>';
+                    html += '<li>Or purchase V3 for $250</li>';
+                    break;
+                case 'V3':
+                    html += '<li>Invite 5 more people to reach V4</li>';
+                    html += '<li>Have 10 active referrals to reach V4</li>';
+                    html += '<li>Purchase not available for V4</li>';
+                    break;
+                case 'V4':
+                    html += '<li>Invite 10 more people to reach V5</li>';
+                    html += '<li>Have 20 active referrals to reach V5</li>';
+                    html += '<li>Purchase not available for V5</li>';
+                    break;
+                case 'V5':
+                    html += '<li>You have reached the highest rank (V5 - Elite)!</li>';
+                    break;
+                default:
+                    html += '<li>Progress requirements unavailable.</li>';
+            }
+            reqsEl.innerHTML = html;
+        }
+
+        // Helper to update all dashboard sections together
+        function updateAffiliateDashboard(user) {
+            // Get referrals
+            let referrals = [];
+            try {
+                referrals = JSON.parse(localStorage.getItem('affiliateReferrals_' + (user.referralCode || '')) || '[]');
+            } catch {}
+            // Check for rank upgrade
+            let newRank = user.rank || 'V0';
+            if (newRank === 'V0' && referrals.length >= 2) newRank = 'V1';
+            if (newRank === 'V1' && referrals.length >= 4) newRank = 'V2';
+            if (newRank === 'V2' && referrals.length >= 7) newRank = 'V3';
+            if (newRank === 'V3' && referrals.length >= 12) newRank = 'V4';
+            if (newRank === 'V4' && referrals.length >= 22) newRank = 'V5';
+            // If rank changed, update user in storage
+            if (newRank !== user.rank) {
+                user.rank = newRank;
+                // Update in affiliateUsers
+                let users = JSON.parse(localStorage.getItem('affiliateUsers') || '[]');
+                users = users.map(u => u.email === user.email ? { ...u, rank: newRank } : u);
+                localStorage.setItem('affiliateUsers', JSON.stringify(users));
+                localStorage.setItem('affiliateCurrentUser', JSON.stringify(user));
+            }
+            setProfileFromUser(user);
+            setReferralDashboard(user);
+            setAffiliateOverview(user, referrals);
+            setUpgradeRequirements(user);
+            // Withdraw section
+            updateWithdrawSection(user, referrals);
+            renderWithdrawHistory(user.referralCode);
+        }
+
+        // On page load, show dashboard and wire up withdraw button
+        document.addEventListener('DOMContentLoaded', () => {
+            renderWithdrawSection();
+            const btn = document.getElementById('withdraw-btn');
+            if (btn) btn.onclick = handleWithdrawBackend;
+            initCharts();
+        });
+
+        // Example: To trigger registration, call handleRegistration(name, email)
+        // e.g. handleRegistration('Jane Doe', 'jane@email.com');
+
+        // Mobile Menu Slide-in Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        const closeMenuBtn = document.querySelector('.close-menu-btn');
+
+        function showMenu() {
+            nav.classList.add('active');
+            if (window.innerWidth <= 768) {
+                closeMenuBtn.style.display = 'block';
+            }
+        }
+        function hideMenu() {
+            nav.classList.remove('active');
+            closeMenuBtn.style.display = 'none';
+        }
+
+        mobileMenuBtn.addEventListener('click', showMenu);
+        closeMenuBtn.addEventListener('click', hideMenu);
+
+        // Hide menu when clicking outside nav on mobile
+        window.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && nav.classList.contains('active')) {
+                if (!nav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    hideMenu();
+                }
+            }
+        });
+
+        // Copy to Clipboard
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard: ' + text);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Rank Modal
+        function openRankModal() {
+            document.getElementById('rankModal').style.display = 'flex';
+        }
+
+        function closeRankModal() {
+            document.getElementById('rankModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside (but not for nav)
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById('rankModal');
+            if (event.target === modal) {
+                closeRankModal();
+            }
+        });
+
+        // Sample data for charts (would be replaced with actual chart implementation)
+        function initCharts() {
+            // This would be replaced with Chart.js or similar implementation
+            console.log('Initialize charts here');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+        });
+    </script>
+</body>
+</html>

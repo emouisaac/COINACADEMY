@@ -295,7 +295,7 @@ nav .fas{
 
 /*-----   Section1   -----*/
 .section1{
-    background-image: linear-gradient(rgba(255, 255, 255, 0.74), rgba(223, 223, 223, 0.685)), url('images/abt2.jpg');
+    background-image: linear-gradient(rgba(255, 255, 255, 0.74), rgba(223, 223, 223, 0.685)), url('/images/abt2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     height: 60vh;
@@ -519,7 +519,7 @@ video{
     flex-basis: 50%;
     margin: 2%;
     margin-top: 10%;
-    background-image: linear-gradient(rgba(120, 120, 120, 0.71),rgba(137, 137, 137, 0.677)),url('images/abt2.jpg');
+    background-image: linear-gradient(rgba(120, 120, 120, 0.71),rgba(137, 137, 137, 0.677)),url('/images/abt2.jpg');
 }
 .col1 img{
     width: 80%;
@@ -932,7 +932,7 @@ video{
     padding: 0;
 }
 .charts1{
-    background-image: linear-gradient(rgba(249, 223, 94, 0.848), rgba(175, 149, 111, 0.629)), url('images/All Charts.jpg');
+    background-image: linear-gradient(rgba(249, 223, 94, 0.848), rgba(175, 149, 111, 0.629)), url('/images/All Charts.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     height: 60vh;

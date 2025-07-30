@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Buy Masterclass: Wealth Building</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/mm.css">
+  <script src="../js/scripts.js"></script>
+  <script src="../js/script.js"></script>
+  <style>
+    /* Responsive styles for all media screens */
+  </style>
+</head>
+<body>
+  <div class="containerStarter">
+    <h1>Masterclass: Wealth Building</h1>
+    <p class="subtitle">Unlock elite-level strategies and wealth-building secrets with our <strong>Masterclass</strong> course!</p>
+    <ul class="feature-list">
+      <li>✔️ Advanced portfolio scaling & management</li>
+      <li>✔️ Wealth-building strategies for serious investors</li>
+      <li>✔️ Exclusive insights from top crypto experts</li>
+    </ul>
+    <div class="price-section">
+      <span class="old-price">$1200</span>
+      <span class="new-price">$1000</span>
+      <span class="discount-badge">17% OFF</span>
+      <span id="usdt-estimate" style="display:block;font-size:0.95em;color:#555;margin-top:6px;"></span>
+    </div>
+    <button id="buyBtn">Pay with Crypto <span style="font-size:1.1em;">&#128176;</span></button>
+    <script>
+      // Show live USDT estimate for $1000
+      async function updateUSDT() {
+        const priceUSD = 1000;
+        try {
+          const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd');
+          const data = await res.json();
+          const usdtRate = data.tether.usd;
+          if (usdtRate) {
+            const usdtAmount = priceUSD / usdtRate;
+            document.getElementById('usdt-estimate').textContent = `≈ ${usdtAmount.toFixed(6)} USDT (live rate)`;
+          }
+        } catch (e) {
+          document.getElementById('usdt-estimate').textContent = '';
+        }
+      }
+      updateUSDT();
+      document.getElementById('buyBtn').onclick = async function() {
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = '';
+        this.disabled = true;
+        this.textContent = 'Processing...';
+        try {
+          const res = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              price_amount: 1000,
+              price_currency: 'usd',
+              order_id: 'MASTERCLASS',
+              order_description: 'Masterclass: Wealth Building',
+              success_url: 'course-unlocked.html'
+            })
+          });
+          const data = await res.json();
+          if (data.hosted_url) {
+            window.location.href = data.hosted_url;
+          } else {
+            throw new Error(data.error || 'Failed to create invoice');
+          }
+        } catch (err) {
+          errorDiv.textContent = 'Payment error: ' + (err.message || err);
+          this.disabled = false;
+          this.textContent = 'Enroll Now 💸';
+        }
+      };
+    </script>
+    <div id="error" style="color:red; font-size: 1.1em; margin-top:10px;"></div>
+    <div class="info-note">
+      <span class="secure">🔒</span>
+      Instant access after payment.<br>
+      Secure checkout powered by <strong>NOWPayments</strong>.<br>
+      <span style="color:#0052ff;">Join the elite and build your financial future!</span>
+    </div>
+  </div>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+    }
+    .containerStarter {
+      max-width: 60%;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .containerStarter h1 {
+      letter-spacing: 1px;
+      font-weight: 900;
+      font-size: 2.5em;
+      color: #0052ff;
+      margin-bottom: 10px;
+    }
+    .containerStarter .subtitle {
+      color: #333;
+      font-size: 1.08em;
+      margin-bottom: 18px;
+    }
+    .feature-list {
+      text-align: left;
+      margin: 0 auto 18px auto;
+      padding: 0 0 0 18px;
+      color: #222;
+      font-size: 1em;
+      line-height: 1.7;
+      list-style: none;
+    }
+    .feature-list li {
+      margin-bottom: 6px;
+      padding-left: 0;
+    }
+    .price-section {
+      margin: 18px 0 12px 0;
+      font-size: 1.6em;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .old-price {
+      color: #aaa;
+      text-decoration: line-through;
+      font-size: 1em;
+    }
+    .new-price {
+      color: #009e3c;
+      font-weight: bold;
+      font-size: 1.3em;
+    }
+    .discount-badge {
+      background: #ffe066;
+      color: #b8860b;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.95em;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+    #buyBtn {
+      background: linear-gradient(90deg, #0052ff 60%, #00c6fb 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 14px 0;
+      font-size: 1.5em;
+      font-weight: 600;
+      width: 100%;
+      margin-top: 18px;
+      box-shadow: 0 2px 8px rgba(0,82,255,0.08);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    #buyBtn:hover {
+      background: linear-gradient(90deg, #003bb3 70%, #009e3c 100%);
+      box-shadow: 0 4px 16px rgba(0,82,255,0.13);
+    }
+    .info-note {
+      margin-top: 22px;
+      color: #555;
+      font-size: 0.99em;
+      background: #f3f7ff;
+      border-radius: 8px;
+      padding: 12px 10px 10px 10px;
+      line-height: 1.6;
+    }
+    .info-note .secure {
+      color: #009e3c;
+      font-size: 1.2em;
+      margin-right: 4px;
+    }
+  </style>
+  <script src="main.js"></script>
+</body>
+</html>

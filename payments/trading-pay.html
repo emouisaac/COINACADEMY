@@ -2,37 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Buy STARTER PARK Crypto Course</title>
-  <link rel="stylesheet" href="stylez.css">
+  <title>Buy Trading Strategies Course</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/mm.css">
+  <script src="../js/scripts.js"></script>
+  <script src="../js/script.js"></script>
   <style>
     /* Responsive styles for all media screens */
-    
-     
   </style>
 </head>
 <body>
   <div class="containerStarter">
-    <h1>ELITE PARK PACKAGE</h1>
-    <p class="subtitle">Technical Analysis Mastery with our<strong>Elite Park</strong> course!</p>
+    <h1>Trading Strategies</h1>
+    <p class="subtitle">Explore proven trading strategies and risk management for crypto success!</p>
     <ul class="feature-list">
-      <li>✔️ <strong>Market Entry and exit strategies</strong></li>
-      <li>✔️ In-depth chart pattern analysis</li>
-      <li>✔️ Mastering candlestick patterns</li>
-      <li>✔️ Engaging with market sentiment</li>
-      
+      <li>✔️ Step-by-step trading tactics</li>
+      <li>✔️ Risk management essentials</li>
+      <li>✔️ Real-world crypto trading examples</li>
     </ul>
     <div class="price-section">
-      <span class="old-price">$450</span>
-      <span class="new-price">$298</span>
-      <span class="discount-badge">33% OFF</span>
+      <span class="old-price">$300</span>
+      <span class="new-price">$250</span>
+      <span class="discount-badge">17% OFF</span>
+      <span id="usdt-estimate" style="display:block;font-size:0.95em;color:#555;margin-top:6px;"></span>
     </div>
-    <button id="buyBtn">Buy with Crypto <span style="font-size:1.1em;">&#128176;</span></button>
+    <button id="buyBtn">Pay with Crypto <span style="font-size:1.1em;">&#128176;</span></button>
+    <script>
+      // Show live USDT estimate for $250
+      async function updateUSDT() {
+        const priceUSD = 250;
+        try {
+          const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd');
+          const data = await res.json();
+          const usdtRate = data.tether.usd;
+          if (usdtRate) {
+            const usdtAmount = priceUSD / usdtRate;
+            document.getElementById('usdt-estimate').textContent = `≈ ${usdtAmount.toFixed(6)} USDT (live rate)`;
+          }
+        } catch (e) {
+          document.getElementById('usdt-estimate').textContent = '';
+        }
+      }
+      updateUSDT();
+      document.getElementById('buyBtn').onclick = async function() {
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = '';
+        this.disabled = true;
+        this.textContent = 'Processing...';
+        try {
+          const res = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              price_amount: 250,
+              price_currency: 'usd',
+              order_id: 'TRADING',
+              order_description: 'Trading Strategies Course',
+              success_url: 'course-unlocked.html'
+            })
+          });
+          const data = await res.json();
+          if (data.hosted_url) {
+            window.location.href = data.hosted_url;
+          } else {
+            throw new Error(data.error || 'Failed to create invoice');
+          }
+        } catch (err) {
+          errorDiv.textContent = 'Payment error: ' + (err.message || err);
+          this.disabled = false;
+          this.textContent = 'Buy with Crypto 💸';
+        }
+      };
+    </script>
     <div id="error" style="color:red; font-size: 1.1em; margin-top:10px;"></div>
     <div class="info-note">
       <span class="secure">🔒</span>
       Instant access after payment.<br>
       Secure checkout powered by <strong>NOWPayments</strong>.<br>
-      <span style="color:#0052ff;">Start learning today and take control of your financial future!</span>
+      <span style="color:#0052ff;">Start trading smarter today!</span>
     </div>
   </div>
   <style>
@@ -47,8 +94,6 @@
       align-items: flex-start;
       height: 100vh;
     }
-    
-   
     .containerStarter {
       max-width: 60%;
       margin: 40px auto;
@@ -58,7 +103,6 @@
       padding: 32px 24px;
       text-align: center;
     }
-     
     .containerStarter h1 {
       letter-spacing: 1px;
       font-weight: 900;
@@ -143,10 +187,7 @@
       font-size: 1.2em;
       margin-right: 4px;
     }
-    
   </style>
   <script src="main.js"></script>
-</body>
-</html>
 </body>
 </html>
