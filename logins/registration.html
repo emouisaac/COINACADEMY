@@ -257,6 +257,9 @@
             </div>
             <div class="register-error" id="registerError">Passwords do not match.</div>
             <button type="submit" class="register-btn">Register</button>
+            <button id="googleRegisterBtn" type="button" class="register-btn" style="background:#4285F4;margin-top:10px;">
+                <i class="fab fa-google me-2"></i> Register with Google
+            </button>
         </form>
         <div class="register-links">
             <a href="login.html">Already have an account? Login</a>
@@ -291,7 +294,8 @@
                 return;
             }
             try {
-                const res = await fetch('/api/auth/register', {
+                let apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3001/api/auth/register' : 'https://coinacademia.in/api/auth/register';
+                const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ fullname, email, username, password, referredBy })
@@ -309,6 +313,12 @@
                 errorDiv.style.display = 'block';
             }
         });
+
+        // Google registration/login button logic
+        document.getElementById('googleRegisterBtn').onclick = function() {
+            var backendUrl = window.location.hostname === 'localhost' ? 'http://localhost:3001/auth/google' : 'https://coinacademia.in/auth/google';
+            window.location.href = backendUrl;
+        };
     </script>
 </body>
 </html>
