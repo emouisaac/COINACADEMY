@@ -46,9 +46,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.NODE_ENV === 'production' 
-    ? 'https://coinacademia.in/auth/google/callback' 
-    : `http://localhost:${PORT}/auth/google/callback`,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL || 'https://coinacademia.in/auth/google/callback',
   passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
   try {
