@@ -1,4 +1,3 @@
-
 // Load environment variables from .env file
 require('dotenv').config();
 const express = require('express');
@@ -12,48 +11,78 @@ const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('./models/User');
-
 const cors = require('cors');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+// Connect to MongoDB with improved error handling
+mongoose.connect(process.env.MONGODB_URI, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+})
+.then(() => console.log('✅ Connected to MongoDB'))
+.catch(err => console.error('❌ MongoDB connection error:', err));
 
-// Enable CORS for all routes (allow all origins)
+// Middleware setup
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Express session (required for passport)
+// Session configuration
 app.use(session({
-  secret: process.env.JWT_SECRET,
+  secret: process.env.JWT_SECRET || 'your-secret-key',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
 
-// Passport middleware
+// Passport initialization
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Passport Google Strategy
+// Updated Google OAuth configuration
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: '/auth/google/callback'
-}, async (accessToken, refreshToken, profile, done) => {
-  let user = await User.findOne({ googleId: profile.id });
-  if (!user) {
-    user = await User.create({
-      googleId: profile.id,
-      username: profile.displayName,
-      email: profile.emails[0].value
+  callbackURL: process.env.NODE_ENV === 'production' 
+    ? 'https://coinacademia.in/auth/google/callback' 
+    : `http://localhost:${PORT}/auth/google/callback`,
+  passReqToCallback: true
+}, async (req, accessToken, refreshToken, profile, done) => {
+  try {
+    let user = await User.findOne({ 
+      $or: [
+        { googleId: profile.id },
+        { email: profile.emails[0].value }
+      ]
     });
+
+    if (!user) {
+      user = await User.create({
+        googleId: profile.id,
+        username: profile.displayName,
+        email: profile.emails[0].value,
+        isVerified: true
+      });
+    } else if (!user.googleId) {
+      // Merge existing account with Google auth
+      user.googleId = profile.id;
+      await user.save();
+    }
+
+    return done(null, user);
+  } catch (err) {
+    return done(err, null);
   }
-  return done(null, user);
 }));
 
+// Passport serialization/deserialization
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
-passport.deserializeUser((id, done) => {
+
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
@@ -62,33 +91,28 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
-});
 
-// Serve static frontend files (HTML, CSS, JS) from project root
+// Static files
 app.use(express.static(__dirname));
 
-// Serve index.html at root
+// Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Parse JSON bodies for API
-app.use(express.json());
-
-// Parse raw body for webhook verification
-app.use('/webhook', bodyParser.raw({ type: 'application/json' }));
-
-// Endpoint to create a NOWPayments invoice
+// NOWPayments endpoint with improved error handling
 app.post('/api/create-checkout', async (req, res) => {
   try {
-    // Accept price_amount, order_id, order_description, and success_url from frontend
-    const { price_amount, order_id, order_description, success_url } = req.body || {};
+    const { price_amount, order_id, order_description, success_url } = req.body;
+    
     if (!price_amount || !order_id || !order_description) {
-      return res.status(400).json({ error: 'Missing required payment details.' });
+      return res.status(400).json({ error: 'Missing required payment details' });
     }
-    const domain = process.env.DOMAIN_URL || ('http://localhost:' + PORT);
+
+    const domain = process.env.DOMAIN_URL || `http://localhost:${PORT}`;
     const redirectPath = success_url ? success_url.replace(/^\//, '') : 'course-unlocked.html';
     const fullSuccessUrl = `${domain}/${redirectPath}`;
+
     const response = await axios.post(
       'https://api.nowpayments.io/v1/invoice',
       {
@@ -106,80 +130,159 @@ app.post('/api/create-checkout', async (req, res) => {
         }
       }
     );
+
     res.json({ hosted_url: response.data.invoice_url });
   } catch (err) {
-    console.error('Error creating NOWPayments invoice:', err.response?.data || err.message);
-    res.status(500).json({ error: 'Failed to create checkout' });
+    console.error('Payment error:', err.response?.data || err.message);
+    res.status(500).json({ 
+      error: 'Failed to create checkout',
+      details: err.response?.data || err.message
+    });
   }
 });
 
-// Webhook endpoint for NOWPayments payment status
-app.post('/webhook', express.json(), (req, res) => {
-  const event = req.body;
-  // Log all webhook events for debugging
-  console.log('NOWPayments webhook event:', event);
-  // Check if payment is confirmed
-  if (event.payment_status === 'finished') {
-    // Grant access to course (e.g., update DB, send email, etc.)
-    console.log(`NOWPayments: Payment confirmed for order ${event.order_id} (amount: ${event.price_amount} ${event.price_currency}). Access granted.`);
-    // You could trigger an email or database update here
+// Webhook endpoint with validation
+app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {
+  try {
+    const event = JSON.parse(req.body.toString());
+    console.log('Webhook received:', event);
+
+    if (event.payment_status === 'finished') {
+      console.log(`Payment confirmed for order ${event.order_id}`);
+      // Implement your business logic here
+    }
+
+    res.status(200).send('Webhook processed');
+  } catch (err) {
+    console.error('Webhook error:', err);
+    res.status(400).send('Invalid webhook data');
   }
-  res.status(200).send('Webhook received');
 });
 
-// Security tip: In production, restrict webhook endpoint to Coinbase IPs or use a secret path
-// Security tip: Never expose your API keys or webhook secret in frontend code or public repos
-
-// Simple homepage route (optional)
-app.get('/api/health', (req, res) => {
-  res.send('🚀 Server is running!');
-});
-
-// Basic register endpoint
+// User registration with validation
 app.post('/api/register', async (req, res) => {
-  const { username, password, email } = req.body;
-  if (!username || !password || !email) {
-    return res.status(400).json({ error: 'Username, email, and password required.' });
+  try {
+    const { username, password, email } = req.body;
+    
+    if (!username || !password || !email) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    if (await User.findOne({ $or: [{ username }, { email }] })) {
+      return res.status(409).json({ error: 'Username or email already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const user = new User({ username, password: hashedPassword, email });
+    await user.save();
+
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (err) {
+    console.error('Registration error:', err);
+    res.status(500).json({ error: 'Registration failed' });
   }
-  const existingUser = await User.findOne({ username });
-  if (existingUser) {
-    return res.status(409).json({ error: 'Username already exists.' });
-  }
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = new User({ username, password: hashedPassword, email });
-  await user.save();
-  res.status(201).json({ message: 'Registration successful.' });
 });
 
-// Basic login endpoint
+// User login with better security
 app.post('/api/login', async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Username and password required.' });
+  try {
+    const { username, password } = req.body;
+    
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password required' });
+    }
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign(
+      { id: user._id, username: user.username }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: '1h' }
+    );
+
+    res.json({ 
+      message: 'Login successful', 
+      token,
+      user: { id: user._id, username: user.username }
+    });
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({ error: 'Login failed' });
   }
-  const user = await User.findOne({ username });
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid username or password.' });
-  }
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    return res.status(401).json({ error: 'Invalid username or password.' });
-  }
-  const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  res.status(200).json({ message: 'Login successful.', token });
 });
 
 // Google OAuth routes
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-app.get('/auth/google/callback', passport.authenticate('google', {
-  failureRedirect: '/login.html',
-  session: true
-}), (req, res) => {
-  // Successful login, redirect to homepage or dashboard
-  res.redirect('/');
+// Updated Google auth routes
+app.get('/auth/google', (req, res, next) => {
+  const state = req.query.redirect || '/';
+  const authenticator = passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    state: Buffer.from(state).toString('base64'),
+    prompt: 'select_account'
+  });
+  authenticator(req, res, next);
 });
 
-// Start the server
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { 
+    failureRedirect: '/login.html',
+    failureFlash: true,
+    session: true 
+  }),
+  (req, res) => {
+    try {
+      const state = req.query.state 
+        ? Buffer.from(req.query.state, 'base64').toString() 
+        : '/';
+      
+      // Create JWT token
+      const token = jwt.sign(
+        { 
+          id: req.user._id,
+          username: req.user.username,
+          email: req.user.email 
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' }
+      );
+
+      // Redirect with token
+      res.redirect(`${state}?token=${token}&user=${encodeURIComponent(JSON.stringify({
+        id: req.user._id,
+        username: req.user.username,
+        email: req.user.email
+      }))}`);
+    } catch (err) {
+      console.error('Google auth callback error:', err);
+      res.redirect('/login.html?error=auth_failed');
+    }
+  }
+);
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    timestamp: new Date().toISOString() 
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+// Start server
 app.listen(PORT, () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🔗 http://localhost:${PORT}`);
 });

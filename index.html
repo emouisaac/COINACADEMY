@@ -616,6 +616,13 @@
           loginNav.href = 'logins/login.html';
         }
       }
+
+      // Redirect to intended page after successful login
+      if (isLoggedIn() && localStorage.getItem('coinAcademiaRedirectAfterLogin')) {
+        var redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
+        localStorage.removeItem('coinAcademiaRedirectAfterLogin');
+        window.location.href = redirectUrl;
+      }
     });
     // Render top 100 coins, remove image icons from coin-list
     document.addEventListener('DOMContentLoaded', function() {
