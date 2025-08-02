@@ -14,7 +14,7 @@ const User = require('./models/User');
 const cors = require('cors');
 
 // Set the port from environment variable or default to 3000
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Connect to MongoDB with improved error handling
 import connectDB from './db.js';
@@ -287,4 +287,46 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`🔗 http://localhost:${PORT}`);
+});
+
+import express from 'express';
+import connectDB from './db.js';
+import cors from 'cors';
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Database connection
+connectDB();
+
+// Routes would go here
+// app.use('/api', apiRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Start server
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+import express from 'express';
+import connectDB from './db.js';
+import cors from 'cors';
+
+// Connect to database
+connectDB();
+
+// Basic route for testing
+app.get('/', (req, res) => {
+  res.send('Hello from CoinAcademy!');
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
