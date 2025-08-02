@@ -266,6 +266,24 @@
         </div>
     </div>
     <script>
+        // Redirect if already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('coinAcademiaToken')) {
+                const redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
+                if (redirectUrl) {
+                    localStorage.removeItem('coinAcademiaRedirectAfterLogin');
+                    if (/^https?:\/\//.test(redirectUrl)) {
+                        window.location.href = redirectUrl;
+                    } else {
+                        window.location.href = 'https://coinacademia.in' + 
+                            (redirectUrl.startsWith('/') ? redirectUrl : '/' + redirectUrl.replace(/^\/+/, ''));
+                    }
+                } else {
+                    window.location.href = 'https://coinacademia.in/dashboard.html';
+                }
+            }
+        });
+
         // Auto-fill referral code from URL if present
         (function() {
             const params = new URLSearchParams(window.location.search);
@@ -278,6 +296,7 @@
             }
         })();
 
+        // Registration logic
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const fullname = document.getElementById('fullname').value.trim();
@@ -288,24 +307,32 @@
             const referredBy = document.getElementById('referrerCode').value.trim();
             const errorDiv = document.getElementById('registerError');
             errorDiv.style.display = 'none';
+            
             if (password !== confirmPassword) {
                 errorDiv.textContent = 'Passwords do not match.';
                 errorDiv.style.display = 'block';
                 return;
             }
+            
             try {
-                let apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3001/api/auth/register' : 'https://coinacademia.in/api/auth/register';
+                let apiUrl = window.location.hostname === 'localhost' ? 
+                    'http://localhost:3001/api/auth/register' : 
+                    'https://coinacademia.in/api/auth/register';
+                
                 const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ fullname, email, username, password, referredBy })
                 });
+                
                 const data = await res.json();
+                
                 if (!res.ok) {
                     errorDiv.textContent = data.message || 'Registration failed.';
                     errorDiv.style.display = 'block';
                     return;
                 }
+                
                 alert('Registration successful! You can now log in.');
                 window.location.href = 'login.html';
             } catch (err) {
@@ -314,9 +341,8 @@
             }
         });
 
-        // Google registration/login button logic
+        // Google registration/login
         document.getElementById('googleRegisterBtn').onclick = function() {
-            // Always use the callback URL from .env (must match backend)
             var backendUrl = 'https://coinacademia.in/auth/google';
             window.location.href = backendUrl;
         };

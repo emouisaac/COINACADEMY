@@ -3,6 +3,37 @@
 <html lang="en">
 <head>
     <script>
+      // Enforce login before accessing charts pages
+      if (!localStorage.getItem('coinAcademiaToken')) {
+        localStorage.setItem('coinAcademiaRedirectAfterLogin', window.location.pathname);
+        window.location.href = '/logins/login.html';
+      }
+    </script>
+    <script>
+    // Shared function to update auth UI
+    function updateAuthUI() {
+        const isLoggedIn = localStorage.getItem('coinAcademiaToken');
+        const loginNav = document.getElementById('loginNav');
+        
+        if (loginNav) {
+            if (isLoggedIn) {
+                loginNav.textContent = 'LOG OUT';
+                loginNav.onclick = function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('coinAcademiaToken');
+                    window.location.href = '/index.html';
+                };
+            } else {
+                loginNav.textContent = 'LOG IN';
+                loginNav.onclick = function(e) {
+                    e.preventDefault();
+                    localStorage.setItem('coinAcademiaRedirectAfterLogin', window.location.pathname);
+                    window.location.href = '/logins/login.html';
+                };
+            }
+        }
+    }
+
     // Light/Dark mode toggle
     function setTheme(mode) {
       if (mode === 'dark') {
@@ -19,7 +50,10 @@
         document.getElementById('theme-toggle').innerHTML = '☀️';
       }
     }
+    
     window.addEventListener('DOMContentLoaded', function() {
+      updateAuthUI();
+      
       // Theme toggle
       const toggle = document.createElement('button');
       toggle.id = 'theme-toggle';
@@ -88,16 +122,6 @@
     <title>Top And Bottom Chartpatterns</title>
 </head>
 <body>
-<script>
-  // Require login before viewing charts
-  document.addEventListener('DOMContentLoaded', function() {
-    if (!localStorage.getItem('coinAcademiaToken')) {
-      localStorage.setItem('coinAcademiaRedirectAfterLogin', window.location.pathname);
-      window.location.href = '/logins/login.html';
-    }
-    // If logged in, do nothing and allow access
-  });
-</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="../js/scripts.js"></script>
@@ -111,17 +135,18 @@
                 <ul>
                     <li><a href="index.html">HOME</a></li>
                     <li><a href="/charts/charts.html" class="protected-link">CHART PATTERNS</a></li>
-                    <!-- Login/Logout nav removed as requested -->
                     <li><a href="/Affiliate.html" class="protected-link">AFFILIATE</a></li>
                     <li><a href="#" class="protected-link">TRADING</a></li>
                     <li><a href="#" class="protected-link">BLOGS</a></li>
                     <li><a href="/feedback.html">CONTACT</a></li>
-                    <!-- Login/Logout nav removed as requested -->
+                    <li><a href="#" id="loginNav">LOG IN</a></li>
                 </ul>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
         </nav>
     </section>
+
+    
 
     <!-------------------SECTION 2-------------->
 
