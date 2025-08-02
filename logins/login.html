@@ -165,6 +165,57 @@
     </style>
 </head>
 <body>
+<script>
+  // If already logged in, hide all login UI and redirect away from login page
+  document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('coinAcademiaToken')) {
+      document.body.style.display = 'none';
+      const redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
+      if (redirectUrl) {
+        localStorage.removeItem('coinAcademiaRedirectAfterLogin');
+        if (/^https?:\/\//.test(redirectUrl)) {
+          window.location.href = redirectUrl;
+        } else {
+          window.location.href = 'https://coinacademia.in' + (redirectUrl.startsWith('/') ? redirectUrl : '/' + redirectUrl.replace(/^\/+/, ''));
+        }
+      } else {
+        window.location.href = 'https://coinacademia.in/dashboard.html';
+      }
+    }
+  });
+</script>
+<script>
+  // If already logged in, redirect to dashboard or intended file
+  if (localStorage.getItem('coinAcademiaToken')) {
+    const redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
+    if (redirectUrl) {
+      localStorage.removeItem('coinAcademiaRedirectAfterLogin');
+      if (/^https?:\/\//.test(redirectUrl)) {
+        window.location.href = redirectUrl;
+      } else {
+        window.location.href = 'https://coinacademia.in' + (redirectUrl.startsWith('/') ? redirectUrl : '/' + redirectUrl.replace(/^\/+/, ''));
+      }
+    } else {
+      window.location.href = 'https://coinacademia.in/dashboard.html';
+    }
+  }
+</script>
+<script>
+  // If already logged in, redirect to dashboard or intended file
+  if (localStorage.getItem('coinAcademiaToken')) {
+    const redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
+    if (redirectUrl) {
+      localStorage.removeItem('coinAcademiaRedirectAfterLogin');
+      if (/^https?:\/\//.test(redirectUrl)) {
+        window.location.href = redirectUrl;
+      } else {
+        window.location.href = 'https://coinacademia.in' + (redirectUrl.startsWith('/') ? redirectUrl : '/' + redirectUrl.replace(/^\/+/, ''));
+      }
+    } else {
+      window.location.href = 'https://coinacademia.in/dashboard.html';
+    }
+  }
+</script>
     <div class="login-container">
         <div class="login-logo">
             <img src="images/icon1.png" alt="">
@@ -194,13 +245,20 @@
             </div>
             <div class="login-error" id="loginError">Invalid username or password.</div>
             <button type="submit" class="login-btn">Login</button>
-            <button id="googleLoginBtn" type="button" class="login-btn" style="background:#4285F4;margin-top:10px;">
-                <i class="fab fa-google me-2"></i> Login with Google
+            <button id="logoutBtn" type="button" class="login-btn" style="background:#ef4444;margin-top:10px;">
+                <i class="fas fa-sign-out-alt me-2"></i> LOGOUT
             </button>
+            <script>
+            document.getElementById('logoutBtn').onclick = function() {
+                localStorage.removeItem('coinAcademiaToken');
+                window.location.href = '/index.html';
+            };
+            </script>
             <script>
             // If running in production, use the full backend URL for Google login
             document.getElementById('googleLoginBtn').onclick = function() {
-                var backendUrl = window.location.hostname === 'localhost' ? 'http://localhost:3001/auth/google' : 'https://coinacademia.in/auth/google';
+                // Always use the callback URL from .env (must match backend)
+                var backendUrl = 'https://coinacademia.in/auth/google';
                 window.location.href = backendUrl;
             };
             </script>
@@ -247,14 +305,20 @@
             const redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
             if (redirectUrl) {
                 localStorage.removeItem('coinAcademiaRedirectAfterLogin');
-                // If redirectUrl is a relative path, ensure it works from root
-                if (redirectUrl.startsWith('/')) {
+                // Always redirect to coinacademia.in with the correct path
+                // If redirectUrl is already a full URL, use it directly
+                if (/^https?:\/\//.test(redirectUrl)) {
                     window.location.href = redirectUrl;
                 } else {
-                    window.location.href = '/' + redirectUrl.replace(/^\/+/, '');
+                    const domain = 'https://coinacademia.in';
+                    let path = redirectUrl;
+                    if (!path.startsWith('/')) {
+                        path = '/' + path.replace(/^\/+/, '');
+                    }
+                    window.location.href = domain + path;
                 }
             } else {
-                window.location.href = '/dashboard.html'; // Default redirect (update as needed)
+                window.location.href = 'https://coinacademia.in/dashboard.html'; // Default redirect
             }
             } catch (err) {
                 errorDiv.textContent = 'Network error. Please try again.';

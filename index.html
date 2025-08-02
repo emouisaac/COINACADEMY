@@ -607,7 +607,7 @@
             e.preventDefault();
             // Log out: clear session and redirect to main page
             localStorage.removeItem('coinAcademiaLoggedIn');
-            window.location.href = 'index.html';
+          loginNav.textContent = 'LOGOUT';
           });
         } else {
           loginNav.textContent = 'LOG IN';
@@ -619,7 +619,13 @@
       if (isLoggedIn() && localStorage.getItem('coinAcademiaRedirectAfterLogin')) {
         var redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
         localStorage.removeItem('coinAcademiaRedirectAfterLogin');
-        window.location.href = redirectUrl;
+        // Always redirect to coinacademia.in with the correct path
+        var domain = 'https://coinacademia.in';
+        var path = redirectUrl;
+        if (!path.startsWith('/')) {
+          path = '/' + path.replace(/^\/+/, '');
+        }
+        window.location.href = domain + path;
       }
     });
     // Render top 100 coins, remove image icons from coin-list
