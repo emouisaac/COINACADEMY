@@ -13,21 +13,19 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('./models/User');
 const cors = require('cors');
 
-const app = express();
+// Set the port from environment variable or default to 3000
 const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB with improved error handling
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+import connectDB from './db.js';
+import express from 'express';
 
-dotenv.config();
+const app = express();
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("✅ MongoDB connected to sample_mflix"))
-.catch(err => console.error("❌ MongoDB connection error:", err));
+// Connect to database
+connectDB();
+
+// Rest of your server setup...
 
 
 // Middleware setup
