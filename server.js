@@ -16,17 +16,19 @@ const cors = require('cors');
 // Set the port from environment variable or default to 3000
 const PORT = process.env.PORT || 3001;
 
-// Connect to MongoDB with improved error handling
-import connectDB from './db.js';
-import express from 'express';
-
+// Initialize app
 const app = express();
 
-// Connect to database
-connectDB();
-
-// Rest of your server setup...
-
+// Database connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('✅ MongoDB connected successfully'))
+.catch(err => {
+  console.error('❌ MongoDB connection error:', err);
+  process.exit(1);
+});
 
 // Middleware setup
 app.use(cors());
@@ -46,7 +48,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Passport Google Strategy
-// Updated Google OAuth configuration
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -69,7 +70,6 @@ passport.use(new GoogleStrategy({
         isVerified: true
       });
     } else if (!user.googleId) {
-      // Merge existing account with Google auth
       user.googleId = profile.id;
       await user.save();
     }
@@ -102,7 +102,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// NOWPayments endpoint with improved error handling
+// NOWPayments endpoint
 app.post('/api/create-checkout', async (req, res) => {
   try {
     const { price_amount, order_id, order_description, success_url } = req.body;
@@ -143,7 +143,7 @@ app.post('/api/create-checkout', async (req, res) => {
   }
 });
 
-// Webhook endpoint with validation
+// Webhook endpoint
 app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {
   try {
     const event = JSON.parse(req.body.toString());
@@ -151,7 +151,6 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) =>
 
     if (event.payment_status === 'finished') {
       console.log(`Payment confirmed for order ${event.order_id}`);
-      // Implement your business logic here
     }
 
     res.status(200).send('Webhook processed');
@@ -161,7 +160,7 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) =>
   }
 });
 
-// User registration with validation
+// User registration
 app.post('/api/register', async (req, res) => {
   try {
     const { username, password, email } = req.body;
@@ -185,7 +184,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// User login with better security
+// User login
 app.post('/api/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -222,7 +221,6 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Google OAuth routes
-// Updated Google auth routes
 app.get('/auth/google', (req, res, next) => {
   const state = req.query.redirect || '/';
   const authenticator = passport.authenticate('google', {
@@ -245,7 +243,6 @@ app.get('/auth/google/callback',
         ? Buffer.from(req.query.state, 'base64').toString() 
         : '/';
       
-      // Create JWT token
       const token = jwt.sign(
         { 
           id: req.user._id,
@@ -256,7 +253,6 @@ app.get('/auth/google/callback',
         { expiresIn: '7d' }
       );
 
-      // Redirect with token
       res.redirect(`${state}?token=${token}&user=${encodeURIComponent(JSON.stringify({
         id: req.user._id,
         username: req.user.username,
@@ -287,46 +283,4 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`🔗 http://localhost:${PORT}`);
-});
-
-import express from 'express';
-import connectDB from './db.js';
-import cors from 'cors';
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Database connection
-connectDB();
-
-// Routes would go here
-// app.use('/api', apiRoutes);
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
-// Start server
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-import express from 'express';
-import connectDB from './db.js';
-import cors from 'cors';
-
-// Connect to database
-connectDB();
-
-// Basic route for testing
-app.get('/', (req, res) => {
-  res.send('Hello from CoinAcademy!');
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
 });
