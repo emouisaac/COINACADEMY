@@ -20,15 +20,21 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 // Database connection
+const clientPromise = require('./db');
+
+// Connect Mongoose to MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 })
-.then(() => console.log('✅ MongoDB connected successfully'))
-.catch(err => {
-  console.error('❌ MongoDB connection error:', err);
-  process.exit(1);
-});
+  .then(() => console.log('Mongoose connected to MongoDB Atlas'))
+  .catch((err) => console.error('Mongoose connection error:', err));
+
+async function getData() {
+  const client = await clientPromise;
+  const db = client.db();
+  // Use your database...
+}
 
 // Middleware setup
 app.use(cors());

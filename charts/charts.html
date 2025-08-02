@@ -31,6 +31,15 @@
     <title>Chart Patterns</title>
 </head>
 <body>
+<script>
+  // Require login before viewing charts
+  document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('coinAcademiaLoggedIn') !== 'true') {
+      localStorage.setItem('coinAcademiaRedirectAfterLogin', window.location.pathname);
+      window.location.href = '/logins/login.html';
+    }
+  });
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="../js/scripts.js"></script>
@@ -42,13 +51,14 @@
             <div class="nav-links">
                 <i class="fas fa-times" onclick="hideMenu()"></i>
                 <ul>
-                    <li><a href="../index.html">HOME</a></li>
+                    <li><a href="index.html">HOME</a></li>
                     <li><a href="/charts/charts.html">CHART PATTERNS</a></li>
-                    <li><a href="../index.html#courses">COURSES</a></li>
-                    <li><a href="../html/trading.html" class="protected-link">TRADING</a></li>
-                    <li><a href="../html/blogs.html" class="protected-link">BLOGS</a></li>
-                    <li><a href="../html/feedback.html">CONTACT</a></li>
-                    <!-- Login/Logout nav removed as requested -->
+                    <li><a href="index.html#courses">COURSES</a></li>
+                    <li><a href="/Affiliate.html">AFFILIATE</a></li>
+                    <li><a href="html/trading.html">TRADING</a></li>
+                    <li><a href="html/blogs.html">BLOGS</a></li>
+                    <li><a href="html/feedback.html">CONTACT</a></li>
+                    <li><a href="#" id="loginNav">LOG OUT</a></li>
                 </ul>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
