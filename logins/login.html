@@ -230,6 +230,10 @@
         }
         document.addEventListener('DOMContentLoaded', function() {
             updateLoginNav();
+            // If redirected from Google login and token is present, update nav
+            if (localStorage.getItem('coinAcademiaToken')) {
+                updateLoginNav();
+            }
         });
 
         // Google login

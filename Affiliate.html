@@ -1240,47 +1240,14 @@
         }
 
         // --- Referral Code Generation & Registration Logic ---
-        // Helper to generate a unique referral code
-        function generateReferralCode(name, email) {
-            // Use name + random 4 digits + short hash of email
-            const cleanName = name.replace(/[^A-Za-z0-9]/g, '').substring(0, 8).toUpperCase();
-            const rand = Math.floor(1000 + Math.random() * 9000);
-            let hash = 0;
-            for (let i = 0; i < email.length; i++) {
-                hash = ((hash << 5) - hash) + email.charCodeAt(i);
-                hash |= 0;
-            }
-            return cleanName + rand + Math.abs(hash % 1000);
-        }
 
-        // Registration handler (simulate registration form submission)
-        function handleRegistration(name, email) {
-            // Check if user already exists in localStorage
-            let users = JSON.parse(localStorage.getItem('affiliateUsers') || '[]');
-            if (users.some(u => u.email === email)) {
-                alert('User already registered!');
-                return;
-            }
-            // Generate unique referral code
-            let code;
-            do {
-                code = generateReferralCode(name, email);
-            } while (users.some(u => u.referralCode === code));
-            // Save user with default rank V0
-            const user = { name, email, referralCode: code, rank: 'V0' };
-            users.push(user);
-            localStorage.setItem('affiliateUsers', JSON.stringify(users));
-            localStorage.setItem('affiliateCurrentUser', JSON.stringify(user));
-            // Update UI
-            setProfileFromUser(user);
-            alert('Registration successful! Your referral code: ' + code);
-        }
+        // Registration and referral logic is now handled 100% by the backend. All localStorage demo code removed.
 
         // --- Affiliate Profile & Referral Dashboard Logic ---
-        // Set profile UI from user object
+
+        // Set profile UI from backend user object
         function setProfileFromUser(user) {
             if (!user) return;
-            // Show name, email, username
             const nameEl = document.querySelector('.user-name');
             const refCodeEl = document.getElementById('ref-code');
             const refLinkInput = document.getElementById('ref-link-input');
@@ -1293,7 +1260,7 @@
             if (refCodeEl) refCodeEl.textContent = user.referralCode || '';
             if (refLinkInput) refLinkInput.value = 'https://coinacademia.com/ref/' + (user.referralCode || '');
             if (rankEl) rankEl.textContent = user.rank || 'V0';
-            // Set simple SVG profile icon
+            // Set SVG profile icon
             const profileIcon = document.getElementById('profile-icon');
             if (profileIcon) {
                 const isDark = document.body.classList.contains('dark');
@@ -1312,38 +1279,30 @@
         }
 
         // Set referral dashboard to 0 if no referrals
-        function setReferralDashboard(user) {
-            // For demo, check localStorage for referrals for this user
+
+        // Set referral dashboard from backend data
+        function setReferralDashboard(referrals) {
             const tbody = document.querySelector('.referrals-table tbody');
             if (tbody) {
-                // Try to get referrals from localStorage (simulate)
-                let referrals = [];
-                try {
-                    referrals = JSON.parse(localStorage.getItem('affiliateReferrals_' + (user.referralCode || '')) || '[]');
-                } catch {}
                 tbody.innerHTML = '';
                 if (!referrals || referrals.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#888;">No referrals yet.</td></tr>`;
                 } else {
                     referrals.forEach(r => {
-                        tbody.innerHTML += `<tr><td>${r.name}</td><td>${r.rank || 'V0'}</td><td>${r.earnings || '$0'}</td><td><span class="status-badge status-inactive">Inactive</span></td></tr>`;
+                        tbody.innerHTML += `<tr><td>${r.name}</td><td>${r.rank || 'V0'}</td><td>${r.earnings || '$0'}</td><td><span class="status-badge status-${r.active ? 'active' : 'inactive'}">${r.active ? 'Active' : 'Inactive'}</span></td></tr>`;
                     });
                 }
             }
         }
 
         // Update Affiliate Overview stats
-        function setAffiliateOverview(user, referrals) {
-            referrals = referrals || [];
-            // Calculate stats
-            const invites = referrals.length;
-            const earnings = referrals.reduce((sum, r) => sum + (parseFloat(r.earnings) || 0), 0);
-            const pending = referrals.reduce((sum, r) => sum + (parseFloat(r.pending) || 0), 0);
-            // Set values
-            document.getElementById('stat-invites').textContent = invites;
-            document.getElementById('stat-earnings').textContent = '$' + earnings.toLocaleString();
-            document.getElementById('stat-pending').textContent = '$' + pending.toLocaleString();
-            document.getElementById('stat-rank').textContent = user.rank || 'V0';
+
+        // Set affiliate overview stats from backend data
+        function setAffiliateOverview(data) {
+            document.getElementById('stat-invites').textContent = data.invites || 0;
+            document.getElementById('stat-earnings').textContent = '$' + (data.earnings || 0);
+            document.getElementById('stat-pending').textContent = '$' + (data.pending || 0);
+            document.getElementById('stat-rank').textContent = data.rank || 'V0';
         }
 
         // Set upgrade requirements based on user rank
@@ -1386,40 +1345,29 @@
         }
 
         // Helper to update all dashboard sections together
-        function updateAffiliateDashboard(user) {
-            // Get referrals
-            let referrals = [];
+
+        // Update all dashboard sections from backend data
+        async function updateAffiliateDashboard() {
+            const token = localStorage.getItem('coinAcademiaToken');
+            if (!token) return;
             try {
-                referrals = JSON.parse(localStorage.getItem('affiliateReferrals_' + (user.referralCode || '')) || '[]');
+                const res = await fetch('/api/affiliate/dashboard', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                if (!res.ok) return;
+                const data = await res.json();
+                setProfileFromUser(data.user);
+                setReferralDashboard(data.referrals);
+                setAffiliateOverview(data);
+                setUpgradeRequirements(data.user);
+                renderWithdrawSection();
             } catch {}
-            // Check for rank upgrade
-            let newRank = user.rank || 'V0';
-            if (newRank === 'V0' && referrals.length >= 2) newRank = 'V1';
-            if (newRank === 'V1' && referrals.length >= 4) newRank = 'V2';
-            if (newRank === 'V2' && referrals.length >= 7) newRank = 'V3';
-            if (newRank === 'V3' && referrals.length >= 12) newRank = 'V4';
-            if (newRank === 'V4' && referrals.length >= 22) newRank = 'V5';
-            // If rank changed, update user in storage
-            if (newRank !== user.rank) {
-                user.rank = newRank;
-                // Update in affiliateUsers
-                let users = JSON.parse(localStorage.getItem('affiliateUsers') || '[]');
-                users = users.map(u => u.email === user.email ? { ...u, rank: newRank } : u);
-                localStorage.setItem('affiliateUsers', JSON.stringify(users));
-                localStorage.setItem('affiliateCurrentUser', JSON.stringify(user));
-            }
-            setProfileFromUser(user);
-            setReferralDashboard(user);
-            setAffiliateOverview(user, referrals);
-            setUpgradeRequirements(user);
-            // Withdraw section
-            updateWithdrawSection(user, referrals);
-            renderWithdrawHistory(user.referralCode);
         }
 
         // On page load, show dashboard and wire up withdraw button
+
         document.addEventListener('DOMContentLoaded', () => {
-            renderWithdrawSection();
+            updateAffiliateDashboard();
             const btn = document.getElementById('withdraw-btn');
             if (btn) btn.onclick = handleWithdrawBackend;
             initCharts();
