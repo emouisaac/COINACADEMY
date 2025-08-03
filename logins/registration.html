@@ -296,50 +296,110 @@
             }
         })();
 
-        // Registration logic
-        document.getElementById('registerForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const fullname = document.getElementById('fullname').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const referredBy = document.getElementById('referrerCode').value.trim();
-            const errorDiv = document.getElementById('registerError');
-            errorDiv.style.display = 'none';
-            
-            if (password !== confirmPassword) {
-                errorDiv.textContent = 'Passwords do not match.';
-                errorDiv.style.display = 'block';
-                return;
-            }
-            
+    
+    // Registration logic
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const fullname = document.getElementById('fullname').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const referredBy = document.getElementById('referrerCode').value.trim();
+        const errorDiv = document.getElementById('registerError');
+        errorDiv.style.display = 'none';
+        
+        // Validate inputs
+        if (password !== confirmPassword) {
+            errorDiv.textContent = 'Passwords do not match.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        if (password.length < 8) {
+            errorDiv.textContent = 'Password must be at least 8 characters.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        // Show loading state
+        const registerBtn = document.querySelector('#registerForm button[type="submit"]');
+        const originalBtnText = registerBtn.innerHTML;
+        registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+        registerBtn.disabled = true;
+
+        try {
+            // Try with production API first
+            let apiUrl = 'https://coinacademia.in/api/auth/register';
+            let res, data;
             try {
-                let apiUrl = window.location.hostname === 'localhost' ? 
-                    'http://localhost:3001/api/auth/register' : 
-                    'https://coinacademia.in/api/auth/register';
-                
-                const res = await fetch(apiUrl, {
+                res = await fetch(apiUrl, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ fullname, email, username, password, referredBy })
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        fullname, 
+                        email, 
+                        username, 
+                        password, 
+                        referredBy,
+                        signup_source: 'web'
+                    }),
+                    credentials: 'include' // For cookies if using them
                 });
-                
-                const data = await res.json();
-                
-                if (!res.ok) {
-                    errorDiv.textContent = data.message || 'Registration failed.';
-                    errorDiv.style.display = 'block';
-                    return;
-                }
-                
-                alert('Registration successful! You can now log in.');
-                window.location.href = 'login.html';
-            } catch (err) {
-                errorDiv.textContent = 'Network error. Please try again.';
-                errorDiv.style.display = 'block';
+                data = await res.json();
+            } catch (fetchErr) {
+                console.error('Network or CORS error:', fetchErr);
+                throw new Error('Network error. Please check your connection or CORS settings.');
             }
-        });
+
+            // If production fails, try local development
+            if (!res.ok && window.location.hostname === 'localhost') {
+                apiUrl = 'http://localhost:3001/api/auth/register';
+                try {
+                    res = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            fullname, 
+                            email, 
+                            username, 
+                            password, 
+                            referredBy,
+                            signup_source: 'web'
+                        })
+                    });
+                    data = await res.json();
+                } catch (fetchErr) {
+                    console.error('Local network or CORS error:', fetchErr);
+                    throw new Error('Local network error. Please check your connection or CORS settings.');
+                }
+            }
+
+            if (!res.ok) {
+                console.error('Registration failed response:', data);
+                throw new Error((data && data.message) || 'Registration failed. Please try again.');
+            }
+
+            // Successful registration
+            alert('Registration successful! Please check your email to verify your account.');
+            window.location.href = 'login.html';
+
+        } catch (err) {
+            console.error('Registration error:', err);
+            errorDiv.textContent = err.message || 'Network error. Please check your connection and try again.';
+            errorDiv.style.display = 'block';
+        } finally {
+            registerBtn.innerHTML = originalBtnText;
+            registerBtn.disabled = false;
+        }
+    });
+
 
         // Google registration/login
         document.getElementById('googleRegisterBtn').onclick = function() {

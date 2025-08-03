@@ -2,13 +2,6 @@
 <html lang="en">
 <head>
     <script>
-      // Enforce login before accessing charts pages
-      if (!localStorage.getItem('coinAcademiaToken')) {
-        localStorage.setItem('coinAcademiaRedirectAfterLogin', window.location.pathname);
-        window.location.href = '/logins/login.html';
-      }
-    </script>
-    <script>
     // Shared function to update auth UI
     function updateAuthUI() {
         const isLoggedIn = localStorage.getItem('coinAcademiaToken');

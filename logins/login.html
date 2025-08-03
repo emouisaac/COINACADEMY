@@ -203,82 +203,33 @@
             </button>
         </form>
         <div class="login-links">
-            <a href="#" id="loginNav">Forgot Password?</a>|
+            <a href="#" id="loginNav">LOG IN</a>|
             <a href="registration.html" id="createAccountLink">Create Account</a>
         </div>
     </div>
     <script>
-        // Redirect if already logged in
-        document.addEventListener('DOMContentLoaded', function() {
+        // Auth nav logic
+        function updateLoginNav() {
+            const loginNav = document.getElementById('loginNav');
+            if (!loginNav) return;
             if (localStorage.getItem('coinAcademiaToken')) {
-                const redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
-                if (redirectUrl) {
-                    localStorage.removeItem('coinAcademiaRedirectAfterLogin');
-                    if (/^https?:\/\//.test(redirectUrl)) {
-                        window.location.href = redirectUrl;
-                    } else {
-                        window.location.href = 'https://coinacademia.in' + 
-                            (redirectUrl.startsWith('/') ? redirectUrl : '/' + redirectUrl.replace(/^\/+/, ''));
-                    }
-                } else {
-                    window.location.href = 'https://coinacademia.in/dashboard.html';
-                }
+                loginNav.textContent = 'LOG OUT';
+                loginNav.onclick = function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('coinAcademiaToken');
+                    loginNav.textContent = 'LOG IN';
+                    window.location.href = '/index.html';
+                };
+            } else {
+                loginNav.textContent = 'LOG IN';
+                loginNav.onclick = function(e) {
+                    e.preventDefault();
+                    window.location.href = '/logins/login.html';
+                };
             }
-        });
-
-        // Login logic
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const usernameOrEmail = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('loginError');
-            errorDiv.style.display = 'none';
-            
-            try {
-                let apiUrl = 'https://coinacademia.in/api/auth/login';
-                let res = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: usernameOrEmail, password })
-                });
-                let data = await res.json();
-                
-                if (!res.ok && data.error === 'Invalid credentials') {
-                    // Try as username if not found as email
-                    res = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username: usernameOrEmail, password })
-                    });
-                    data = await res.json();
-                }
-                
-                if (!res.ok) {
-                    errorDiv.textContent = data.error || data.message || 'Invalid username or password.';
-                    errorDiv.style.display = 'block';
-                    return;
-                }
-                
-                // Store JWT token
-                localStorage.setItem('coinAcademiaToken', data.token);
-                
-                // Redirect to intended page or dashboard
-                const redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
-                if (redirectUrl) {
-                    localStorage.removeItem('coinAcademiaRedirectAfterLogin');
-                    if (/^https?:\/\//.test(redirectUrl)) {
-                        window.location.href = redirectUrl;
-                    } else {
-                        window.location.href = 'https://coinacademia.in' + 
-                            (redirectUrl.startsWith('/') ? redirectUrl : '/' + redirectUrl.replace(/^\/+/, ''));
-                    }
-                } else {
-                    window.location.href = 'https://coinacademia.in/dashboard.html';
-                }
-            } catch (err) {
-                errorDiv.textContent = 'Network error. Please try again.';
-                errorDiv.style.display = 'block';
-            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLoginNav();
         });
 
         // Google login
@@ -287,5 +238,115 @@
             window.location.href = backendUrl;
         };
     </script>
+
+
+
+<script>
+    // Login logic
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const usernameOrEmail = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const errorDiv = document.getElementById('loginError');
+        errorDiv.style.display = 'none';
+        
+        // Show loading state
+        const loginBtn = document.querySelector('#loginForm button[type="submit"]');
+        const originalBtnText = loginBtn.innerHTML;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+        loginBtn.disabled = true;
+
+        try {
+            // Try with production API first
+            let apiUrl = 'https://coinacademia.in/api/auth/login';
+            let res, data;
+            try {
+                res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        email: usernameOrEmail, 
+                        password,
+                        device_info: navigator.userAgent
+                    }),
+                    credentials: 'include' // For cookies if using them
+                });
+                data = await res.json();
+            } catch (fetchErr) {
+                console.error('Network or CORS error:', fetchErr);
+                throw new Error('Network error. Please check your connection or CORS settings.');
+            }
+
+            // If production fails, try local development
+            if (!res.ok && window.location.hostname === 'localhost') {
+                apiUrl = 'http://localhost:3001/api/auth/login';
+                try {
+                    res = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            email: usernameOrEmail, 
+                            password,
+                            device_info: navigator.userAgent
+                        })
+                    });
+                    data = await res.json();
+                } catch (fetchErr) {
+                    console.error('Local network or CORS error:', fetchErr);
+                    throw new Error('Local network error. Please check your connection or CORS settings.');
+                }
+            }
+
+            if (!res.ok) {
+                // Try as username if email failed
+                if (data && data.error === 'Invalid credentials') {
+                    apiUrl = 'https://coinacademia.in/api/auth/login';
+                    try {
+                        res = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ username: usernameOrEmail, password })
+                        });
+                        data = await res.json();
+                    } catch (fetchErr) {
+                        console.error('Network or CORS error (username):', fetchErr);
+                        throw new Error('Network error. Please check your connection or CORS settings.');
+                    }
+                }
+
+                if (!res.ok) {
+                    console.error('Login failed response:', data);
+                    throw new Error((data && data.message) || 'Invalid username or password');
+                }
+            }
+
+            // Store JWT token
+            if (data && data.token) {
+                localStorage.setItem('coinAcademiaToken', data.token);
+                updateLoginNav();
+                // Redirect
+                const redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin') || '/dashboard.html';
+                localStorage.removeItem('coinAcademiaRedirectAfterLogin');
+                window.location.href = redirectUrl;
+            } else {
+                throw new Error('Authentication failed: No token received');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            errorDiv.textContent = err.message || 'Network error. Please check your connection and try again.';
+            errorDiv.style.display = 'block';
+        } finally {
+            loginBtn.innerHTML = originalBtnText;
+            loginBtn.disabled = false;
+        }
+    });
+</script>
+
 </body>
 </html>
