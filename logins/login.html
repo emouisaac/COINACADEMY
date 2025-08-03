@@ -208,7 +208,7 @@
         </div>
     </div>
     <script>
-        // Auth nav logic
+        // Auth nav logic (improved)
         function updateLoginNav() {
             const loginNav = document.getElementById('loginNav');
             if (!loginNav) return;
@@ -217,7 +217,6 @@
                 loginNav.onclick = function(e) {
                     e.preventDefault();
                     localStorage.removeItem('coinAcademiaToken');
-                    loginNav.textContent = 'LOG IN';
                     window.location.href = '/index.html';
                 };
             } else {
@@ -228,12 +227,11 @@
                 };
             }
         }
-        document.addEventListener('DOMContentLoaded', function() {
-            updateLoginNav();
-            // If redirected from Google login and token is present, update nav
-            if (localStorage.getItem('coinAcademiaToken')) {
-                updateLoginNav();
-            }
+
+        // Update nav on page load and when localStorage changes (multi-tab support)
+        document.addEventListener('DOMContentLoaded', updateLoginNav);
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'coinAcademiaToken') updateLoginNav();
         });
 
         // Google login
