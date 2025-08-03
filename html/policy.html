@@ -16,24 +16,52 @@
 <body>
     <section class="header">
         <nav>
-            <a href="index.html"><img src="images/icon1.png" alt=""></a>
+            <a href="/index.html"><img src="/images/icon1.png" alt=""></a>
             <div class="nav-links">
                 <i class="fas fa-times" onclick="hideMenu()"></i>
                 <ul>
-                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="/index.html">HOME</a></li>
                     <li><a href="/charts/charts.html">CHART PATTERNS</a></li>
-                    <li><a href="index.html#courses">COURSES</a></li>
+                    <li><a href="/index.html#courses">COURSES</a></li>
                     <li><a href="/Affiliate.html">AFFILIATE</a></li>
-                    <li><a href="html/trading.html">TRADING</a></li>
-                    <li><a href="html/blogs.html">BLOGS</a></li>
-                    <li><a href="html/feedback.html">CONTACT</a></li>
+                    <li><a href="/html/trading.html">TRADING</a></li>
+                    <li><a href="/html/blogs.html">BLOGS</a></li>
+                    <li><a href="/html/feedback.html">CONTACT</a></li>
                     <li><a href="#" id="loginNav">LOG OUT</a></li>
                     <li id="googleLoginNav" style="display:none;"><a href="#" style="background:#4285F4;color:#fff;padding:6px 16px;border-radius:6px;font-weight:600;"><i class="fab fa-google me-2"></i>Login with Google</a></li>
                 </ul>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
-
         </nav>
+    <script>
+    // Auth nav logic from index.html
+    function isLoggedIn() {
+        return localStorage.getItem('coinAcademiaToken');
+    }
+    function updateLoginNav() {
+        var loginNav = document.getElementById('loginNav');
+        if (loginNav) {
+            if (isLoggedIn()) {
+                loginNav.textContent = 'LOG OUT';
+                loginNav.href = '#';
+                loginNav.onclick = function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('coinAcademiaToken');
+                    window.location.href = '/index.html';
+                };
+            } else {
+                loginNav.textContent = 'LOG IN';
+                loginNav.href = '/logins/login.html';
+                loginNav.onclick = function(e) {
+                    // No-op, default link
+                };
+            }
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateLoginNav();
+    });
+    </script>
 
     </section>
 

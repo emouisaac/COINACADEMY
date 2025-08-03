@@ -30,14 +30,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <title>Chart Patterns</title>
     <script>
-    // Shared function to update auth UI
-    function updateAuthUI() {
-        const isLoggedIn = localStorage.getItem('coinAcademiaToken');
-        const loginNav = document.getElementById('loginNav');
-        
+    // Auth nav logic from index.html
+    function isLoggedIn() {
+        return localStorage.getItem('coinAcademiaToken');
+    }
+    function updateLoginNav() {
+        var loginNav = document.getElementById('loginNav');
         if (loginNav) {
-            if (isLoggedIn) {
+            if (isLoggedIn()) {
                 loginNav.textContent = 'LOG OUT';
+                loginNav.href = '#';
                 loginNav.onclick = function(e) {
                     e.preventDefault();
                     localStorage.removeItem('coinAcademiaToken');
@@ -45,14 +47,16 @@
                 };
             } else {
                 loginNav.textContent = 'LOG IN';
+                loginNav.href = '/logins/login.html';
                 loginNav.onclick = function(e) {
-                    e.preventDefault();
-                    localStorage.setItem('coinAcademiaRedirectAfterLogin', window.location.pathname);
-                    window.location.href = '/logins/login.html';
+                    // No-op, default link
                 };
             }
         }
     }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateLoginNav();
+    });
     </script>
 </head>
 <body>
@@ -63,23 +67,22 @@
     <!-- Navigation -->
     <section class="header">
         <nav>
-            <a href="index.html"><img src="images/icon1.png" alt=""></a>
+            <a href="/index.html"><img src="/images/icon1.png" alt=""></a>
             <div class="nav-links">
                 <i class="fas fa-times" onclick="hideMenu()"></i>
                 <ul>
-                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="/index.html">HOME</a></li>
                     <li><a href="/charts/charts.html">CHART PATTERNS</a></li>
-                    <li><a href="index.html#courses">COURSES</a></li>
+                    <li><a href="/index.html#courses">COURSES</a></li>
                     <li><a href="/Affiliate.html">AFFILIATE</a></li>
-                    <li><a href="html/trading.html">TRADING</a></li>
-                    <li><a href="html/blogs.html">BLOGS</a></li>
-                    <li><a href="html/feedback.html">CONTACT</a></li>
+                    <li><a href="/html/trading.html">TRADING</a></li>
+                    <li><a href="/html/blogs.html">BLOGS</a></li>
+                    <li><a href="/html/feedback.html">CONTACT</a></li>
                     <li><a href="#" id="loginNav">LOG OUT</a></li>
                     <li id="googleLoginNav" style="display:none;"><a href="#" style="background:#4285F4;color:#fff;padding:6px 16px;border-radius:6px;font-weight:600;"><i class="fab fa-google me-2"></i>Login with Google</a></li>
                 </ul>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
-
         </nav>
     </section>
 
