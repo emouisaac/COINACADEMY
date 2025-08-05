@@ -3,34 +3,31 @@
 <html lang="en">
 <head>
     <script>
-    // Auth nav logic from index.html
-    function isLoggedIn() {
-        return localStorage.getItem('coinAcademiaToken');
-    }
-    function updateLoginNav() {
-        var loginNav = document.getElementById('loginNav');
-        if (loginNav) {
-            if (isLoggedIn()) {
-                loginNav.textContent = 'LOG OUT';
-                loginNav.href = '#';
-                loginNav.onclick = function(e) {
-                    e.preventDefault();
-                    localStorage.removeItem('coinAcademiaToken');
-                    window.location.href = '/index.html';
-                };
-            } else {
-                loginNav.textContent = 'LOG IN';
-                loginNav.href = '/logins/login.html';
-                loginNav.onclick = function(e) {
-                    // No-op, default link
-                };
+    // Universal nav update logic
+    function updateUserNavUniversal() {
+        const userNav = document.getElementById('userNav');
+        const loginNav = document.getElementById('loginNav');
+        const googleLoginNav = document.getElementById('googleLoginNav');
+        let user = null;
+        try {
+            const userData = localStorage.getItem('coinAcademiaUser');
+            if (userData) user = JSON.parse(userData);
+        } catch (e) { user = null; }
+        if (user && localStorage.getItem('coinAcademiaToken')) {
+            if (userNav) userNav.style.display = 'block';
+            if (loginNav) loginNav.style.display = 'none';
+            if (googleLoginNav) googleLoginNav.style.display = 'none';
+            if (userNav && document.getElementById('userName')) {
+                document.getElementById('userName').textContent = user.name || user.username || 'User';
             }
+        } else {
+            if (userNav) userNav.style.display = 'none';
+            if (loginNav) loginNav.style.display = 'block';
+            if (googleLoginNav) googleLoginNav.style.display = 'block';
         }
     }
-    document.addEventListener('DOMContentLoaded', function() {
-        updateLoginNav();
-    });
-
+    document.addEventListener('DOMContentLoaded', updateUserNavUniversal);
+    window.addEventListener('storage', updateUserNavUniversal);
     // Light/Dark mode toggle
     function setTheme(mode) {
       if (mode === 'dark') {
@@ -47,10 +44,8 @@
         document.getElementById('theme-toggle').innerHTML = '☀️';
       }
     }
-    
     window.addEventListener('DOMContentLoaded', function() {
-      updateAuthUI();
-      
+      updateAuthUI && updateAuthUI();
       // Theme toggle
       const toggle = document.createElement('button');
       toggle.id = 'theme-toggle';
@@ -61,33 +56,10 @@
         setTheme(isDark ? 'light' : 'dark');
       };
       setTheme(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
-
-      // Popup notification
-      function showPopup() {
-        if (document.getElementById('enroll-popup')) return;
-        const popup = document.createElement('div');
-        popup.className = 'popup-notification';
-        popup.id = 'enroll-popup';
-        popup.innerHTML = '<span>🚀 Unlock full access to all premium trading courses! <a href="/payments/pay.html?course=starter" style="color:#fff;text-decoration:underline;font-weight:700;">Enroll now</a> and become a pro trader.</span>' +
-          '<button class="close-btn" onclick="this.parentElement.remove()">&times;</button>';
-        document.body.appendChild(popup);
-        setTimeout(() => { if (popup && popup.parentElement) popup.remove(); }, 15000);
-      }
-      showPopup();
-      setInterval(showPopup, 60000);
     });
     </script>
     <style>
-      /* Move theme toggle to bottom left, floating, not interfering with nav */
       .theme-toggle {
-        position: fixed !important;
-        left: 18px;
-        bottom: 18px;
-        top: auto !important;
-        right: auto !important;
-        z-index: 1001;
-        background: #fff;
-        color: #181c2f;
         border: none;
         border-radius: 50%;
         width: 44px;

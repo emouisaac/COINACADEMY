@@ -593,6 +593,33 @@
     <script src="main.js"></script>
     <script src="script.js"></script>
     <script>
+// --- Consistent Auth Nav Update Snippet ---
+function updateUserNavUniversal() {
+    const userNav = document.getElementById('userNav');
+    const loginNav = document.getElementById('loginNav');
+    const googleLoginNav = document.getElementById('googleLoginNav');
+    let user = null;
+    try {
+        const userData = localStorage.getItem('coinAcademiaUser');
+        if (userData) user = JSON.parse(userData);
+    } catch (e) { user = null; }
+    if (user && localStorage.getItem('coinAcademiaToken')) {
+        if (userNav) userNav.style.display = 'block';
+        if (loginNav) loginNav.style.display = 'none';
+        if (googleLoginNav) googleLoginNav.style.display = 'none';
+        if (userNav && document.getElementById('userName')) {
+            document.getElementById('userName').textContent = user.name || user.username || 'User';
+        }
+    } else {
+        if (userNav) userNav.style.display = 'none';
+        if (loginNav) loginNav.style.display = 'block';
+        if (googleLoginNav) googleLoginNav.style.display = 'block';
+    }
+}
+
+// Call on page load and after login/logout
+document.addEventListener('DOMContentLoaded', updateUserNavUniversal);
+window.addEventListener('storage', updateUserNavUniversal);
     // User Authentication State Management
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize AOS
@@ -619,12 +646,14 @@
             if (token && userData) {
                 try {
                     const user = JSON.parse(userData);
-                    updateUserNav(user);
+                    updateUserNavUniversal();
                     return true;
                 } catch (e) {
                     console.error('Error parsing user data:', e);
                     clearAuthData();
                 }
+            } else {
+                updateUserNavUniversal();
             }
             return false;
         }
@@ -676,7 +705,8 @@
         }
 
         // Check auth status on page load
-        checkAuthStatus();
+checkAuthStatus();
+updateUserNavUniversal();
 
         // Set up logout button
         document.getElementById('logoutBtn')?.addEventListener('click', function(e) {

@@ -51,29 +51,30 @@
     function isLoggedIn() {
         return localStorage.getItem('coinAcademiaToken');
     }
-    function updateLoginNav() {
-        var loginNav = document.getElementById('loginNav');
-        if (loginNav) {
-            if (isLoggedIn()) {
-                loginNav.textContent = 'LOG OUT';
-                loginNav.href = '#';
-                loginNav.onclick = function(e) {
-                    e.preventDefault();
-                    localStorage.removeItem('coinAcademiaToken');
-                    window.location.href = '/index.html';
-                };
-            } else {
-                loginNav.textContent = 'LOG IN';
-                loginNav.href = '/logins/login.html';
-                loginNav.onclick = function(e) {
-                    // No-op, default link
-                };
+    function updateUserNavUniversal() {
+        const userNav = document.getElementById('userNav');
+        const loginNav = document.getElementById('loginNav');
+        const googleLoginNav = document.getElementById('googleLoginNav');
+        let user = null;
+        try {
+            const userData = localStorage.getItem('coinAcademiaUser');
+            if (userData) user = JSON.parse(userData);
+        } catch (e) { user = null; }
+        if (user && localStorage.getItem('coinAcademiaToken')) {
+            if (userNav) userNav.style.display = 'block';
+            if (loginNav) loginNav.style.display = 'none';
+            if (googleLoginNav) googleLoginNav.style.display = 'none';
+            if (userNav && document.getElementById('userName')) {
+                document.getElementById('userName').textContent = user.name || user.username || 'User';
             }
+        } else {
+            if (userNav) userNav.style.display = 'none';
+            if (loginNav) loginNav.style.display = 'block';
+            if (googleLoginNav) googleLoginNav.style.display = 'block';
         }
     }
-    document.addEventListener('DOMContentLoaded', function() {
-        updateLoginNav();
-    });
+    document.addEventListener('DOMContentLoaded', updateUserNavUniversal);
+    window.addEventListener('storage', updateUserNavUniversal);
     </script>
     </section>
 
