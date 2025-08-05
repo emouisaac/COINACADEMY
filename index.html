@@ -37,8 +37,7 @@
 
 </head>
 <body>
-    <!-- Light/Dark mode toggle will be injected by JS -->
-    <!-- Navigation -->
+    <!-- Navigation Section - Updated -->
     <section class="header">
         <nav>
             <a href="index.html"><img src="images/icon1.png" alt=""></a>
@@ -52,14 +51,30 @@
                     <li><a href="html/trading.html">TRADING</a></li>
                     <li><a href="html/blogs.html">BLOGS</a></li>
                     <li><a href="html/feedback.html">CONTACT</a></li>
-                    <li><a href="#" id="loginNav">LOG OUT</a></li>
-                    <li id="googleLoginNav" style="display:none;"><a href="#" style="background:#4285F4;color:#fff;padding:6px 16px;border-radius:6px;font-weight:600;"><i class="fab fa-google me-2"></i>Login with Google</a></li>
+                    <!-- Updated User Navigation -->
+                    <li id="userNav" style="display:none;">
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" style="background:#3a36c4;color:#fff;padding:6px 16px;border-radius:6px;font-weight:600;">
+                                <i class="fas fa-user me-2"></i><span id="userName">User</span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/dashboard.html">Dashboard</a>
+                                <a class="dropdown-item" href="/profile.html">Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logoutBtn">Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="loginNav"><a href="logins/login.html">LOG IN</a></li>
+                    <li id="googleLoginNav" style="display:none;">
+                        <a href="#" style="background:#4285F4;color:#fff;padding:6px 16px;border-radius:6px;font-weight:600;">
+                            <i class="fab fa-google me-2"></i>Login with Google
+                        </a>
+                    </li>
                 </ul>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
-
         </nav>
-
     </section>
 
     <!-- Live Crypto Ticker -->
@@ -573,95 +588,13 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="main.js"></script>
     <script src="script.js"></script>
     <script>
-    // Protect nav links: prompt login if not authenticated
+    // User Authentication State Management
     document.addEventListener('DOMContentLoaded', function() {
-      function isLoggedIn() {
-        // User is logged in if a session flag is set (set after successful login)
-        return localStorage.getItem('coinAcademiaLoggedIn') === 'true';
-      }
-      // Attach to all protected links
-      document.querySelectorAll('.protected-link').forEach(function(link) {
-        link.addEventListener('click', function(e) {
-          if (!isLoggedIn()) {
-            e.preventDefault();
-            // Store intended destination
-            localStorage.setItem('coinAcademiaRedirectAfterLogin', link.getAttribute('href'));
-            window.location.href = 'logins/login.html';
-          }
-        });
-      });
-
-      // Change LOG IN to LOG OUT if logged in
-      var loginNav = document.getElementById('loginNav');
-      if (loginNav) {
-        if (isLoggedIn()) {
-          loginNav.textContent = 'LOG OUT';
-          loginNav.href = '#';
-          loginNav.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Log out: clear session and redirect to main page
-            localStorage.removeItem('coinAcademiaLoggedIn');
-          loginNav.textContent = 'LOGOUT';
-          });
-        } else {
-          loginNav.textContent = 'LOG IN';
-          loginNav.href = 'logins/login.html';
-        }
-      }
-
-      // Redirect to intended page after successful login
-      if (isLoggedIn() && localStorage.getItem('coinAcademiaRedirectAfterLogin')) {
-        var redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
-        localStorage.removeItem('coinAcademiaRedirectAfterLogin');
-        // Always redirect to coinacademia.in with the correct path
-        var domain = 'https://coinacademia.in';
-        var path = redirectUrl;
-        if (!path.startsWith('/')) {
-          path = '/' + path.replace(/^\/+/, '');
-        }
-        window.location.href = domain + path;
-      }
-    });
-    // Render top 100 coins, remove image icons from coin-list
-    document.addEventListener('DOMContentLoaded', function() {
-      function renderCoinList(coins) {
-        const tbody = document.getElementById('coin-list');
-        // Clear previous rows to prevent flashing old/blank symbols
-        tbody.innerHTML = '';
-        coins.slice(0, 100).forEach(function(coin) {
-          const symbol = coin.symbol.toUpperCase();
-          // Use CoinGecko API image for the coin logo
-          const img = coin.image ? `<img src="${coin.image}" alt="${symbol} logo" style="width:22px;height:22px;vertical-align:middle;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.07);margin-right:6px;">` : '';
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${img}<span style="vertical-align:middle;">${symbol}</span></td>
-            <td>$${Number(coin.current_price).toLocaleString()}</td>
-            <td style="color:${coin.price_change_percentage_24h > 0 ? '#10b981' : '#ef4444'};font-weight:600;">
-              ${coin.price_change_percentage_24h > 0 ? '+' : ''}${coin.price_change_percentage_24h.toFixed(2)}%
-            </td>
-            <td>$${Number(coin.market_cap).toLocaleString()}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      }
-      // If using an API, replace this with your fetch logic
-      if (window.top100Coins) {
-        renderCoinList(window.top100Coins);
-      } else if (typeof fetch === 'function') {
-        fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false')
-          .then(res => res.json())
-          .then(data => renderCoinList(data));
-      }
-    });
-    </script>
-
-    <script>
         // Initialize AOS
         AOS.init({
             duration: 1000,
@@ -669,6 +602,7 @@
             offset: 100
         });
 
+        // Mobile menu functions
         function showMenu() {
             document.querySelector('.nav-links').style.right = "0";
         }
@@ -676,6 +610,126 @@
         function hideMenu() {
             document.querySelector('.nav-links').style.right = "-200px";
         }
+
+        // Check authentication status
+        function checkAuthStatus() {
+            const token = localStorage.getItem('coinAcademiaToken');
+            const userData = localStorage.getItem('coinAcademiaUser');
+            
+            if (token && userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    updateUserNav(user);
+                    return true;
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                    clearAuthData();
+                }
+            }
+            return false;
+        }
+
+        // Update navigation based on auth status
+        function updateUserNav(user) {
+            const userNav = document.getElementById('userNav');
+            const loginNav = document.getElementById('loginNav');
+            const googleLoginNav = document.getElementById('googleLoginNav');
+            
+            if (user) {
+                document.getElementById('userName').textContent = user.name || user.username || 'User';
+                userNav.style.display = 'block';
+                loginNav.style.display = 'none';
+                googleLoginNav.style.display = 'none';
+            } else {
+                userNav.style.display = 'none';
+                loginNav.style.display = 'block';
+                googleLoginNav.style.display = 'block';
+            }
+        }
+
+        // Clear authentication data
+        function clearAuthData() {
+            localStorage.removeItem('coinAcademiaToken');
+            localStorage.removeItem('coinAcademiaUser');
+            localStorage.removeItem('coinAcademiaLoggedIn');
+            updateUserNav(null);
+        }
+
+        // Logout function
+        function handleLogout() {
+            // Call logout API if needed
+            fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('coinAcademiaToken')}`
+                }
+            })
+            .then(() => {
+                clearAuthData();
+                window.location.href = '/index.html';
+            })
+            .catch(err => {
+                console.error('Logout error:', err);
+                clearAuthData();
+                window.location.href = '/index.html';
+            });
+        }
+
+        // Check auth status on page load
+        checkAuthStatus();
+
+        // Set up logout button
+        document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleLogout();
+        });
+
+        // Handle storage events for multi-tab sync
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'coinAcademiaToken' || e.key === 'coinAcademiaUser') {
+                checkAuthStatus();
+            }
+        });
+
+        // Protect protected links
+        document.querySelectorAll('.protected-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                if (!checkAuthStatus()) {
+                    e.preventDefault();
+                    localStorage.setItem('coinAcademiaRedirectAfterLogin', link.getAttribute('href'));
+                    window.location.href = 'logins/login.html';
+                }
+            });
+        });
+
+        // Crypto ticker rendering (existing code)
+        function renderCoinList(coins) {
+            const tbody = document.getElementById('coin-list');
+            tbody.innerHTML = '';
+            coins.slice(0, 100).forEach(function(coin) {
+                const symbol = coin.symbol.toUpperCase();
+                const img = coin.image ? `<img src="${coin.image}" alt="${symbol} logo" style="width:22px;height:22px;vertical-align:middle;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.07);margin-right:6px;">` : '';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${img}<span style="vertical-align:middle;">${symbol}</span></td>
+                    <td>$${Number(coin.current_price).toLocaleString()}</td>
+                    <td style="color:${coin.price_change_percentage_24h > 0 ? '#10b981' : '#ef4444'};font-weight:600;">
+                        ${coin.price_change_percentage_24h > 0 ? '+' : ''}${coin.price_change_percentage_24h.toFixed(2)}%
+                    </td>
+                    <td>$${Number(coin.market_cap).toLocaleString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Load crypto data
+        if (typeof fetch === 'function') {
+            fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false')
+                .then(res => res.json())
+                .then(data => renderCoinList(data))
+                .catch(err => console.error('Error fetching crypto data:', err));
+        }
+    });
     </script>
 </body>
 </html>
