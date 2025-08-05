@@ -287,11 +287,11 @@ app.listen(PORT, () => {
   console.log(`🔗 http://localhost:${PORT}`);
 });
 
-localStorage.setItem('coinAcademiaToken', data.token);
-localStorage.setItem('coinAcademiaUser', JSON.stringify(data.user));
+// localStorage.setItem('coinAcademiaToken', data.token); // Removed: localStorage is not available in Node.js
+// localStorage.setItem('coinAcademiaUser', JSON.stringify(data.user)); // Removed: localStorage is not available in Node.js
 
 function updateUserNav() {
-  const userData = localStorage.getItem('coinAcademiaUser');
+  // const userData = localStorage.getItem('coinAcademiaUser'); // Removed: localStorage is not available in Node.js
   const userNav = document.getElementById('userNav');
   const loginNav = document.getElementById('loginNav');
   const googleLoginNav = document.getElementById('googleLoginNav');
@@ -310,8 +310,8 @@ function updateUserNav() {
 }
 
 function logout() {
-  localStorage.removeItem('coinAcademiaToken');
-  localStorage.removeItem('coinAcademiaUser');
+  // localStorage.removeItem('coinAcademiaToken'); // Removed: localStorage is not available in Node.js
+  // localStorage.removeItem('coinAcademiaUser'); // Removed: localStorage is not available in Node.js
   // Optionally call the logout API endpoint
   fetch('/api/logout', { method: 'POST' })
     .then(() => window.location.href = '/index.html');
