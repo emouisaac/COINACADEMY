@@ -1,123 +1,97 @@
-// Load environment variables from .env file
 require('dotenv').config();
 const express = require('express');
-const axios = require('axios');
-const bodyParser = require('body-parser');
-const path = require('path');
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const session = require('express-session');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const User = require('./models/User');
+const session = require('express-session');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const authRoutes = require('./routes/auth');
+require('./config/passport');
+const path = require('path');
 
-// Set the port from environment variable or default to 3000
-const PORT = process.env.PORT || 3001;
-
-// Initialize app
 const app = express();
-
-// Database connection
-const clientPromise = require('./db');
-
-// Connect Mongoose to MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('Mongoose connected to MongoDB Atlas'))
-  .catch((err) => console.error('Mongoose connection error:', err));
-
-async function getData() {
-  const client = await clientPromise;
-  const db = client.db();
-  // Use your database...
-}
-
-// Middleware setup
-app.use(cors({
-  origin: [
-    'https://coinacademia.in',
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:3001'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Session configuration
-app.use(session({
-  secret: process.env.JWT_SECRET || 'your-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === 'production' }
-}));
-
-// Passport initialization
+app.use(cors());
+app.use(session({ secret: process.env.SESSION_SECRET || 'secret', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Passport Google Strategy
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL || 'https://coinacademia.in/auth/google/callback',
-  passReqToCallback: true
-}, async (req, accessToken, refreshToken, profile, done) => {
-  try {
-    let user = await User.findOne({ 
-      $or: [
-        { googleId: profile.id },
-        { email: profile.emails[0].value }
-      ]
-    });
-
-    if (!user) {
-      user = await User.create({
-        googleId: profile.id,
-        username: profile.displayName,
-        email: profile.emails[0].value,
-        isVerified: true
-      });
-    } else if (!user.googleId) {
-      user.googleId = profile.id;
-      await user.save();
-    }
-
-    return done(null, user);
-  } catch (err) {
-    return done(err, null);
-  }
-}));
-
-// Passport serialization/deserialization
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
-
-// Static files
 app.use(express.static(__dirname));
 
-// Routes
-app.get('/', (req, res) => {
+
+// Example live data (replace with DB queries in production)
+const courses = [
+  {
+    title: 'Crypto Fundamentals',
+    description: 'Learn the basics of blockchain, wallets, and transactions.',
+    duration: '4 weeks',
+    level: 'Beginner',
+    image: 'https://via.placeholder.com/300x200?text=Crypto+Basics'
+  },
+  {
+    title: 'Crypto Trading Masterclass',
+    description: 'Master technical analysis and trading strategies.',
+    duration: '6 weeks',
+    level: 'Intermediate',
+    image: 'https://via.placeholder.com/300x200?text=Trading'
+  },
+  {
+    title: 'DeFi & Smart Contracts',
+    description: 'Build decentralized applications on Ethereum.',
+    duration: '8 weeks',
+    level: 'Advanced',
+    image: 'https://via.placeholder.com/300x200?text=DeFi'
+  }
+];
+
+const blogs = [
+  {
+    title: 'Bitcoin Halving 2024: What to Expect',
+    date: 'May 15, 2024',
+    summary: 'An in-depth analysis of the upcoming Bitcoin halving event and its potential market impact.',
+    image: 'https://via.placeholder.com/300x200?text=Bitcoin'
+  },
+  {
+    title: 'Ethereum 2.0: The Complete Guide',
+    date: 'April 28, 2024',
+    summary: 'Everything you need to know about Ethereum\'s transition to proof-of-stake.',
+    image: 'https://via.placeholder.com/300x200?text=Ethereum'
+  },
+  {
+    title: 'Top DeFi Projects to Watch in 2024',
+    date: 'April 10, 2024',
+    summary: 'Our analysts pick the most promising decentralized finance projects this year.',
+    image: 'https://via.placeholder.com/300x200?text=DeFi'
+  }
+];
+
+app.use('/api/auth', authRoutes);
+
+// API endpoints for dynamic data
+app.get('/api/courses', (req, res) => {
+  res.json(courses);
+});
+
+app.get('/api/blogs', (req, res) => {
+  res.json(blogs);
+});
+
+
+// Serve index.html for all main routes (SPA)
+app.get(['/', '/courses', '/about', '/blogs', '/affiliate', '/login'], (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/cryptoacademy';
+
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch(err => console.error('MongoDB connection error:', err));
+
+
+  
 
 // NOWPayments endpoint
 app.post('/api/create-checkout', async (req, res) => {
@@ -177,65 +151,7 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) =>
   }
 });
 
-// User registration
-app.post('/api/register', async (req, res) => {
-  try {
-    const { username, password, email } = req.body;
-    
-    if (!username || !password || !email) {
-      return res.status(400).json({ error: 'All fields are required' });
-    }
 
-    if (await User.findOne({ $or: [{ username }, { email }] })) {
-      return res.status(409).json({ error: 'Username or email already exists' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 12);
-    const user = new User({ username, password: hashedPassword, email });
-    await user.save();
-
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (err) {
-    console.error('Registration error:', err);
-    res.status(500).json({ error: 'Registration failed' });
-  }
-});
-
-// User login
-app.post('/api/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    
-    if (!username || !password) {
-      return res.status(400).json({ error: 'Username and password required' });
-    }
-
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    const token = jwt.sign(
-      { id: user._id, username: user.username }, 
-      process.env.JWT_SECRET, 
-      { expiresIn: '1h' }
-    );
-
-    res.json({ 
-      message: 'Login successful', 
-      token,
-      user: { id: user._id, username: user.username }
-    });
-  } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ error: 'Login failed' });
-  }
-});
 
 // Google OAuth routes
 app.get('/auth/google', (req, res, next) => {
@@ -309,4 +225,3 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
-

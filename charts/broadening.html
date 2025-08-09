@@ -1,115 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        .theme-toggle {
-          position: fixed !important;
-          left: 18px;
-          bottom: 18px;
-          top: auto !important;
-          right: auto !important;
-          z-index: 1001;
-          background: #fff;
-          color: #181c2f;
-          border: none;
-          border-radius: 50%;
-          width: 44px;
-          height: 44px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.5em;
-          cursor: pointer;
-          transition: background 0.2s, color 0.2s;
-        }
-        .theme-toggle.dark {
-          background: #181c2f;
-          color: #fff;
-        }
-    </style>
-    <script>
-    // Auth nav logic from index.html
-    function isLoggedIn() {
-        return localStorage.getItem('coinAcademiaToken');
-    }
-    function updateLoginNav() {
-        var loginNav = document.getElementById('loginNav');
-        if (loginNav) {
-            if (isLoggedIn()) {
-                loginNav.textContent = 'LOG OUT';
-                loginNav.href = '#';
-                loginNav.onclick = function(e) {
-                    e.preventDefault();
-                    localStorage.removeItem('coinAcademiaToken');
-                    window.location.href = '/index.html';
-                };
-            } else {
-                loginNav.textContent = 'LOG IN';
-                loginNav.href = '/logins/login.html';
-                loginNav.onclick = function(e) {
-                    // No-op, default link
-                };
-            }
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-        updateLoginNav();
-    });
-
-    // Light/Dark mode toggle
-    function setTheme(mode) {
-      if (mode === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.documentElement.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-        document.getElementById('theme-toggle').classList.add('dark');
-        document.getElementById('theme-toggle').innerHTML = '🌙';
-      } else {
-        document.body.classList.remove('dark-mode');
-        document.documentElement.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
-        document.getElementById('theme-toggle').classList.remove('dark');
-        document.getElementById('theme-toggle').innerHTML = '☀️';
-      }
-    }
-    
-    window.addEventListener('DOMContentLoaded', function() {
-      updateAuthUI();
-      
-      // Remove any existing theme toggle button
-      const oldToggle = document.getElementById('theme-toggle');
-      if (oldToggle) {
-        oldToggle.remove();
-      }
-      // Create theme toggle button fixed at bottom left, matching channel pattern dashboard
-      const toggle = document.createElement('button');
-      toggle.id = 'theme-toggle';
-      toggle.className = 'theme-toggle';
-      document.body.appendChild(toggle);
-      toggle.onclick = function() {
-        const isDark = document.body.classList.contains('dark-mode');
-        setTheme(isDark ? 'light' : 'dark');
-      };
-      setTheme(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
-
-      // Popup notification
-      function showPopup() {
-        if (document.getElementById('enroll-popup')) return;
-        const popup = document.createElement('div');
-        popup.className = 'popup-notification';
-        popup.id = 'enroll-popup';
-        popup.innerHTML = '<span>🚀 Unlock full access to all premium trading courses! <a href="/payments/pay.html?course=starter" style="color:#fff;text-decoration:underline;font-weight:700;">Enroll now</a> and become a pro trader.</span>' +
-          '<button class="close-btn" onclick="this.parentElement.remove()">&times;</button>';
-        document.body.appendChild(popup);
-        setTimeout(() => { if (popup && popup.parentElement) popup.remove(); }, 15000);
-      }
-      showPopup();
-      setInterval(showPopup, 60000);
-    });
-    </script>
+    <!-- No dark/light mode toggle -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Cryptocurrency, Forex Trading & Investment</title>
     <meta name="description" content="Learn cryptocurrency trading, blockchain technology, and digital asset investment with expert-led courses at CoinAcademia.">
     
     <!-- Bootstrap 5 CSS -->
@@ -125,43 +20,55 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/mm.css">
-    <meta name="description" content="Coin Academia - Your source for cryptocurrency education and news.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/script.js"></script>
+    <!-- Removed duplicate meta description, kept only one -->
     <meta name="keywords" content="cryptocurrency, blockchain, education, news">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" href="images/icon.jpeg" type="image/x-icon">
+    <link rel="icon" href="../images/icon.jpeg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <title>Broadening chartpattern</title>
+
 </head>
-<body>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="../js/scripts.js"></script>
-    <script src="../js/script.js"></script>
-    <!-- Navigation -->
+    <!-- Removed duplicate scripts: ../js/scripts.js and ../js/script.js -->
+    
+    
+     <!-- Navigation -->
     <section class="header">
         <nav>
-            <a href="/index.html"><img src="/images/icon1.png" alt=""></a>
+            <a href="../index.html"><img src="../images/icon1.png" alt=""></a>
             <div class="nav-links">
                 <i class="fas fa-times" onclick="hideMenu()"></i>
-                <ul>
-                    <li><a href="/index.html">HOME</a></li>
-                    <li><a href="/charts/charts.html">CHART PATTERNS</a></li>
-                    <li><a href="/index.html#courses">COURSES</a></li>
-                    <li><a href="/Affiliate.html">AFFILIATE</a></li>
-                    <li><a href="/html/trading.html">TRADING</a></li>
-                    <li><a href="/html/blogs.html">BLOGS</a></li>
-                    <li><a href="/html/feedback.html">CONTACT</a></li>
-                    <li><a href="#" id="loginNav">LOG OUT</a></li>
-                    <li id="googleLoginNav" style="display:none;"><a href="#" style="background:#4285F4;color:#fff;padding:6px 16px;border-radius:6px;font-weight:600;"><i class="fab fa-google me-2"></i>Login with Google</a></li>
+                <ul class="nav-list">
+                    <li><a href="../index.html" class="active" data-page="home">HOME</a></li>
+                    <li><a href="../index.html#courses">COURSES</a></li>
+                    <li><a href="charts.html">CHART PATTERNS</a></li>
+                    <li><a href="../html/course.html">TRADING</a></li>
+                    <li><a href="../html/feedback.html">CONTACT</a></li>
+                    <li><a href="../index.html#about" data-page="about">ABOUT US</a></li>
+                    <li><a href="https://youtu.be/0Zkn6y_munk?si=xcj_ieLWJMV4Gidz" data-page="blogs">BLOGS</a></li>
+                    <li><a href="../Affiliate.html" data-page="affiliate">AFFILIATE</a></li>
+                    <li><a href="#" data-page="login" id="login-btn"><span id="nav-username">LOG IN</span></a></li>
                 </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
         </nav>
     </section>
+
 
     <!-- Rest of your HTML content remains the same -->
     <section class="ttt">
@@ -211,7 +118,7 @@
             <div class="coly">
                 <div class="sub-row1">
                     <h1>Descending Broadening Wedge</h1>
-                    <img src="/images/Descending Broadening Wedge.jpg" alt="Chart Patterns">
+                    <img src="../images/Descending Broadening Wedge.jpg" alt="Chart Patterns">
                     <p>A descending broadening wedge is a chart pattern characterized by two diverging trendlines, both sloping downward and spreading apart over time. This pattern typically forms during a downtrend and signals increasing volatility as sellers and buyers push prices to lower lows and lower highs within the wedge.</p>
                     <p>The lower trendline connects a series of lower lows, while the upper trendline connects lower highs, creating a broadening, expanding shape. Unlike most continuation patterns, the descending broadening wedge often acts as a reversal pattern, with a higher probability of breaking upward.</p>
                     <p>Traders look for a decisive break above the upper trendline, which may indicate a shift in momentum from bearish to bullish. This breakout is often accompanied by increased volume, confirming the potential for a trend reversal.</p>
@@ -221,7 +128,7 @@
                     <hr>
 
                     <h1>Ascending Broadening Wedge</h1>
-                    <img src="/images/Ascending Broadening Wedge.jpg">
+                    <img src="../images/Ascending Broadening Wedge.jpg">
                     <p>An ascending broadening wedge is a chart pattern formed by two diverging trendlines, both sloping upward but spreading apart over time. This pattern typically appears during an uptrend and signals increasing volatility as buyers and sellers push prices to new highs and lows within the wedge.</p>
                     <p>The upper trendline connects a series of higher highs, while the lower trendline connects higher lows, creating a broadening, expanding shape. Unlike most continuation patterns, the ascending broadening wedge often acts as a reversal pattern, with a higher probability of breaking downward.</p>
                     <p>Traders watch for a decisive break below the lower trendline, which may indicate a shift in momentum from bullish to bearish. This breakdown is often accompanied by increased volume, confirming the potential for a trend reversal.</p>
@@ -232,7 +139,7 @@
                     <hr>
 
                     <h1>Rising Wedge - Uptrend</h1>
-                    <img src="/images/Rising wedges U-T.jpg" alt="Chart Patterns">
+                    <img src="../images/Rising wedges U-T.jpg" alt="Chart Patterns">
                     <p>A rising wedge is a chart pattern formed by two upward-sloping trendlines that converge as the price moves higher. In the context of an uptrend, a rising wedge is typically considered a bearish reversal pattern. As the price rises, the range narrows, indicating weakening momentum and potential exhaustion of buyers.</p>
                     <p>Bearish results are expected when the price breaks down below the lower trendline of the wedge, often accompanied by increased volume. This breakdown signals a potential shift from bullish to bearish sentiment, and traders may anticipate a downward move or trend reversal.</p>
                     <p>Key characteristics of a bearish rising wedge include converging trendlines, declining volume as the pattern develops, and a decisive breakdown below support. Traders often wait for confirmation of the breakdown before entering short positions and use stop-loss orders above the upper trendline to manage risk.</p>
@@ -243,7 +150,7 @@
                     <hr>
 
                     <h1>Rising Wedge - Uptrend</h1>
-                    <img src="/images/Rising wedges D-T.jpg" alt="Chart Patterns">
+                    <img src="../images/Rising wedges D-T.jpg" alt="Chart Patterns">
                     <p>A rising wedge in a downtrend is a chart pattern formed by two upward-sloping, converging trendlines during a bearish market move. This pattern typically acts as a continuation pattern, suggesting that the prevailing downtrend is likely to resume after a temporary consolidation.</p>
                     <p>Bearish results are expected when the price breaks down below the lower trendline of the wedge, often accompanied by increased volume. This breakdown signals a continuation of the bearish momentum, and traders may anticipate further downward movement.</p>
                     <p>Key characteristics of a rising wedge in a downtrend include converging trendlines, declining volume as the pattern develops, and a decisive breakdown below support. Traders often wait for confirmation of the breakdown before entering short positions and use stop-loss orders above the upper trendline to manage risk.</p>
@@ -252,7 +159,7 @@
                     <hr>
 
                     <h1>Falling Wedge - Uptrend</h1>
-                    <img src="/images/Falling wedges U-T.jpg" alt="Chart Patterns">
+                    <img src="../images/Falling wedges U-T.jpg" alt="Chart Patterns">
                     <p>A falling wedge is a chart pattern formed by two downward-sloping, converging trendlines that contain the price action. In the context of an uptrend, a falling wedge is typically considered a bullish continuation pattern. As the price consolidates within the narrowing range, selling pressure diminishes and buyers gradually regain control.</p>
                     <p>Bullish results are expected when the price breaks out above the upper trendline of the wedge, often accompanied by increased volume. This breakout signals a potential continuation of the uptrend, and traders may look for long opportunities or trend-following setups.</p>
                     <p>Key characteristics of a bullish falling wedge in an uptrend include converging trendlines, declining volume as the pattern develops, and a decisive breakout above resistance. Traders often wait for confirmation of the breakout before entering positions and use stop-loss orders below the lower trendline to manage risk.</p>
@@ -260,7 +167,7 @@
 
                     <hr>
                     <h1>Falling Wedge - Downtrend</h1>
-                    <img src="/images/Falling wedges D-T.jpg" alt="Chart Patterns">
+                    <img src="../images/Falling wedges D-T.jpg" alt="Chart Patterns">
                     <p>A falling wedge in a downtrend is a chart pattern formed by two downward-sloping, converging trendlines that contain the price action. This pattern typically acts as a bullish reversal pattern, suggesting that the prevailing downtrend may be losing momentum and a potential reversal to the upside is imminent.</p>
                     <p>Bullish results are expected when the price breaks out above the upper trendline of the wedge, often accompanied by increased volume. This breakout signals a potential shift in sentiment from bearish to bullish, and traders may anticipate a reversal or upward movement.</p>
                     <p>Key characteristics of a falling wedge in a downtrend include converging trendlines, declining volume as the pattern develops, and a decisive breakout above resistance. Traders often wait for confirmation of the breakout before entering long positions and use stop-loss orders below the lower trendline to manage risk.</p>
@@ -303,11 +210,11 @@
         <h4>About Us</h4>
         <p>Coin Academia is dedicated to providing the best resources for forex and cryptocurrency education and trading.</p>
         <div class="icons">
-            <a href="#"><img src="/images/fb1.png" alt="Facebook"></a>
-            <a href="#"><img src="/images/twt1.png" alt="Twitter"></a>
-            <a href="#"><img src="/images/youtube.webp" alt="YouTube"></a>
-            <a href="#"><img src="/images/tel.png" alt="Telegram"></a>
-        </div>
+            <a href="#"><img src="../images/fb1.png" alt="Facebook"></a>
+            <a href="#"><img src="../images/twt1.png" alt="Twitter"></a>
+            <a href="#"><img src="../images/youtube.webp" alt="YouTube"></a>
+            <a href="#"><img src="../images/tel.png" alt="Telegram"></a>
+                    <li><a href="charts.html">CHART PATTERNS</a></li>
         <div id="theme-toggle-footer"></div>
         <p>&copy; 2025 Coin Academia. All rights reserved.</p>
     </section>
@@ -319,11 +226,389 @@
         function showMenu() {
             document.querySelector('.nav-links').style.right = "0";
         }
-
         function hideMenu() {
             document.querySelector('.nav-links').style.right = "-200px";
         }
     </script>
     
 </body>
+        <!-- Login/Registration Modal (from index.html) -->
+        <div id="login-modal" class="pro-modal" style="display:none;">
+                <div class="login-container pro-login-container animate__animated animate__fadeInDown" style="display:none;">
+                        <button class="pro-modal-close" id="close-login-modal" aria-label="Close">&times;</button>
+                        <div class="login-form pro-login-form" style="display:none;">
+                                <h2 class="pro-login-title">Login to Your Account</h2>
+                                <form id="loginForm">
+                                        <div class="form-group pro-form-group">
+                                                <label for="login-id">Username or Email</label>
+                                                <input type="text" id="login-id" class="pro-input" required autocomplete="username">
+                                        </div>
+                                        <div class="form-group pro-form-group">
+                                                <label for="password">Password</label>
+                                                <input type="password" id="password" class="pro-input" required autocomplete="current-password">
+                                        </div>
+                                        <button type="submit" class="login-btn pro-login-btn">Log In</button>
+                                </form>
+                                <div class="pro-divider"><span>or</span></div>
+                                <button id="google-login" class="login-btn pro-google-btn" type="button"><i class="fab fa-google"></i> Log in with Google</button>
+                                <p class="signup-link pro-signup-link">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+                        </div>
+                        <div class="signup-form pro-signup-form" style="display:none;">
+                                <h2 class="pro-login-title">Create New Account</h2>
+                                <form id="signupForm">
+                                        <div class="form-group pro-form-group">
+                                                <label for="signup-username">Username</label>
+                                                <input type="text" id="signup-username" class="pro-input" required autocomplete="username">
+                                        </div>
+                                        <div class="form-group pro-form-group">
+                                                <label for="signup-email">Email</label>
+                                                <input type="email" id="signup-email" class="pro-input" required autocomplete="email">
+                                        </div>
+                                        <div class="form-group pro-form-group">
+                                                <label for="signup-referral">Referral Code (optional)</label>
+                                                <input type="text" id="signup-referral" class="pro-input">
+                                        </div>
+                                        <div class="form-group pro-form-group">
+                                                <label for="signup-password">Password (min 8 characters)</label>
+                                                <input type="password" id="signup-password" class="pro-input" required minlength="8" autocomplete="new-password">
+                                        </div>
+                                        <div class="form-group pro-form-group">
+                                                <label for="confirm-password">Confirm Password</label>
+                                                <input type="password" id="confirm-password" class="pro-input" required minlength="8" autocomplete="new-password">
+                                        </div>
+                                        <button type="submit" class="signup-btn pro-signup-btn">Sign Up</button>
+                                </form>
+                                <p class="login-link pro-login-link">Already have an account? <a href="#" id="show-login">Log in</a></p>
+                        </div>
+                </div>
+        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <style>
+        /* Professional, modern login/signup form styles (from index.html) */
+        .pro-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(30,32,60,0.32);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            overflow-y: auto;
+        }
+        .pro-modal .pro-login-container {
+            margin: 0;
+            box-shadow: 0 12px 32px rgba(60,60,120,0.18), 0 2px 12px rgba(0,0,0,0.11);
+            animation-duration: 0.7s;
+            position: relative;
+        }
+        .pro-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 2.1rem;
+            color: #3a36c4;
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.2s;
+        }
+        .pro-modal-close:hover {
+            color: #ef4444;
+        }
+        .pro-login-container {
+            max-width: 400px;
+            margin: 60px auto 40px auto;
+            background: rgba(255,255,255,0.97);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(60,60,120,0.13), 0 1.5px 8px rgba(0,0,0,0.07);
+            padding: 36px 32px 28px 32px;
+            position: relative;
+            z-index: 10;
+            transition: box-shadow 0.2s;
+        }
+        .pro-login-form, .pro-signup-form {
+            width: 100%;
+            animation-duration: 0.7s;
+        }
+        .pro-login-title {
+            font-family: 'Poppins',sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: #2d2e4a;
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+        .pro-form-group {
+            margin-bottom: 1.1rem;
+        }
+        .pro-form-group label {
+            font-weight: 500;
+            color: #3a36c4;
+            margin-bottom: 0.3rem;
+            display: block;
+            font-size: 1rem;
+        }
+        .pro-input {
+            width: 100%;
+            padding: 0.7em 1em;
+            border: 1.5px solid #e0e3ef;
+            border-radius: 8px;
+            font-size: 1.05em;
+            background: #f7f8fa;
+            color: #2d2e4a;
+            transition: border 0.2s, box-shadow 0.2s;
+            outline: none;
+            margin-top: 0.1em;
+        }
+        .pro-input:focus {
+            border-color: #3a36c4;
+            box-shadow: 0 0 0 2px #3a36c41a;
+            background: #fff;
+        }
+        .pro-login-btn, .pro-signup-btn {
+            width: 100%;
+            background: linear-gradient(90deg,#3a36c4 60%,#4285F4 100%);
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8em 0;
+            font-size: 1.1em;
+            margin-top: 0.2em;
+            margin-bottom: 0.7em;
+            box-shadow: 0 2px 8px rgba(58,54,196,0.08);
+            transition: background 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .pro-login-btn:hover, .pro-signup-btn:hover {
+            background: linear-gradient(90deg,#4285F4 0%,#3a36c4 100%);
+            box-shadow: 0 4px 16px rgba(58,54,196,0.13);
+        }
+        .pro-google-btn {
+            width: 100%;
+            background: #fff;
+            color: #4285F4;
+            border: 1.5px solid #4285F4;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.8em 0;
+            font-size: 1.1em;
+            margin-bottom: 0.7em;
+            box-shadow: 0 2px 8px rgba(66,133,244,0.08);
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .pro-google-btn i {
+            font-size: 1.2em;
+        }
+        .pro-google-btn:hover {
+            background: #4285F4;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(66,133,244,0.13);
+        }
+        .pro-divider {
+            text-align: center;
+            margin: 1.1em 0 1.1em 0;
+            position: relative;
+        }
+        .pro-divider span {
+            background: #fff;
+            color: #b0b3c7;
+            padding: 0 1.1em;
+            font-size: 1em;
+            position: relative;
+            z-index: 2;
+        }
+        .pro-divider:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0; right: 0; top: 50%;
+            height: 1px;
+            background: #e0e3ef;
+            z-index: 1;
+        }
+        .pro-signup-link, .pro-login-link {
+            text-align: center;
+            margin-top: 0.7em;
+            color: #3a36c4;
+            font-size: 1em;
+        }
+        .pro-signup-link a, .pro-login-link a {
+            color: #4285F4;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .pro-signup-link a:hover, .pro-login-link a:hover {
+            color: #3a36c4;
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .pro-login-container {
+                max-width: 98vw;
+                padding: 18px 6vw 18px 6vw;
+                margin: 30px auto 20px auto;
+            }
+            .pro-login-title {
+                font-size: 1.3rem;
+            }
+        }
+        </style>
+        <script>
+        // SPA login/registration modal logic (from index.html)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show modal on LOG IN click
+            var loginBtn = document.getElementById('login-btn') || document.getElementById('loginNav');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var modal = document.getElementById('login-modal');
+                    var loginContainer = modal.querySelector('.login-container');
+                    var loginForm = modal.querySelector('.login-form');
+                    var signupForm = modal.querySelector('.signup-form');
+                    modal.style.display = 'flex';
+                    loginContainer.style.display = '';
+                    loginForm.style.display = '';
+                    signupForm.style.display = 'none';
+                    document.body.style.overflow = 'hidden';
+                    var loginInput = document.getElementById('login-id');
+                    if (loginInput) loginInput.focus();
+                });
+            }
+            // Google login
+            var googleBtn = document.getElementById('google-login');
+            if (googleBtn) {
+                googleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = 'http://localhost:3000/api/auth/google';
+                });
+            }
+            // Close modal
+            var closeBtn = document.getElementById('close-login-modal');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    var modal = document.getElementById('login-modal');
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+            }
+            // Close modal on background click
+            var modal = document.getElementById('login-modal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+            // SPA toggle: Sign up and Log in links
+            var showSignup = document.getElementById('show-signup');
+            if (showSignup) {
+                showSignup.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var modal = document.getElementById('login-modal');
+                    var loginForm = modal.querySelector('.login-form');
+                    var signupForm = modal.querySelector('.signup-form');
+                    loginForm.style.display = 'none';
+                    signupForm.style.display = '';
+                    var signupInput = document.getElementById('signup-username');
+                    if (signupInput) signupInput.focus();
+                });
+            }
+            var showLogin = document.getElementById('show-login');
+            if (showLogin) {
+                showLogin.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var modal = document.getElementById('login-modal');
+                    var loginForm = modal.querySelector('.login-form');
+                    var signupForm = modal.querySelector('.signup-form');
+                    loginForm.style.display = '';
+                    signupForm.style.display = 'none';
+                    var loginInput = document.getElementById('login-id');
+                    if (loginInput) loginInput.focus();
+                });
+            }
+            // Login form handler
+            var loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const loginId = document.getElementById('login-id').value.trim();
+                    const password = document.getElementById('password').value;
+                    fetch('http://localhost:3000/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ loginId, password })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.token) {
+                            alert('Successfully logged in!');
+                            document.getElementById('login-modal').style.display = 'none';
+                            document.body.style.overflow = '';
+                            if (loginBtn) loginBtn.textContent = data.user.username || 'LOG OUT';
+                        } else {
+                            alert(data.message || 'Account not found. Please register to log in.');
+                            document.querySelector('.login-form').style.display = 'none';
+                            document.querySelector('.signup-form').style.display = '';
+                        }
+                    })
+                    .catch(() => {
+                        alert('Server error. Please try again later.');
+                    });
+                });
+            }
+            // Signup form handler
+            var signupForm = document.getElementById('signupForm');
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const username = document.getElementById('signup-username').value.trim();
+                    const email = document.getElementById('signup-email').value.trim();
+                    const referral = document.getElementById('signup-referral').value.trim();
+                    const password = document.getElementById('signup-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    if (!username || !email || !password || !confirmPassword) {
+                        alert('Please fill in all fields.');
+                        return;
+                    }
+                    if (password.length < 8) {
+                        alert('Password must be at least 8 characters long.');
+                        return;
+                    }
+                    if (password !== confirmPassword) {
+                        alert('Passwords do not match.');
+                        return;
+                    }
+                    fetch('http://localhost:3000/api/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, email, password, referral })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.message === 'Registered successfully') {
+                            alert('Registration successful! You can now log in.');
+                            document.querySelector('.login-form').style.display = '';
+                            document.querySelector('.signup-form').style.display = 'none';
+                        } else {
+                            alert(data.message || 'Registration failed.');
+                        }
+                    })
+                    .catch(() => {
+                        alert('Server error. Please try again later.');
+                    });
+                });
+            }
+        });
+        </script>
 </html>

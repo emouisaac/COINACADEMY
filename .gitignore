@@ -1,9 +1,5 @@
-# Node.js dependencies
+# Node.js
 node_modules/
-
-# Environment variables
-.env
-.env.*
 
 # Logs
 logs/
@@ -12,38 +8,35 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# OS generated files
+# Environment variables
+.env
+.env.*
+
+# OS files
 .DS_Store
 Thumbs.db
 
-# VS Code settings
+# Build output
+dist/
+build/
+
+# VS Code
 .vscode/
 
-# Build output
-/dist/
-/build/
+# Misc
+*.swp
+*.swo
 
-# Coverage reports
+# Coverage
 coverage/
 
-# Misc
+# Others
+*.pid
+*.seed
 *.tgz
-*.swp
 
-# Optional: Ignore local database or cache
-*.sqlite
-*.db
-.cache/
+# MongoDB
+*.mongodb
 
-# Ignore package-lock if using yarn
-package-lock.json
-
-# Ignore test output
-/test-output/
-
-# Ignore backups
-*.bak
-*.tmp
-
-# Ignore media uploads (if any)
-uploads/
+# Optional: ignore local database files
+data/

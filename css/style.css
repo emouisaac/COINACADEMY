@@ -1079,6 +1079,38 @@ html {
   font-size: 0.9rem;
   white-space: nowrap;
 }
+/* Mobile Nav Fix */
+@media screen and (max-width: 768px) {
+  .nav-links {
+    position: fixed;
+    background: #5b4838;
+    height: 100vh;
+    width: 200px;
+    top: 0;
+    right: -200px;
+    text-align: left;
+    z-index: 1002;
+    transition: right 0.4s cubic-bezier(.77,0,.18,1);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    display: block;
+  }
+  .nav-links.active {
+    right: 0;
+  }
+  .nav-links ul {
+    padding: 30px 0 0 0;
+    margin: 0;
+    display: block;
+  }
+  .nav-links ul li {
+    display: block;
+    padding: 12px 24px;
+    border-bottom: 1px solid #fff2;
+  }
+  .nav-links ul li:last-child {
+    border-bottom: none;
+  }
+}
 .orange {
   color: rgba(255, 167, 4, 0.799);
   font-weight: bold;

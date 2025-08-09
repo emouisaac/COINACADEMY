@@ -36,33 +36,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
 </head>
+
+
+
 <body>
-    <!-- Light/Dark mode toggle will be injected by JS -->
+
     <!-- Navigation -->
     <section class="header">
         <nav>
-            <a href="index.html"><img src="images/icon1.png" alt=""></a>
+            <a href="index.html"><img src="images/icon1.png" alt="LOGO" class="logo"></a>
             <div class="nav-links">
                 <i class="fas fa-times" onclick="hideMenu()"></i>
-                <ul>
-                    <li><a href="index.html">HOME</a></li>
-                    <li><a href="/charts/charts.html">CHART PATTERNS</a></li>
+                <ul class="nav-list">
+                    <li><a href="index.html" class="active" data-page="home">HOME</a></li>
                     <li><a href="index.html#courses">COURSES</a></li>
-                    <li><a href="/Affiliate.html">AFFILIATE</a></li>
-                    <li><a href="html/trading.html">TRADING</a></li>
-                    <li><a href="html/blogs.html">BLOGS</a></li>
+                    <li><a href="charts/charts.html">CHART PATTERNS</a></li>
+                    <li><a href="index.html#courses">TRADING</a></li>
                     <li><a href="html/feedback.html">CONTACT</a></li>
-                    <li><a href="#" id="loginNav">LOG OUT</a></li>
-                    <li id="googleLoginNav" style="display:none;"><a href="#" style="background:#4285F4;color:#fff;padding:6px 16px;border-radius:6px;font-weight:600;"><i class="fab fa-google me-2"></i>Login with Google</a></li>
+                    <li><a href="index.html#about">ABOUT US</a></li>
+                    <li><a href="https://youtu.be/0Zkn6y_munk?si=xcj_ieLWJMV4Gidz" data-page="blogs">BLOGS</a></li>
+                    <li><a href="Affiliate.html" data-page="affiliate">AFFILIATE</a></li>
+                    <li><a href="#" data-page="login" id="login-btn"><span id="nav-username">LOG IN</span></a></li>
                 </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
             </div>
             <i class="fas fa-bars" onclick="showMenu()"></i>
-
         </nav>
-
     </section>
 
-    <!-- Live Crypto Ticker -->
+    <main>
     <!-- Scrolling Market Data -->
   <div class="market-scroll">
     <marquee behavior="scroll" direction="left" scrollamount="6" id="coin-ticker">
@@ -284,17 +290,18 @@
                         </div>
                         <div class="course-content">
                             <div class="course-category" style="color:#3a36c4;font-weight:bold;">Elite</div>
+                            <br>
                             <h4 class="course-title">Masterclass: Wealth Building</h4>
                             <p class="course-description">
                                 Unlock advanced wealth-building strategies, portfolio scaling, and elite-level investment insights for serious crypto investors.
                             </p>
                             <div class="course-meta">
-                                <span class="course-duration"><i class="fas fa-clock"></i> Lifetime Access</span>
+                                <span class="course-duration"><i class="fas fa-clock"></i> 6 Months</span>
                                 <span class="course-students"><i class="fas fa-users"></i> 500+ students</span>
                             </div>
                             <div class="course-price">
                                 <span class="price">$1000</span>
-                                <a href="/payments/pay.html?course=masterclass" class="btn btn-primary">Enroll Now</a>
+                                <a href="payments/pay.html?course=masterclass" class="btn btn-primary">Enroll Now</a>
                             </div>
                         </div>
                     </div>
@@ -306,17 +313,18 @@
                         </div>
                         <div class="course-content">
                             <div class="course-category">Premium</div>
+                            <br>
                             <h4 class="course-title">Portfolio Management</h4>
                             <p class="course-description">
                                 Learn to build, balance, and manage a high-performing crypto portfolio for long-term growth and risk management.
                             </p>
                             <div class="course-meta">
-                                <span class="course-duration"><i class="fas fa-clock"></i> 10 hours</span>
+                                <span class="course-duration"><i class="fas fa-clock"></i> 6 Months</span>
                                 <span class="course-students"><i class="fas fa-users"></i> 1,500 students</span>
                             </div>
                             <div class="course-price">
                                 <span class="price">$500</span>
-                                <a href="/payments/pay.html?course=portfolio" class="btn btn-primary">Enroll Now</a>
+                                <a href="payments/pay.html?course=portfolio" class="btn btn-primary">Enroll Now</a>
                             </div>
                         </div>
                     </div>
@@ -328,17 +336,18 @@
                         </div>
                         <div class="course-content">
                             <div class="course-category">Advanced</div>
+                            <br>
                             <h4 class="course-title">Technical Analysis</h4>
                             <p class="course-description">
                                 Master chart patterns, indicators, and technical tools to make informed trading decisions in any market condition.
                             </p>
                             <div class="course-meta">
-                                <span class="course-duration"><i class="fas fa-clock"></i> 16 hours</span>
+                                <span class="course-duration"><i class="fas fa-clock"></i> 6 Months</span>
                                 <span class="course-students"><i class="fas fa-users"></i> 1,850 students</span>
                             </div>
                             <div class="course-price">
                                 <span class="price">$350</span>
-                                <a href="/payments/pay.html?course=technical" class="btn btn-primary">Enroll Now</a>
+                                <a href="payments/pay.html?course=technical" class="btn btn-primary">Enroll Now</a>
                             </div>
                         </div>
                     </div>
@@ -350,17 +359,18 @@
                         </div>
                         <div class="course-content">
                             <div class="course-category">Intermediate</div>
+                            <br>
                             <h4 class="course-title">Trading Strategies</h4>
                             <p class="course-description">
                                 Explore proven trading strategies, risk management, and real-world tactics to boost your crypto trading results.
                             </p>
                             <div class="course-meta">
-                                <span class="course-duration"><i class="fas fa-clock"></i> 12 hours</span>
+                                <span class="course-duration"><i class="fas fa-clock"></i> 6 Months</span>
                                 <span class="course-students"><i class="fas fa-users"></i> 1,200 students</span>
                             </div>
                             <div class="course-price">
                                 <span class="price">$250</span>
-                                <a href="/payments/pay.html?course=trading" class="btn btn-primary">Enroll Now</a>
+                                <a href="payments/pay.html?course=trading" class="btn btn-primary">Enroll Now</a>
                             </div>
                         </div>
                     </div>
@@ -372,17 +382,18 @@
                         </div>
                         <div class="course-content">
                             <div class="course-category">Basic</div>
+                            <br>
                             <h4 class="course-title">Crypto Fundamentals</h4>
                             <p class="course-description">
                                 Learn the basics of Bitcoin, blockchain, wallets, and how to get started in the world of cryptocurrency.
                             </p>
                             <div class="course-meta">
-                                <span class="course-duration"><i class="fas fa-clock"></i> Lifetime Access</span>
+                                <span class="course-duration"><i class="fas fa-clock"></i> 6 Months</span>
                                 <span class="course-students"><i class="fas fa-users"></i> 2,450 students</span>
                             </div>
                             <div class="course-price">
                                 <span class="price">$90</span>
-                                <a href="/payments/pay.html?course=starter" class="btn btn-primary">Enroll Now</a>
+                                <a href="payments/pay.html?course=starter" class="btn btn-primary">Enroll Now</a>
                             </div>
                         </div>
                     </div>
@@ -475,8 +486,76 @@
             </div>
         </div>
     </section>
+    
 
-    <!-- CTA Section -->
+
+    <!-- Affiliate Page -->
+        <section class="page" id="affiliate">
+            <h2 class="affiliate-title">Affiliate Program</h2>
+            <div class="affiliate-content pro-affiliate-content">
+                <div class="affiliate-text pro-affiliate-text">
+                    <h3 class="affiliate-heading">Earn Crypto By Sharing Knowledge</h3>
+                    <p class="affiliate-desc">Join our affiliate program and earn commissions for every student you refer to Crypto Academy.</p>
+                    <ul class="affiliate-benefits">
+                        <li><i class="fas fa-check-circle"></i> <span><span id="commission-counter">0</span>% commission on all course sales</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span id="affiliate-earnings">Recurring earnings for subscription products</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span id="dashboard-status">Real-time tracking dashboard</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span id="payout-status">Payouts in crypto or fiat</span></li>
+                    </ul>
+                    <button class="cta-btn pro-affiliate-btn">Join Affiliate Program</button>
+                </div>
+            <style>            
+            .affiliate-live {
+              margin-top: 1.5em;
+              background: #f7f8fa;
+              border-radius: 8px;
+              padding: 1em 1.2em 1.2em 1.2em;
+              box-shadow: 0 1px 6px rgba(60,60,120,0.06);
+              text-align: left;
+            }
+            .affiliate-label {
+              font-weight: 600;
+              color: #3a36c4;
+              margin-bottom: 0.4em;
+              display: block;
+            }
+            .affiliate-referral-box {
+              display: flex;
+              align-items: center;
+              gap: 0.7em;
+              margin-bottom: 0.3em;
+            }
+            .affiliate-referral-input {
+              font-size: 1.1em;
+              font-weight: 600;
+              color: #2d2e4a;
+              background: #fff;
+              border: 1.5px solid #e0e3ef;
+              border-radius: 7px;
+              padding: 0.5em 1em;
+              width: 180px;
+              letter-spacing: 0.04em;
+              transition: border 0.2s;
+            }
+            .affiliate-copy-btn {
+              background: #3a36c4;
+              color: #fff;
+              border: none;
+              border-radius: 6px;
+              padding: 0.5em 0.8em;
+              font-size: 1.1em;
+              cursor: pointer;
+              transition: background 0.2s;
+            }
+            .affiliate-copy-btn:hover {
+              background: #10b981;
+              color: #fff;
+            }
+        </style>
+    </section>
+
+    <!-- Call to Action Section -->
+
     <section id="get-started" class="cta-section py-5">
         <div class="container">
             <div class="row">
@@ -499,6 +578,8 @@
             </div>
         </div>
     </section>
+
+
 
     <!-- Footer -->
     <footer class="footer-section">
@@ -579,55 +660,7 @@
     <script src="main.js"></script>
     <script src="script.js"></script>
     <script>
-    // Protect nav links: prompt login if not authenticated
-    document.addEventListener('DOMContentLoaded', function() {
-      function isLoggedIn() {
-        // User is logged in if a session flag is set (set after successful login)
-        return localStorage.getItem('coinAcademiaLoggedIn') === 'true';
-      }
-      // Attach to all protected links
-      document.querySelectorAll('.protected-link').forEach(function(link) {
-        link.addEventListener('click', function(e) {
-          if (!isLoggedIn()) {
-            e.preventDefault();
-            // Store intended destination
-            localStorage.setItem('coinAcademiaRedirectAfterLogin', link.getAttribute('href'));
-            window.location.href = 'logins/login.html';
-          }
-        });
-      });
-
-      // Change LOG IN to LOG OUT if logged in
-      var loginNav = document.getElementById('loginNav');
-      if (loginNav) {
-        if (isLoggedIn()) {
-          loginNav.textContent = 'LOG OUT';
-          loginNav.href = '#';
-          loginNav.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Log out: clear session and redirect to main page
-            localStorage.removeItem('coinAcademiaLoggedIn');
-          loginNav.textContent = 'LOGOUT';
-          });
-        } else {
-          loginNav.textContent = 'LOG IN';
-          loginNav.href = 'logins/login.html';
-        }
-      }
-
-      // Redirect to intended page after successful login
-      if (isLoggedIn() && localStorage.getItem('coinAcademiaRedirectAfterLogin')) {
-        var redirectUrl = localStorage.getItem('coinAcademiaRedirectAfterLogin');
-        localStorage.removeItem('coinAcademiaRedirectAfterLogin');
-        // Always redirect to coinacademia.in with the correct path
-        var domain = 'https://coinacademia.in';
-        var path = redirectUrl;
-        if (!path.startsWith('/')) {
-          path = '/' + path.replace(/^\/+/, '');
-        }
-        window.location.href = domain + path;
-      }
-    });
+    
     // Render top 100 coins, remove image icons from coin-list
     document.addEventListener('DOMContentLoaded', function() {
       function renderCoinList(coins) {
@@ -676,6 +709,650 @@
         function hideMenu() {
             document.querySelector('.nav-links').style.right = "-200px";
         }
+    </script>
+
+
+        
+                      
+                    
+            <script>
+            // Animate commission counter
+            document.addEventListener('DOMContentLoaded', function() {
+              let commission = 0;
+              const target = 50;
+              const counter = document.getElementById('commission-counter');
+              function animateCommission() {
+                if (commission < target) {
+                  commission++;
+                  counter.textContent = commission;
+                  setTimeout(animateCommission, 40);
+                } else {
+                  counter.textContent = target;
+                }
+              }
+              animateCommission();
+              // Live referral code generator
+              function randomCode() {
+                return 'CRYPTO-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+              }
+              const referralInput = document.getElementById('referral-code');
+              referralInput.value = randomCode();
+              // Copy referral code
+              document.getElementById('copy-referral').addEventListener('click', function() {
+                referralInput.select();
+                referralInput.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                const feedback = document.getElementById('referral-feedback');
+                feedback.style.display = 'inline';
+                setTimeout(() => feedback.style.display = 'none', 1200);
+              });
+              // Simulate live dashboard and payout status
+              setInterval(() => {
+                const dashboard = document.getElementById('dashboard-status');
+                const payout = document.getElementById('payout-status');
+                dashboard.textContent = 'Real-time tracking dashboard (' + (Math.floor(Math.random()*10)+1) + ' active referrals)';
+                payout.textContent = 'Payouts in crypto or fiat (' + (Math.floor(Math.random()*5)+1) + ' paid this week)';
+              }, 3500);
+              // Simulate live earnings
+              setInterval(() => {
+                const earnings = document.getElementById('affiliate-earnings');
+                const amount = (Math.random()*100).toFixed(2);
+                earnings.textContent = `Recurring earnings for subscription products ($${amount} earned today)`;
+              }, 4200);
+              // Join button feedback
+              document.querySelector('.pro-affiliate-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                this.textContent = 'Request Sent!';
+                this.style.background = '#10b981';
+                setTimeout(() => {
+                  this.textContent = 'Join Affiliate Program';
+                  this.style.background = '';
+                }, 2200);
+              });
+            });
+            </script>
+                
+            <style>
+            /* Affiliate Page Styles */
+            .pro-affiliate-content {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 48px;
+              background: linear-gradient(90deg, #f7f8fa 60%, #e6e9f7 100%);
+              border-radius: 18px;
+              box-shadow: 0 4px 24px rgba(60,60,120,0.07);
+              padding: 48px 32px 36px 32px;
+              margin: 36px auto 32px auto;
+              max-width: 1100px;
+              flex-wrap: wrap;
+            }
+            .pro-affiliate-text {
+              flex: 1 1 340px;
+              min-width: 320px;
+              max-width: 520px;
+              padding-right: 18px;
+            }
+            .affiliate-title {
+              text-align: center;
+              font-family: 'Poppins',sans-serif;
+              font-weight: 700;
+              font-size: 2.3rem;
+              color: #3a36c4;
+              margin-bottom: 1.7rem;
+              letter-spacing: 0.01em;
+            }
+            .affiliate-heading {
+              font-size: 1.5rem;
+              font-weight: 600;
+              color: #2d2e4a;
+              margin-bottom: 0.7em;
+            }
+            .affiliate-desc {
+              font-size: 1.1rem;
+              color: #4b4e6d;
+              margin-bottom: 1.2em;
+            }
+            .affiliate-benefits {
+              list-style: none;
+              padding: 0;
+              margin-bottom: 1.5em;
+            }
+            .affiliate-benefits li {
+              display: flex;
+              align-items: center;
+              font-size: 1.08em;
+              color: #3a36c4;
+              margin-bottom: 0.7em;
+              font-weight: 500;
+              background: #f0f2fa;
+              border-radius: 8px;
+              padding: 0.6em 1em;
+              box-shadow: 0 1px 4px rgba(60,60,120,0.04);
+              transition: background 0.2s;
+            }
+            .affiliate-benefits li i {
+              color: #10b981;
+              margin-right: 0.7em;
+              font-size: 1.2em;
+            }
+            .affiliate-benefits li span {
+              color: #2d2e4a;
+              font-weight: 500;
+            }
+            .pro-affiliate-btn {
+              background: linear-gradient(90deg,#3a36c4 60%,#10b981 100%);
+              color: #fff;
+              font-weight: 600;
+              border: none;
+              border-radius: 8px;
+              padding: 0.9em 2.2em;
+              font-size: 1.13em;
+              margin-top: 0.5em;
+              box-shadow: 0 2px 8px rgba(58,54,196,0.08);
+              transition: background 0.2s, box-shadow 0.2s;
+              cursor: pointer;
+              letter-spacing: 0.01em;
+            }
+            .pro-affiliate-btn:hover {
+              background: linear-gradient(90deg,#10b981 0%,#3a36c4 100%);
+              box-shadow: 0 4px 16px rgba(58,54,196,0.13);
+            }
+            .pro-affiliate-image {
+              flex: 1 1 320px;
+              min-width: 260px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            .pro-affiliate-image img {
+              width: 100%;
+              max-width: 400px;
+              border-radius: 14px;
+              box-shadow: 0 4px 18px rgba(60,60,120,0.11);
+              background: #fff;
+              object-fit: cover;
+            }
+            @media (max-width: 900px) {
+              .pro-affiliate-content {
+                flex-direction: column;
+                gap: 28px;
+                padding: 32px 8vw 24px 8vw;
+              }
+              .pro-affiliate-text {
+                padding-right: 0;
+                max-width: 100%;
+              }
+              .pro-affiliate-image img {
+                max-width: 98vw;
+              }
+            }
+            @media (max-width: 600px) {
+              .pro-affiliate-content {
+                flex-direction: column;
+                gap: 18px;
+                padding: 10px 2vw 10px 2vw;
+                margin: 10px auto 8px auto;
+                box-shadow: 0 2px 8px rgba(60,60,120,0.06);
+            
+              }
+              .pro-affiliate-text {
+                padding-right: 0;
+                max-width: 100%;
+                min-width: 0;
+
+              }
+              .affiliate-title {
+                font-size: 1.1rem;
+                margin-bottom: 1.1rem;
+              }
+              .affiliate-heading {
+                font-size: 1rem;
+                margin-bottom: 0.5em;
+              }
+              .affiliate-desc {
+                font-size: 0.98rem;
+              }
+              .affiliate-benefits li {
+                font-size: 0.97em;
+                padding: 0.5em 0.7em;
+                margin-bottom: 0.5em;
+              }
+              .affiliate-live {
+                padding: 0.7em 0.5em 0.8em 0.5em;
+                font-size: 0.97em;
+              }
+              .affiliate-referral-input {
+                width: 120px;
+                font-size: 0.98em;
+                padding: 0.4em 0.7em;
+              }
+              .affiliate-copy-btn {
+                font-size: 1em;
+                padding: 0.4em 0.7em;
+              }
+              .pro-affiliate-image {
+                min-width: 0;
+                width: 100%;
+                justify-content: flex-start;
+              }
+              .pro-affiliate-image img {
+                max-width: 98vw;
+                min-width: 0;
+                border-radius: 10px;
+                margin: 0 auto;
+                display: block;
+              }
+            }
+            </style>
+        </section>
+
+        <!-- Login Page -->
+        <div id="login-modal" class="pro-modal" style="display:none;">
+            <div class="login-container pro-login-container animate__animated animate__fadeInDown" style="display:none;">
+                <button class="pro-modal-close" id="close-login-modal" aria-label="Close">&times;</button>
+                <div class="login-form pro-login-form" style="display:none;">
+                    <h2 class="pro-login-title">Login to Your Account</h2>
+                    <form id="loginForm">
+                        <div class="form-group pro-form-group">
+                            <label for="login-id">Username or Email</label>
+                            <input type="text" id="login-id" class="pro-input" required autocomplete="username">
+                        </div>
+                        <div class="form-group pro-form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="pro-input" required autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="login-btn pro-login-btn">Log In</button>
+                    </form>
+                    <div class="pro-divider"><span>or</span></div>
+                    <button id="google-login" class="login-btn pro-google-btn" type="button"><i class="fab fa-google"></i> Log in with Google</button>
+                    <p class="signup-link pro-signup-link">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+                </div>
+                <div class="signup-form pro-signup-form" style="display:none;">
+                    <h2 class="pro-login-title">Create New Account</h2>
+                    <form id="signupForm">
+                        <div class="form-group pro-form-group">
+                            <label for="signup-username">Username</label>
+                            <input type="text" id="signup-username" class="pro-input" required autocomplete="username">
+                        </div>
+                        <div class="form-group pro-form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" class="pro-input" required autocomplete="email">
+                        </div>
+                        <div class="form-group pro-form-group">
+                            <label for="signup-referral">Referral Code (optional)</label>
+                            <input type="text" id="signup-referral" class="pro-input">
+                        </div>
+                        <div class="form-group pro-form-group">
+                            <label for="signup-password">Password (min 8 characters)</label>
+                            <input type="password" id="signup-password" class="pro-input" required minlength="8" autocomplete="new-password">
+                        </div>
+                        <div class="form-group pro-form-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <input type="password" id="confirm-password" class="pro-input" required minlength="8" autocomplete="new-password">
+                        </div>
+                        <button type="submit" class="signup-btn pro-signup-btn">Sign Up</button>
+                    </form>
+                    <p class="login-link pro-login-link">Already have an account? <a href="#" id="show-login">Log in</a></p>
+                </div>
+            </div>
+        </div>
+    <style>
+    /* Modal overlay for login/signup */
+    .pro-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(30,32,60,0.32);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      overflow-y: auto;
+    }
+    .pro-modal .pro-login-container {
+      margin: 0;
+      box-shadow: 0 12px 32px rgba(60,60,120,0.18), 0 2px 12px rgba(0,0,0,0.11);
+      animation-duration: 0.7s;
+      position: relative;
+    }
+    .pro-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 2.1rem;
+      color: #3a36c4;
+      cursor: pointer;
+      z-index: 2;
+      transition: color 0.2s;
+    }
+    .pro-modal-close:hover {
+      color: #ef4444;
+    }
+    </style>
+    </main>
+
+    
+
+    <script src="script.js"></script>
+    <!-- Animate.css for login animation -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+    /* Professional, modern login/signup form styles */
+    .pro-login-container {
+      max-width: 400px;
+      margin: 60px auto 40px auto;
+      background: rgba(255,255,255,0.97);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(60,60,120,0.13), 0 1.5px 8px rgba(0,0,0,0.07);
+      padding: 36px 32px 28px 32px;
+      position: relative;
+      z-index: 10;
+      transition: box-shadow 0.2s;
+    }
+    .pro-login-form, .pro-signup-form {
+      width: 100%;
+      animation-duration: 0.7s;
+    }
+    .pro-login-title {
+      font-family: 'Poppins',sans-serif;
+      font-weight: 700;
+      font-size: 2rem;
+      color: #2d2e4a;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+    .pro-form-group {
+      margin-bottom: 1.1rem;
+    }
+    .pro-form-group label {
+      font-weight: 500;
+      color: #3a36c4;
+      margin-bottom: 0.3rem;
+      display: block;
+      font-size: 1rem;
+    }
+    .pro-input {
+      width: 100%;
+      padding: 0.7em 1em;
+      border: 1.5px solid #e0e3ef;
+      border-radius: 8px;
+      font-size: 1.05em;
+      background: #f7f8fa;
+      color: #2d2e4a;
+      transition: border 0.2s, box-shadow 0.2s;
+      outline: none;
+      margin-top: 0.1em;
+    }
+    .pro-input:focus {
+      border-color: #3a36c4;
+      box-shadow: 0 0 0 2px #3a36c41a;
+      background: #fff;
+    }
+    .pro-login-btn, .pro-signup-btn {
+      width: 100%;
+      background: linear-gradient(90deg,#3a36c4 60%,#4285F4 100%);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8em 0;
+      font-size: 1.1em;
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+      box-shadow: 0 2px 8px rgba(58,54,196,0.08);
+      transition: background 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .pro-login-btn:hover, .pro-signup-btn:hover {
+      background: linear-gradient(90deg,#4285F4 0%,#3a36c4 100%);
+      box-shadow: 0 4px 16px rgba(58,54,196,0.13);
+    }
+    .pro-google-btn {
+      width: 100%;
+      background: #fff;
+      color: #4285F4;
+      border: 1.5px solid #4285F4;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 0.8em 0;
+      font-size: 1.1em;
+      margin-bottom: 0.7em;
+      box-shadow: 0 2px 8px rgba(66,133,244,0.08);
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .pro-google-btn i {
+      font-size: 1.2em;
+    }
+    .pro-google-btn:hover {
+      background: #4285F4;
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(66,133,244,0.13);
+    }
+    .pro-divider {
+      text-align: center;
+      margin: 1.1em 0 1.1em 0;
+      position: relative;
+    }
+    .pro-divider span {
+      background: #fff;
+      color: #b0b3c7;
+      padding: 0 1.1em;
+      font-size: 1em;
+      position: relative;
+      z-index: 2;
+    }
+    .pro-divider:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0; right: 0; top: 50%;
+      height: 1px;
+      background: #e0e3ef;
+      z-index: 1;
+    }
+    .pro-signup-link, .pro-login-link {
+      text-align: center;
+      margin-top: 0.7em;
+      color: #3a36c4;
+      font-size: 1em;
+    }
+    .pro-signup-link a, .pro-login-link a {
+      color: #4285F4;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .pro-signup-link a:hover, .pro-login-link a:hover {
+      color: #3a36c4;
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      .pro-login-container {
+        max-width: 98vw;
+        padding: 18px 6vw 18px 6vw;
+        margin: 30px auto 20px auto;
+      }
+      .pro-login-title {
+        font-size: 1.3rem;
+      }
+    }
+    </style>
+    <script>
+        // Logout handler for nav username
+        document.getElementById('nav-username').addEventListener('click', function(e) {
+          if (loggedInUser) {
+            e.preventDefault();
+            loggedInUser = null;
+            document.getElementById('nav-username').innerHTML = 'LOG IN';
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('home').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+        // Simulated user database for demo
+        let loggedInUser = null;
+
+        document.getElementById('login-btn').addEventListener('click', function(e) {
+          e.preventDefault();
+          // Hide all other pages/sections
+          document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+          // Show modal overlay and login form
+          var modal = document.getElementById('login-modal');
+          var loginContainer = modal.querySelector('.login-container');
+          var loginForm = modal.querySelector('.login-form');
+          var signupForm = modal.querySelector('.signup-form');
+          modal.style.display = 'flex';
+          loginContainer.style.display = '';
+          loginForm.style.display = '';
+          signupForm.style.display = 'none';
+          document.body.style.overflow = 'hidden';
+          // Focus the first input for better UX
+          var loginInput = document.getElementById('login-id');
+          if (loginInput) loginInput.focus();
+        });
+
+        // Activate Google login button
+        document.getElementById('google-login').addEventListener('click', function(e) {
+          e.preventDefault();
+          window.location.href = 'http://localhost:3000/api/auth/google';
+        });
+
+        // Close modal handler
+        document.getElementById('close-login-modal').addEventListener('click', function() {
+          var modal = document.getElementById('login-modal');
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+        });
+        // Also close modal on background click (not on form)
+        document.getElementById('login-modal').addEventListener('click', function(e) {
+          if (e.target === this) {
+            this.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+        });
+
+        // SPA toggle: Sign up and Log in links
+        document.getElementById('show-signup').addEventListener('click', function(e) {
+          e.preventDefault();
+          var modal = document.getElementById('login-modal');
+          var loginForm = modal.querySelector('.login-form');
+          var signupForm = modal.querySelector('.signup-form');
+          loginForm.style.display = 'none';
+          signupForm.style.display = '';
+          // Focus the first input for better UX
+          var signupInput = document.getElementById('signup-username');
+          if (signupInput) signupInput.focus();
+        });
+        document.getElementById('show-login').addEventListener('click', function(e) {
+          e.preventDefault();
+          var modal = document.getElementById('login-modal');
+          var loginForm = modal.querySelector('.login-form');
+          var signupForm = modal.querySelector('.signup-form');
+          loginForm.style.display = '';
+          signupForm.style.display = 'none';
+          // Focus the first input for better UX
+          var loginInput = document.getElementById('login-id');
+          if (loginInput) loginInput.focus();
+        });
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const loginId = document.getElementById('login-id').value.trim();
+          const password = document.getElementById('password').value;
+          fetch('http://localhost:3000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ loginId, password })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.token) {
+              loggedInUser = data.user;
+              alert('Successfully logged in!');
+              document.getElementById('nav-username').innerHTML = `<i class="fas fa-user-circle" style="margin-right:6px;"></i> ${data.user.username}`;
+              document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+              document.getElementById('home').classList.add('active');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              document.querySelector('.login-form').style.display = '';
+              document.querySelector('.signup-form').style.display = 'none';
+            } else {
+              alert(data.message || 'Account not found. Please register to log in.');
+              document.querySelector('.login-form').style.display = 'none';
+              document.querySelector('.signup-form').style.display = '';
+            }
+          })
+          .catch(() => {
+            alert('Server error. Please try again later.');
+          });
+        });
+
+        // Signup form handler
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const username = document.getElementById('signup-username').value.trim();
+          const email = document.getElementById('signup-email').value.trim();
+          const referral = document.getElementById('signup-referral').value.trim();
+          const password = document.getElementById('signup-password').value;
+          const confirmPassword = document.getElementById('confirm-password').value;
+          if (!username || !email || !password || !confirmPassword) {
+            alert('Please fill in all fields.');
+            return;
+          }
+          if (password.length < 8) {
+            alert('Password must be at least 8 characters long.');
+            return;
+          }
+          if (password !== confirmPassword) {
+            alert('Passwords do not match.');
+            return;
+          }
+          fetch('http://localhost:3000/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password, referral })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.message === 'Registered successfully') {
+              alert('Registration successful! You can now log in.');
+              document.querySelector('.login-form').style.display = '';
+              document.querySelector('.signup-form').style.display = 'none';
+            } else {
+              alert(data.message || 'Registration failed.');
+            }
+          })
+          .catch(() => {
+            alert('Server error. Please try again later.');
+          });
+        });
+
+        // Responsive navbar toggle for media screens
+        const burger = document.querySelector('.burger');
+        const navLinks = document.querySelector('.nav-links');
+        burger.addEventListener('click', () => {
+          navLinks.classList.toggle('active');
+          burger.classList.toggle('toggle');
+          // Show/hide nav data (ul li) with .active class
+        });
+        // Hide menu on nav link click (mobile)
+        document.querySelectorAll('.nav-links li a').forEach(link => {
+          link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+              navLinks.classList.remove('active');
+              burger.classList.remove('toggle');
+            }
+          });
+        });
     </script>
 </body>
 </html>

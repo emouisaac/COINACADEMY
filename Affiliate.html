@@ -789,15 +789,16 @@
             <button class="mobile-menu-btn">☰</button>
             <nav>
                 <button class="close-menu-btn" style="display:none">&times;</button>
-                <ul>
-                    <li><a href="index.html"><span>🏠</span> Home</a></li>
-                    <li><a href="/charts/charts.html" class="protected-link"><span>📊</span> Chart Patterns</a></li>
-                    <li><a href="../index.html#courses"><span>🎓</span> Courses</a></li>
-                    <li><a href="/Affiliate.html" class="protected-link"><span>🤝</span> Affiliate</a></li>
-                    <li><a href="../html/trading.html" class="protected-link"><span>�</span> Trading</a></li>
-                    <li><a href="../html/blogs.html" class="protected-link"><span>📰</span> Blogs</a></li>
-                    <li><a href="../html/feedback.html"><span>📧</span> Contact</a></li>
-                    <li>
+                <ul class="nav-list">
+                    <li><a href="index.html" class="active" data-page="home">HOME</a></li>
+                    <li><a href="index.html#courses">COURSES</a></li>
+                    <li><a href="charts/charts.html">CHART PATTERNS</a></li>
+                    <li><a href="index.html#courses">TRADING</a></li>
+                    <li><a href="html/feedback.html">CONTACT</a></li>
+                    <li><a href="index.html#about">ABOUT US</a></li>
+                    <li><a href="https://youtu.be/0Zkn6y_munk?si=xcj_ieLWJMV4Gidz" data-page="blogs">BLOGS</a></li>
+                    <li><a href="Affiliate.html" data-page="affiliate">AFFILIATE</a></li>
+                    <li><a href="#" data-page="login" id="login-btn"><span id="nav-username">LOG IN</span></a></li>
                     <button class="theme-toggle">🌙</button>
                     </li>
                 </ul>
@@ -817,12 +818,12 @@
                 <h3 class="user-name">&nbsp;</h3>
                 <div class="user-email" style="font-size:1em;color:#555;margin-bottom:4px;"></div>
                 <div class="user-username" style="font-size:0.95em;color:#888;margin-bottom:8px;"></div>
-                <span class="user-rank">V1</span>
+                <span class="user-rank" id="profile-rank">V0</span>
                 
                 <div class="progress-container">
                     <div class="progress-label">
-                        <span>Progress to V2</span>
-                        <span>0%</span>
+                        <span id="progress-label">Progress to V1</span>
+                        <span id="progress-percent">0%</span>
                     </div>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: 0%;"></div>
@@ -863,7 +864,7 @@
                         <div class="stat-label">Total Earnings</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value" id="stat-rank">V1</div>
+                        <div class="stat-value" id="stat-rank">V0</div>
                         <div class="stat-label">Current Rank</div>
                     </div>
                     <div class="stat-card">
@@ -1161,7 +1162,364 @@
         </div>
     </footer>
 
+<!-- Login Modal copied from index.html -->
+<div id="login-modal" class="pro-modal" style="display:none;">
+        <div class="login-container pro-login-container animate__animated animate__fadeInDown" style="display:none;">
+                <button class="pro-modal-close" id="close-login-modal" aria-label="Close">&times;</button>
+                <div class="login-form pro-login-form" style="display:none;">
+                        <h2 class="pro-login-title">Login to Your Account</h2>
+                        <form id="loginForm">
+                                <div class="form-group pro-form-group">
+                                        <label for="login-id">Username or Email</label>
+                                        <input type="text" id="login-id" class="pro-input" required autocomplete="username">
+                                </div>
+                                <div class="form-group pro-form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" id="password" class="pro-input" required autocomplete="current-password">
+                                </div>
+                                <button type="submit" class="login-btn pro-login-btn">Log In</button>
+                        </form>
+                        <div class="pro-divider"><span>or</span></div>
+                        <button id="google-login" class="login-btn pro-google-btn" type="button"><i class="fab fa-google"></i> Log in with Google</button>
+                        <p class="signup-link pro-signup-link">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+                </div>
+                <div class="signup-form pro-signup-form" style="display:none;">
+                        <h2 class="pro-login-title">Create New Account</h2>
+                        <form id="signupForm">
+                                <div class="form-group pro-form-group">
+                                        <label for="signup-username">Username</label>
+                                        <input type="text" id="signup-username" class="pro-input" required autocomplete="username">
+                                </div>
+                                <div class="form-group pro-form-group">
+                                        <label for="signup-email">Email</label>
+                                        <input type="email" id="signup-email" class="pro-input" required autocomplete="email">
+                                </div>
+                                <div class="form-group pro-form-group">
+                                        <label for="signup-referral">Referral Code (optional)</label>
+                                        <input type="text" id="signup-referral" class="pro-input">
+                                </div>
+                                <div class="form-group pro-form-group">
+                                        <label for="signup-password">Password (min 8 characters)</label>
+                                        <input type="password" id="signup-password" class="pro-input" required minlength="8" autocomplete="new-password">
+                                </div>
+                                <div class="form-group pro-form-group">
+                                        <label for="confirm-password">Confirm Password</label>
+                                        <input type="password" id="confirm-password" class="pro-input" required minlength="8" autocomplete="new-password">
+                                </div>
+                <button type="submit" class="signup-btn pro-signup-btn">Sign Up</button>
+            </form>
+            <div class="pro-divider"><span>or</span></div>
+            <button id="google-signup" class="signup-btn pro-google-btn" type="button"><i class="fab fa-google"></i> Sign up with Google</button>
+            <p class="login-link pro-login-link">Already have an account? <a href="#" id="show-login">Log in</a></p>
+                // Google signup handler
+                document.getElementById('google-signup').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = 'http://localhost:3000/api/auth/google';
+                });
+                </div>
+        </div>
+</div>
+<style>
+/* Modal overlay for login/signup */
+.pro-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(30,32,60,0.32);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    overflow-y: auto;
+}
+.pro-modal .pro-login-container {
+    margin: 0;
+    box-shadow: 0 12px 32px rgba(60,60,120,0.18), 0 2px 12px rgba(0,0,0,0.11);
+    animation-duration: 0.7s;
+    position: relative;
+}
+.pro-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 2.1rem;
+    color: #3a36c4;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.2s;
+}
+.pro-modal-close:hover {
+    color: #ef4444;
+}
+.pro-login-container {
+    max-width: 400px;
+    margin: 60px auto 40px auto;
+    background: rgba(255,255,255,0.97);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(60,60,120,0.13), 0 1.5px 8px rgba(0,0,0,0.07);
+    padding: 36px 32px 28px 32px;
+    position: relative;
+    z-index: 10;
+    transition: box-shadow 0.2s;
+}
+.pro-login-form, .pro-signup-form {
+    width: 100%;
+    animation-duration: 0.7s;
+}
+.pro-login-title {
+    font-family: 'Poppins',sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    color: #2d2e4a;
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+.pro-form-group {
+    margin-bottom: 1.1rem;
+}
+.pro-form-group label {
+    font-weight: 500;
+    color: #3a36c4;
+    margin-bottom: 0.3rem;
+    display: block;
+    font-size: 1rem;
+}
+.pro-input {
+    width: 100%;
+    padding: 0.7em 1em;
+    border: 1.5px solid #e0e3ef;
+    border-radius: 8px;
+    font-size: 1.05em;
+    background: #f7f8fa;
+    color: #2d2e4a;
+    transition: border 0.2s, box-shadow 0.2s;
+    outline: none;
+    margin-top: 0.1em;
+}
+.pro-input:focus {
+    border-color: #3a36c4;
+    box-shadow: 0 0 0 2px #3a36c41a;
+    background: #fff;
+}
+.pro-login-btn, .pro-signup-btn {
+    width: 100%;
+    background: linear-gradient(90deg,#3a36c4 60%,#4285F4 100%);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8em 0;
+    font-size: 1.1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.7em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.pro-login-btn:hover, .pro-signup-btn:hover {
+    background: #392cce;
+}
+.pro-google-btn {
+    background: #fff;
+    color: #222;
+    border: 1px solid #888;
+    margin-bottom: 1.1rem;
+}
+.pro-google-btn i {
+    margin-right: 8px;
+    color: #ea4335;
+}
+.pro-divider {
+    text-align: center;
+    margin: 1.1rem 0 1.1rem 0;
+    color: #aaa;
+    font-size: 0.95rem;
+    position: relative;
+}
+.pro-divider span {
+    background: #fff;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+}
+.pro-divider:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #eee;
+    z-index: 0;
+}
+.pro-signup-link, .pro-login-link {
+    text-align: center;
+    color: #222;
+    font-size: 0.98rem;
+    margin-top: 0.7rem;
+}
+.pro-signup-link a, .pro-login-link a {
+    color: #3a36c4;
+    text-decoration: underline;
+    cursor: pointer;
+}
+@media (max-width: 500px) {
+    .pro-modal .login-container {
+        padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+        max-width: 98vw;
+    }
+}
+</style>
+
     <script>
+
+                // --- Login Modal Logic (copied exactly from index.html) --- 
+                // Logout handler for nav username
+                document.getElementById('nav-username').addEventListener('click', function(e) {
+                    if (loggedInUser) {
+                        e.preventDefault();
+                        loggedInUser = null;
+                        document.getElementById('nav-username').innerHTML = 'LOG IN';
+                        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                        document.getElementById('home')?.classList.add('active');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
+                let loggedInUser = null;
+                document.getElementById('login-btn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                    var modal = document.getElementById('login-modal');
+                    var loginContainer = modal.querySelector('.login-container');
+                    var loginForm = modal.querySelector('.login-form');
+                    var signupForm = modal.querySelector('.signup-form');
+                    modal.style.display = 'flex';
+                    loginContainer.style.display = '';
+                    loginForm.style.display = '';
+                    signupForm.style.display = 'none';
+                    document.body.style.overflow = 'hidden';
+                    var loginInput = document.getElementById('login-id');
+                    if (loginInput) loginInput.focus();
+                });
+                document.getElementById('google-login').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = 'http://localhost:3000/api/auth/google';
+                });
+                document.getElementById('close-login-modal').addEventListener('click', function() {
+                    var modal = document.getElementById('login-modal');
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+                document.getElementById('login-modal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+                document.getElementById('show-signup').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var modal = document.getElementById('login-modal');
+                    var loginForm = modal.querySelector('.login-form');
+                    var signupForm = modal.querySelector('.signup-form');
+                    loginForm.style.display = 'none';
+                    signupForm.style.display = '';
+                    var signupInput = document.getElementById('signup-username');
+                    if (signupInput) signupInput.focus();
+                });
+                document.getElementById('show-login').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var modal = document.getElementById('login-modal');
+                    var loginForm = modal.querySelector('.login-form');
+                    var signupForm = modal.querySelector('.signup-form');
+                    loginForm.style.display = '';
+                    signupForm.style.display = 'none';
+                    var loginInput = document.getElementById('login-id');
+                    if (loginInput) loginInput.focus();
+                });
+                document.getElementById('loginForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const loginId = document.getElementById('login-id').value.trim();
+                    const password = document.getElementById('password').value;
+                    fetch('http://localhost:3000/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ loginId, password })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.token) {
+                            loggedInUser = data.user;
+                            alert('Successfully logged in!');
+                            document.getElementById('nav-username').innerHTML = `<i class="fas fa-user-circle" style="margin-right:6px;"></i> ${data.user.username}`;
+                            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                            document.getElementById('home')?.classList.add('active');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            document.querySelector('.login-form').style.display = '';
+                            document.querySelector('.signup-form').style.display = 'none';
+                        } else {
+                            alert(data.message || 'Account not found. Please register to log in.');
+                            document.querySelector('.login-form').style.display = 'none';
+                            document.querySelector('.signup-form').style.display = '';
+                        }
+                    })
+                    .catch(() => {
+                        alert('Server error. Please try again later.');
+                    });
+                });
+                document.getElementById('signupForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const username = document.getElementById('signup-username').value.trim();
+                    const email = document.getElementById('signup-email').value.trim();
+                    const referral = document.getElementById('signup-referral').value.trim();
+                    const password = document.getElementById('signup-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    if (!username || !email || !password || !confirmPassword) {
+                        alert('Please fill in all fields.');
+                        return;
+                    }
+                    if (password.length < 8) {
+                        alert('Password must be at least 8 characters long.');
+                        return;
+                    }
+                    if (password !== confirmPassword) {
+                        alert('Passwords do not match.');
+                        return;
+                    }
+                    fetch('http://localhost:3000/api/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, email, password, referral })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.token && data.user) {
+                            // Registration successful, auto-login
+                            localStorage.setItem('coinAcademiaToken', data.token);
+                            loggedInUser = data.user;
+                            alert('Registration successful! Welcome, ' + (data.user.name || data.user.email) + '.');
+                            document.querySelector('.login-form').style.display = '';
+                            document.querySelector('.signup-form').style.display = 'none';
+                            // Immediately update dashboard to show referral code
+                            setProfileFromUser(data.user);
+                            setAffiliateOverview({
+                                rank: 'V0',
+                                invites: 0,
+                                indirect: 0,
+                                earnings: 0,
+                                pending: 0,
+                                progressPercent: 0
+                            });
+                            setReferralDashboard([]);
+                        } else {
+                            alert(data.error || data.message || 'Registration failed.');
+                        }
+                    })
+                    .catch(() => {
+                        alert('Server error. Please try again later.');
+                    });
+                });
 
         // --- Backend-integrated Withdraw Section Logic ---
         async function fetchAffiliateDashboard() {
@@ -1247,19 +1605,38 @@
 
         // Set profile UI from backend user object
         function setProfileFromUser(user) {
-            if (!user) return;
             const nameEl = document.querySelector('.user-name');
             const refCodeEl = document.getElementById('ref-code');
             const refLinkInput = document.getElementById('ref-link-input');
             const emailEl = document.querySelector('.user-email');
             const usernameEl = document.querySelector('.user-username');
-            const rankEl = document.querySelector('.user-rank');
+            const rankEl = document.getElementById('profile-rank');
+            if (!user) {
+                if (nameEl) nameEl.textContent = '';
+                if (emailEl) emailEl.textContent = '';
+                if (usernameEl) usernameEl.textContent = '';
+                if (refCodeEl) refCodeEl.textContent = '';
+                if (refLinkInput) refLinkInput.value = '';
+                if (rankEl) rankEl.textContent = 'V0';
+                setProfileProgress('V0', 0);
+                return;
+            }
             if (nameEl) nameEl.textContent = user.fullname || user.name || '';
             if (emailEl) emailEl.textContent = user.email || '';
             if (usernameEl) usernameEl.textContent = user.username || '';
             if (refCodeEl) refCodeEl.textContent = user.referralCode || '';
-            if (refLinkInput) refLinkInput.value = 'https://coinacademia.com/ref/' + (user.referralCode || '');
-            if (rankEl) rankEl.textContent = user.rank || 'V0';
+            if (refLinkInput) refLinkInput.value = user.referralCode ? 'https://coinacademia.com/ref/' + user.referralCode : '';
+            // Default rank to V0 if user has no invites and has not bought any V package
+            let rank = user.rank;
+            if (!rank || rank === '' || rank === undefined || rank === null) {
+                if ((user.invites && user.invites > 0) || (user.purchasedPackage && user.purchasedPackage.startsWith('V'))) {
+                    rank = user.rank || 'V1';
+                } else {
+                    rank = 'V0';
+                }
+            }
+            if (rankEl) rankEl.textContent = rank;
+            setProfileProgress(rank, user.progressPercent || 0);
             // Set SVG profile icon
             const profileIcon = document.getElementById('profile-icon');
             if (profileIcon) {
@@ -1285,11 +1662,11 @@
             const tbody = document.querySelector('.referrals-table tbody');
             if (tbody) {
                 tbody.innerHTML = '';
-                if (!referrals || referrals.length === 0) {
+                if (!referrals || !Array.isArray(referrals) || referrals.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#888;">No referrals yet.</td></tr>`;
                 } else {
                     referrals.forEach(r => {
-                        tbody.innerHTML += `<tr><td>${r.name}</td><td>${r.rank || 'V0'}</td><td>${r.earnings || '$0'}</td><td><span class="status-badge status-${r.active ? 'active' : 'inactive'}">${r.active ? 'Active' : 'Inactive'}</span></td></tr>`;
+                        tbody.innerHTML += `<tr><td>${r.name || ''}</td><td>${r.rank || 'V0'}</td><td>${r.earnings || '$0'}</td><td><span class="status-badge status-${r.active ? 'active' : 'inactive'}">${r.active ? 'Active' : 'Inactive'}</span></td></tr>`;
                     });
                 }
             }
@@ -1299,10 +1676,36 @@
 
         // Set affiliate overview stats from backend data
         function setAffiliateOverview(data) {
-            document.getElementById('stat-invites').textContent = data.invites || 0;
-            document.getElementById('stat-earnings').textContent = '$' + (data.earnings || 0);
-            document.getElementById('stat-pending').textContent = '$' + (data.pending || 0);
-            document.getElementById('stat-rank').textContent = data.rank || 'V0';
+            let rank = (data && data.rank) ? data.rank : 'V0';
+            document.getElementById('stat-invites').textContent = (data && data.invites) ? data.invites : 0;
+            document.getElementById('stat-indirect').textContent = (data && data.indirect) ? data.indirect : 0;
+            document.getElementById('stat-earnings').textContent = '$' + ((data && data.earnings) ? data.earnings : 0);
+            document.getElementById('stat-pending').textContent = '$' + ((data && data.pending) ? data.pending : 0);
+            document.getElementById('stat-rank').textContent = rank;
+            setProfileProgress(rank, data && data.progressPercent ? data.progressPercent : 0);
+
+        }
+
+        // Set progress bar and label based on rank
+        function setProfileProgress(rank, percent) {
+            const progressLabel = document.getElementById('progress-label');
+            const progressPercent = document.getElementById('progress-percent');
+            const progressFill = document.querySelector('.progress-fill');
+            const nextRank = {
+                'V0': 'V1',
+                'V1': 'V2',
+                'V2': 'V3',
+                'V3': 'V4',
+                'V4': 'V5',
+                'V5': null
+            };
+            let label = 'Progress to ' + (nextRank[rank] || 'Max');
+            let pct = percent;
+            if (!percent || percent < 0) pct = 0;
+            if (pct > 100) pct = 100;
+            if (progressLabel) progressLabel.textContent = label;
+            if (progressPercent) progressPercent.textContent = pct + '%';
+            if (progressFill) progressFill.style.width = pct + '%';
         }
 
         // Set upgrade requirements based on user rank
@@ -1443,5 +1846,143 @@
             initCharts();
         });
     </script>
+
+                // --- Login Modal Logic copied from index.html ---
+                let loggedInUser = null;
+
+                document.getElementById('login-btn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Hide all other pages/sections
+                    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                    // Show modal overlay and login form
+                    var modal = document.getElementById('login-modal');
+                    var loginContainer = modal.querySelector('.login-container');
+                    var loginForm = modal.querySelector('.login-form');
+                    var signupForm = modal.querySelector('.signup-form');
+                    modal.style.display = 'flex';
+                    loginContainer.style.display = '';
+                    loginForm.style.display = '';
+                    signupForm.style.display = 'none';
+                    document.body.style.overflow = 'hidden';
+                    // Focus the first input for better UX
+                    var loginInput = document.getElementById('login-id');
+                    if (loginInput) loginInput.focus();
+                });
+
+                // Activate Google login button
+                document.getElementById('google-login').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = 'http://localhost:3000/api/auth/google';
+                });
+
+                // Close modal handler
+                document.getElementById('close-login-modal').addEventListener('click', function() {
+                    var modal = document.getElementById('login-modal');
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+                // Also close modal on background click (not on form)
+                document.getElementById('login-modal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                // SPA toggle: Sign up and Log in links
+                document.getElementById('show-signup').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var modal = document.getElementById('login-modal');
+                    var loginForm = modal.querySelector('.login-form');
+                    var signupForm = modal.querySelector('.signup-form');
+                    loginForm.style.display = 'none';
+                    signupForm.style.display = '';
+                    // Focus the first input for better UX
+                    var signupInput = document.getElementById('signup-username');
+                    if (signupInput) signupInput.focus();
+                });
+                document.getElementById('show-login').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var modal = document.getElementById('login-modal');
+                    var loginForm = modal.querySelector('.login-form');
+                    var signupForm = modal.querySelector('.signup-form');
+                    loginForm.style.display = '';
+                    signupForm.style.display = 'none';
+                    // Focus the first input for better UX
+                    var loginInput = document.getElementById('login-id');
+                    if (loginInput) loginInput.focus();
+                });
+
+                // Login form handler
+                document.getElementById('loginForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const loginId = document.getElementById('login-id').value.trim();
+                    const password = document.getElementById('password').value;
+                    fetch('http://localhost:3000/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ loginId, password })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.token) {
+                            loggedInUser = data.user;
+                            alert('Successfully logged in!');
+                            document.getElementById('nav-username').innerHTML = `<i class="fas fa-user-circle" style="margin-right:6px;"></i> ${data.user.username}`;
+                            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                            document.getElementById('home').classList.add('active');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            document.querySelector('.login-form').style.display = '';
+                            document.querySelector('.signup-form').style.display = 'none';
+                        } else {
+                            alert(data.message || 'Account not found. Please register to log in.');
+                            document.querySelector('.login-form').style.display = 'none';
+                            document.querySelector('.signup-form').style.display = '';
+                        }
+                    })
+                    .catch(() => {
+                        alert('Server error. Please try again later.');
+                    });
+                });
+
+                // Signup form handler
+                document.getElementById('signupForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const username = document.getElementById('signup-username').value.trim();
+                    const email = document.getElementById('signup-email').value.trim();
+                    const referral = document.getElementById('signup-referral').value.trim();
+                    const password = document.getElementById('signup-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    if (!username || !email || !password || !confirmPassword) {
+                        alert('Please fill in all fields.');
+                        return;
+                    }
+                    if (password.length < 8) {
+                        alert('Password must be at least 8 characters long.');
+                        return;
+                    }
+                    if (password !== confirmPassword) {
+                        alert('Passwords do not match.');
+                        return;
+                    }
+                    fetch('http://localhost:3000/api/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, email, password, referral })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.message === 'Registered successfully') {
+                            alert('Registration successful! You can now log in.');
+                            document.querySelector('.login-form').style.display = '';
+                            document.querySelector('.signup-form').style.display = 'none';
+                        } else {
+                            alert(data.message || 'Registration failed.');
+                        }
+                    })
+                    .catch(() => {
+                        alert('Server error. Please try again later.');
+                    });
+                });
 </body>
 </html>
