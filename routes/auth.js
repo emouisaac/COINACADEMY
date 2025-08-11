@@ -41,3 +41,72 @@ router.get('/google/callback',
 );
 
 module.exports = router;
+
+
+
+
+
+// NOWPayments endpoint
+router.post('/create-checkout', async (req, res) => {
+  try {
+    const { price_amount, order_id, order_description, success_url } = req.body;
+    
+    if (!price_amount || !order_id || !order_description) {
+      return res.status(400).json({ error: 'Missing required payment details' });
+    }
+
+    const domain = process.env.DOMAIN_URL || `http://localhost:${process.env.PORT || 3000}`;
+    const redirectPath = success_url ? success_url.replace(/^\//, '') : 'course-unlocked';
+    const fullSuccessUrl = `${domain}/${redirectPath}`;
+
+    const response = await axios.post(
+      'https://api.nowpayments.io/v1/invoice',
+      {
+        price_amount: parseFloat(price_amount),
+        price_currency: 'usd',
+        order_id,
+        order_description,
+        ipn_callback_url: `${domain}/api/payments/webhook`,
+        success_url: fullSuccessUrl,
+        cancel_url: `${domain}`
+      },
+      {
+        headers: {
+          'x-api-key': process.env.NOWPAYMENTS_API_KEY,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    res.json({ 
+      hosted_url: response.data.invoice_url,
+      order_id: response.data.order_id
+    });
+  } catch (err) {
+    console.error('Payment error:', err.response?.data || err.message);
+    res.status(500).json({ 
+      error: 'Failed to create checkout',
+      details: process.env.NODE_ENV === 'development' ? (err.response?.data || err.message) : undefined
+    });
+  }
+});
+
+// Webhook endpoint
+router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  try {
+    const event = JSON.parse(req.body.toString());
+    console.log('Webhook received:', event);
+
+    if (event.payment_status === 'finished') {
+      console.log(`Payment confirmed for order ${event.order_id}`);
+      // TODO: Update database, grant access, etc.
+    }
+
+    res.status(200).send('Webhook processed');
+  } catch (err) {
+    console.error('Webhook error:', err);
+    res.status(400).send('Invalid webhook data');
+  }
+});
+
+module.exports = router;

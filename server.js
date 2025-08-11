@@ -5,11 +5,18 @@ const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const authRoutes = require('./routes/auth');
+// const authRoutes = require('./routes/auth');
 require('./config/passport');
 const path = require('path');
+const axios = require('axios');
+const jwt = require('jsonwebtoken');
+
+
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 app.use(session({ secret: process.env.SESSION_SECRET || 'secret', resave: false, saveUninitialized: false }));
@@ -17,78 +24,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname));
 
-
-// Example live data (replace with DB queries in production)
-const courses = [
-  {
-    title: 'Crypto Fundamentals',
-    description: 'Learn the basics of blockchain, wallets, and transactions.',
-    duration: '4 weeks',
-    level: 'Beginner',
-    image: 'https://via.placeholder.com/300x200?text=Crypto+Basics'
-  },
-  {
-    title: 'Crypto Trading Masterclass',
-    description: 'Master technical analysis and trading strategies.',
-    duration: '6 weeks',
-    level: 'Intermediate',
-    image: 'https://via.placeholder.com/300x200?text=Trading'
-  },
-  {
-    title: 'DeFi & Smart Contracts',
-    description: 'Build decentralized applications on Ethereum.',
-    duration: '8 weeks',
-    level: 'Advanced',
-    image: 'https://via.placeholder.com/300x200?text=DeFi'
-  }
-];
-
-const blogs = [
-  {
-    title: 'Bitcoin Halving 2024: What to Expect',
-    date: 'May 15, 2024',
-    summary: 'An in-depth analysis of the upcoming Bitcoin halving event and its potential market impact.',
-    image: 'https://via.placeholder.com/300x200?text=Bitcoin'
-  },
-  {
-    title: 'Ethereum 2.0: The Complete Guide',
-    date: 'April 28, 2024',
-    summary: 'Everything you need to know about Ethereum\'s transition to proof-of-stake.',
-    image: 'https://via.placeholder.com/300x200?text=Ethereum'
-  },
-  {
-    title: 'Top DeFi Projects to Watch in 2024',
-    date: 'April 10, 2024',
-    summary: 'Our analysts pick the most promising decentralized finance projects this year.',
-    image: 'https://via.placeholder.com/300x200?text=DeFi'
-  }
-];
-
-app.use('/api/auth', authRoutes);
-
-// API endpoints for dynamic data
-app.get('/api/courses', (req, res) => {
-  res.json(courses);
-});
-
-app.get('/api/blogs', (req, res) => {
-  res.json(blogs);
-});
-
-
 // Serve index.html for all main routes (SPA)
 app.get(['/', '/courses', '/about', '/blogs', '/affiliate', '/login'], (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/cryptoacademy';
-
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch(err => console.error('MongoDB connection error:', err));
+// ...existing code continues...
 
 
   
@@ -225,3 +166,95 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
+
+const authRoutes = require('./routes/auth');
+const apiRoutes = require('./routes/api');
+
+// Initialize app
+
+
+// Database connection
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/cryptoacademy', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB connected successfully');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  }
+};
+
+// Middleware
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Passport initialization
+require('./config/passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api', apiRoutes);
+
+// SPA routes
+const spaRoutes = ['/', '/courses', '/about', '/blogs', '/affiliate', '/login'];
+spaRoutes.forEach(route => {
+  app.get(route, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err.stack);
+  res.status(500).json({ 
+    error: 'Internal Server Error',
+    message: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
+});
+
+// Start server
+const startServer = async () => {
+  await connectDB();
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🔗 http://localhost:${PORT}`);
+  });
+};
+
+startServer();
+
+
+const TransactionSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  // ... transaction fields
+});
+
+module.exports = mongoose.model('Transaction', TransactionSchema);
