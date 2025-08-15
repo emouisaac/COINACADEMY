@@ -11,7 +11,7 @@ const app = express();
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map(o => o.trim())
   : [
-      'https://coinacademia.in',
+  'https://www.coinacademia.in',
       'http://localhost:3000',
       'http://localhost:3001',
       'http://127.0.0.1:3000',
