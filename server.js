@@ -43,7 +43,7 @@ app.post('/api/create-checkout', async (req, res) => {
       return res.status(400).json({ error: 'Missing required payment details' });
     }
 
-    const domain = process.env.DOMAIN_URL || `http://localhost:${PORT}`;
+  const domain = process.env.CLIENT_URL || 'https://www.coinacademia.in';
     const redirectPath = success_url ? success_url.replace(/^\//, '') : 'course-unlocked.html';
     const fullSuccessUrl = `${domain}/${redirectPath}`;
 
