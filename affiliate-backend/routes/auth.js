@@ -8,7 +8,7 @@ router.post('/request-password-reset', async (req, res) => {
   user.resetPasswordToken = token;
   user.resetPasswordExpires = Date.now() + 1000 * 60 * 60; // 1 hour
   await user.save();
-  const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5500'}/reset-password.html?token=${token}`;
+  const resetUrl = `${process.env.FRONTEND_URL || 'https://coinacademia.in'}/reset-password.html?token=${token}`;
   await sendMail({
     to: email,
     subject: 'Reset your password - CoinAcademia',
@@ -63,7 +63,7 @@ router.post('/register', async (req, res) => {
       }
     }
     // Send verification email
-    const verifyUrl = `${process.env.FRONTEND_URL || 'http://localhost:5500'}/verify-email.html?token=${emailVerificationToken}`;
+    const verifyUrl = `${process.env.FRONTEND_URL || 'https://coinacademia.in'}/verify-email.html?token=${emailVerificationToken}`;
     await sendMail({
       to: email,
       subject: 'Verify your email - CoinAcademia',
